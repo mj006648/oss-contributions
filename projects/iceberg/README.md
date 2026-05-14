@@ -17,6 +17,19 @@
 
 - [#14925 — spec partition value 명문화](./issue-14925-partition-value-spec/) — Apache spec 변경이라 PMC 리뷰 필요, 첫 기여로는 부담
 
+## 다음 세션 진입 후보 (정찰 완료 2026-05-14)
+
+| 이슈 | 평가 | 진입 가능성 |
+|------|------|---------|
+| [#15326](https://github.com/apache/iceberg/issues/15326) Download Pages 명확화 | docs only, 댓글 적음 | 후보 |
+| [#15191](https://github.com/apache/iceberg/issues/15191) nightly iceberg snapshot docs | @adp2201 작업 의도 표명 | 회피 |
+| [#12516](https://github.com/apache/iceberg/issues/12516) Kafka Connect 설치 docs | good first issue + docs | 후보 (본인 Kafka 미사용) |
+
+## 본인 운영 발견 후보
+
+- 본인 Trident에서 Spark + Iceberg + Nessie 조합 운영 중 발견한 docs gap
+- "Spark + Nessie catalog + Ceph S3" 통합 튜토리얼 부재 — 새 PR로 추가 가능
+
 ## 참고 링크
 
 - [Iceberg GitHub](https://github.com/apache/iceberg)

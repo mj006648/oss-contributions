@@ -13,7 +13,15 @@
 | 이슈/PR | 제목 | 상태 | 폴더 |
 |---------|------|------|------|
 | [#10865](https://github.com/projectnessie/nessie/issues/10865) | CLI STDOUT redirect 버그 | 분석 중 | [issue-10865-cli-stdout/](./issue-10865-cli-stdout/) |
-| [#5349](https://github.com/projectnessie/nessie/issues/5349)   | Cloud Object Storage 일관성 문서 업데이트 | 초안 작성 | [issue-5349-docs/](./issue-5349-docs/) |
+| [#5349](https://github.com/projectnessie/nessie/issues/5349)   | Cloud Object Storage 일관성 문서 업데이트 | PR #12424 제출, CLA 통과, 리뷰 대기 | [issue-5349-docs/](./issue-5349-docs/) |
+| [#12424](https://github.com/projectnessie/nessie/pull/12424) | PR: docs update for #5349 | 리뷰 대기 | - |
+
+## 다음 세션 진입 후보 (정찰 완료 2026-05-14)
+
+| 이슈 | 평가 | 진입 가능성 |
+|------|------|---------|
+| [#4371](https://github.com/projectnessie/nessie/issues/4371) commit kernel docs 업데이트 | 2022년 등록, 작업자 없음 | 후보 (구버전 문서) |
+| [#5325](https://github.com/projectnessie/nessie/issues/5325) CEL filter docs | maintainer 의견 미정 (snazy, dimas-b) | 회피 (방향 미합의) |
 
 ## 참고 링크
 

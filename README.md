@@ -14,7 +14,8 @@
 | Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | **PR [#12424](https://github.com/projectnessie/nessie/pull/12424) 제출** | 2026-05-14 | 첫 upstream PR. 리뷰 대기 |
 | ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시 | 2026-05-14 | 2년 묵힘, assignee 없음, maintainer가 위치 콕 집어줌 |
 | Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | maintainer 응답 + 본인 보완 코멘트, scope 확정 대기 | 2026-05-14 | Polaris fork & clone 완료, 실제 docs 구조 파악, AWS S3 + Azure Blob 누락 확인 |
-| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | **신규 이슈 등록** | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증 |
+| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증 |
+| Kubeflow | [spark-operator#2924](https://github.com/kubeflow/spark-operator/issues/2924) EmptyDir medium not forwarded | 의도 코멘트 게시 | 2026-05-14 | 본인이 매일 운영하는 spark-operator. 코드 위치 명시됨, bug fix PR 예정 |
 
 ## 정찰 완료, 회피한 후보
 
@@ -62,13 +63,14 @@
 
 | 순위 | Organization | 상태 | 진입 후보 / 메모 |
 |------|------------|------|----------------|
-| 1 | `@apache` | **진행 중** | Polaris #1325, Iceberg #14925 등. 머지 시 자동 배지 |
-| 2 | `@kubernetes-sigs` | 정찰 예정 | kueue (Spark/AI 워크로드 큐잉), gateway-api (Ingress 차세대), descheduler |
-| 3 | `@vercel` | 정찰 예정 | next.js — Trident-Portal이 Next.js 기반, examples/ 또는 docs 진입 가능 |
-| 4 | `@NVIDIA` | 정찰 예정 | k8s-device-plugin (GPU 할당, l40s 노드 직결), gpu-operator, dali (data loading) |
-| 5 | `@fastapi` 또는 sub-org | 정찰 예정 | Stats Service 직결. 본체보다 sqlmodel / fastapi-users 등 sub-project 권장 |
-| 6 | `@python` | 보류 | CPython 본체는 너무 큼. 대신 python/typing, python/peps, python/devguide 추천 |
-| 7 | `@supabase` | 정찰 부분 완료 | BSL 라이선스, PostgreSQL+Next.js 스택 본인 친숙. 본체보다 sub-project 권장 |
+| 1 | `@apache` | 진행 중 | Polaris #1325 maintainer 응답, Iceberg/Spark/Trino docs 다수 |
+| 2 | `@kubeflow` | 진행 중 | spark-operator #2924 EmptyDir medium bug, #2891 ports |
+| 3 | `@kubernetes-sigs` | 정찰 완료, 진입 어려움 | kueue/gateway-api/kustomize/descheduler 모두 작업자 있음. 본인 발견 버그로 진입 가능 |
+| 4 | `@NVIDIA` | 정찰 완료, 어려움 | good first issue 라벨 정책 없음. 본인 l40s/MIG 운영 발견 버그로 진입 가능 |
+| 5 | `@supabase` | 정찰 완료 | docs 영역 일부 가능 (#42997 작업자 있음). 본인 PostgreSQL+Keycloak 직결 |
+| 6 | `@vercel` | 정찰 완료, 어려움 | good first issue 거의 미사용. Next.js examples/ 추가 PR로 진입 가능 |
+| 7 | `@python` | 정찰 완료 | devguide docs 다수, 작업자 적은 영역 (#1791 Homebrew, #1786 GH Actions 등) |
+| 8 | `@fastapi` | 정찰 완료, 어려움 | good first issue 0건. sub-project 본인 발견 docs gap으로 진입 |
 
 진입 패턴 (Nessie 첫 PR에서 검증된 워크플로우):
 1. 각 프로젝트 `good first issue` 또는 `help wanted` 라벨 정찰

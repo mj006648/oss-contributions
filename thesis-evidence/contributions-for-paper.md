@@ -16,7 +16,8 @@
 | Nessie  | #5349   | Cloud Object Storage 일관성 문서 | **PR #12424 제출** | - | https://github.com/projectnessie/nessie/pull/12424 |
 | ArgoCD  | #18198  | `--request-timeout` docs/code 불일치 | 의도 코멘트 게시 | - | https://github.com/argoproj/argo-cd/issues/18198 |
 | Polaris | #1325   | Storage backend production config 문서 | maintainer 응답 + scope 확정 대기 | - | https://github.com/apache/polaris/issues/1325 |
-| Kyverno | #16103  | chart cert-manager 통합 incomplete | **신규 이슈 등록** | - | https://github.com/kyverno/kyverno/issues/16103 |
+| Kyverno | #16103  | chart cert-manager 통합 incomplete | 신규 이슈 등록 | - | https://github.com/kyverno/kyverno/issues/16103 |
+| Kubeflow | spark-operator #2924 | EmptyDir medium not forwarded | 의도 코멘트 게시, PR 예정 | - | https://github.com/kubeflow/spark-operator/issues/2924 |
 
 ## 논문 본문 예시 문구 (초안)
 

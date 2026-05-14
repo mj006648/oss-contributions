@@ -17,6 +17,14 @@
 
 - [#1325 — Azure Blob + GCS storage 문서](./issue-1325-storage-docs/)
 
+## 다음 세션 진입 후보 (정찰 완료 2026-05-14)
+
+| 이슈 | 평가 | 진입 가능성 |
+|------|------|---------|
+| [#3621](https://github.com/apache/polaris/issues/3621) DEFAULT_LOCATION_OBJECT_STORAGE_PREFIX_ENABLED docs | maintainer @adutra가 ML 논의 우선 + 회의적 | 회피 (방향 미합의) |
+
+본인 #1325 작업 머지 후 추가 후보 정찰 권장.
+
 ## 참고 링크
 
 - [Polaris GitHub](https://github.com/apache/polaris)

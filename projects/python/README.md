@@ -25,9 +25,21 @@ Trident Stats Service + Spark scripts 모두 Python 3.12. CPython 본체보다 s
 ## 진입 전략
 
 직접 진입 어려움. 우회:
-1. **CPython 사용 중 docs 부족 발견**을 새 이슈로 등록 (예: asyncio + psycopg2 패턴)
+1. CPython 사용 중 docs 부족 발견을 새 이슈로 등록 (예: asyncio + psycopg2 패턴)
 2. python/devguide/contrib/ 예제 추가
 3. python/peps 새 PEP 작성 (큰 작업)
+
+## 다음 세션 진입 후보 (정찰 완료 2026-05-14)
+
+devguide 영역, 본인 친숙 + 작업자 없음:
+
+| 이슈 | 평가 | 진입 가능성 |
+|------|------|---------|
+| [#1791](https://github.com/python/devguide/issues/1791) Homebrew dependency docs (Linux) | docs feature | 후보 |
+| [#1790](https://github.com/python/devguide/issues/1790) Build dependency tabs | docs feature | 후보 |
+| [#1786](https://github.com/python/devguide/issues/1786) GitHub Actions re-run on PRs docs | docs | 본인 친숙 |
+| [#1669](https://github.com/python/devguide/issues/1669) pixi 시스템 의존성 가이드 | docs feature | 후보 |
+| [#1594](https://github.com/python/devguide/issues/1594) Triager 가이드 명확화 | docs | 본인 친숙
 
 ## 참고
 

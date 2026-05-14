@@ -37,3 +37,13 @@
 - 라이선스: 다양 (Apache 2.0, BSD-3, NVIDIA Proprietary)
 - CLA: 일부 repo NVIDIA-CLA 필요
 - Slack: 없음, GitHub Discussions
+
+## 다음 세션 진입 후보 (정찰 완료 2026-05-14)
+
+| 이슈 | 평가 | 진입 가능성 |
+|------|------|---------|
+| [k8s-device-plugin #1690](https://github.com/NVIDIA/k8s-device-plugin/issues/1690) GPU multi-container time-slicing | maintainer @rajatchopra가 DRA로 가라 답변 | 회피 (architecture 한계) |
+| [#1683](https://github.com/NVIDIA/k8s-device-plugin/issues/1683) MIG parent memory permissions | bug, 본인 MIG 미사용 | 보류 |
+| [#1682](https://github.com/NVIDIA/k8s-device-plugin/issues/1682) MIG labels not created | question | 보류 |
+
+본인 l40s 운영 중 발견하는 버그가 더 강력한 진입로.

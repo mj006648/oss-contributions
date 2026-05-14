@@ -12,6 +12,15 @@
 
 postgres-meta 등 다른 sub-project는 `good first issue` 라벨 0건.
 
+## 다음 세션 진입 후보 (docs 영역, 정찰 완료 2026-05-14)
+
+| 이슈 | 평가 | 진입 가능성 |
+|------|------|---------|
+| [supabase/supabase #42997](https://github.com/supabase/supabase/issues/42997) Auth Audit Logs ip_address docs | @m7amedenho 작업 중 + 다수 자원자 | 회피 |
+| [#45051](https://github.com/supabase/supabase/issues/45051) Redirection URL code parameter docs | to-triage, 작업자 없음 | 후보 |
+| [#43920](https://github.com/supabase/supabase/issues/43920) Drizzle connection snippet host 변수 오류 | to-triage | 후보 |
+| [#43164](https://github.com/supabase/supabase/issues/43164) NextJS15→16 broken patterns | to-triage, 본인 검증 어려움 | 보류 |
+
 ## 첫 진입 어려움 분석
 
 - supabase/supabase 본체: 인기 메가 프로젝트 → `good first issue` 회전율 높음 (Apache PyIceberg와 유사 양상)
