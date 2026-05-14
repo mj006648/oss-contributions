@@ -13,3 +13,6 @@ Thumbs.db
 scratch/
 tmp/
 *.log
+
+# check-responses snapshot
+scripts/.last-check

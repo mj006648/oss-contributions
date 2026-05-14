@@ -81,6 +81,23 @@ oss-contributions/
 
 ---
 
+## 응답 모니터링
+
+`scripts/check-responses.sh`를 실행하면 추적 중인 모든 이슈의 마지막 코멘트 timestamp를 한 번에 확인할 수 있다. 이전 실행과 비교해 새 활동이 있는 이슈는 `<-- NEW`로 표시.
+
+```bash
+./scripts/check-responses.sh
+```
+
+새 이슈를 추적 목록에 추가하려면 스크립트 상단 `TRACKED=(...)` 배열에 한 줄 추가 (또는 헬퍼 사용):
+
+```bash
+./scripts/check-responses.sh add <owner/repo> <issueNumber> <shortName>
+# 예시: ./scripts/check-responses.sh add kyverno/kyverno 16103 kyverno-certmanager
+```
+
+상태 파일 위치: `scripts/.last-check` (gitignore됨)
+
 ## 운영 원칙
 
 1. 이슈마다 폴더 하나 — `issue-<번호>-<짧은제목>/` 형식
