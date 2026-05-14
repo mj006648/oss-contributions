@@ -40,7 +40,9 @@
 
 - [x] 이슈 본문 정독
 - [x] 사실관계 확인 (S3 2020-12 strong consistency, GCS·Azure 전부 strong consistency)
-- [ ] Nessie repo fork & clone
+- [x] 이슈에 의도 코멘트 게시 (https://github.com/projectnessie/nessie/issues/5349#issuecomment-4446982114)
+- [x] Nessie repo fork & clone (`~/chang/Git/nessie`, upstream remote 설정 완료)
+- [ ] maintainer 응답 확인
 - [ ] `site/` 내 "consistency" grep
 - [ ] 영향 받는 페이지 목록화
 - [ ] 각 페이지별 수정안 작성

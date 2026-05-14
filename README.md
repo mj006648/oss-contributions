@@ -10,8 +10,8 @@
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | 분석 중 | 2026-05-14 | 본 게임 |
-| Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | 초안 작성 | 2026-05-14 | 워밍업 |
+| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | maintainer 응답 대기 | 2026-05-14 | 본 게임. fork & clone 완료, 빌드 환경 셋업 중 |
+| Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | maintainer 응답 대기 | 2026-05-14 | 워밍업. fork & clone 완료 |
 
 ## Merged
 

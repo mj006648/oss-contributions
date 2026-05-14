@@ -95,8 +95,10 @@ CLI가 다음 두 모드 중 하나임을 명확히 구분한다.
 - [x] 영향받는 모듈 식별 (`cli/cli/`)
 - [x] 핵심 코드 위치 식별 (`NessieCliImpl#call()` 부근, line 184~200)
 - [x] 원인 가설 정리 (jline Terminal이 redirect 무시)
-- [ ] Nessie repo fork & clone
-- [ ] 로컬 빌드 확인 (`./gradlew :nessie-cli:build`)
+- [x] 이슈에 의도 코멘트 게시 (https://github.com/projectnessie/nessie/issues/10865#issuecomment-4446981588)
+- [x] Nessie repo fork & clone (`~/chang/Git/nessie`, upstream remote 설정 완료)
+- [ ] maintainer 응답 확인
+- [ ] 로컬 빌드 확인 (`./gradlew jar testClasses` 또는 `./gradlew :nessie-cli:cli:jar`)
 - [ ] 버그 로컬 재현
 - [ ] 수정 작성 (non-interactive 모드에서 dumb terminal 또는 plain System.out 사용)
 - [ ] 기존 테스트 통과 확인
