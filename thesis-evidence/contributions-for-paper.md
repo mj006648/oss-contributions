@@ -12,8 +12,10 @@
 
 | 프로젝트 | 이슈/PR | 제목 | 상태 | 머지일 | URL |
 |---------|---------|------|------|--------|-----|
-| Nessie  | #10865  | CLI STDOUT redirect 버그 | 진행 중 | - | https://github.com/projectnessie/nessie/issues/10865 |
-| Nessie  | #5349   | Cloud Object Storage 일관성 문서 | 진행 중 | - | https://github.com/projectnessie/nessie/issues/5349 |
+| Nessie  | #10865  | CLI STDOUT redirect 버그 | 의도 코멘트 게시 | - | https://github.com/projectnessie/nessie/issues/10865 |
+| Nessie  | #5349   | Cloud Object Storage 일관성 문서 | 의도 코멘트 게시 | - | https://github.com/projectnessie/nessie/issues/5349 |
+| ArgoCD  | #18198  | `--request-timeout` docs/code 불일치 | 의도 코멘트 게시 | - | https://github.com/argoproj/argo-cd/issues/18198 |
+| Polaris | #1325   | Azure/GCS storage 문서 | 의도 코멘트 게시 | - | https://github.com/apache/polaris/issues/1325 |
 
 ## 논문 본문 예시 문구 (초안)
 
