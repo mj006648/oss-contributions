@@ -55,21 +55,67 @@ PrintWriter writer = writer();
 3. 코드 주석부터 "redirect detection doesn't work properly in jline" 이라고 명시되어 있어, **개발자 측에서도 이미 jline의 redirect 미지원을 인지**하고 있었다.
 4. `-c`/`-s` 모드(non-interactive)에서는 REPL/UI가 필요 없으므로 jline Terminal 대신 일반 `System.out` PrintWriter를 써야 한다.
 
-## 수정 방향 (제안)
+## 수정 방향 (확정안)
 
-CLI가 다음 두 모드 중 하나임을 명확히 구분한다.
-- **Interactive 모드**: 옵션 없이 실행 → REPL → jline Terminal 필요
-- **Non-interactive 모드**: `-c` 또는 `-s` 사용 → 결과 출력만 필요 → `System.out` PrintWriter면 충분
+코드를 추가로 읽은 결과, `NessieCliImpl#call()` (line 183~189)에 이미 `dumbTerminal` 분기가 존재한다. 즉 사용자가 `--dumb` 같은 옵션을 켜면 dumb terminal로 빌드되도록 되어 있다. 그러나 `-c`/`-s` 같은 non-interactive 실행 시에는 사용자가 이를 인지하기 어렵고, 기본 동작이 jline 인터랙티브 모드이므로 쉘 redirect가 동작하지 않는다.
 
-수정 후보:
+수정 전략: **`-c` 또는 `-s` + non-keepRunning 조합이면 자동으로 dumb terminal로 빌드**한다. 사용자가 명시 옵션을 추가할 필요 없이 redirect가 자연스럽게 동작한다.
 
-1. `NessieCliImpl`에서 `commandsToRun != null && commandsToRun.commandsSource != null` 인 경우, jline `TerminalBuilder` 대신 `TerminalBuilder.dumb=true` 또는 `system(false).streams(System.in, System.out)` 사용.
-2. 또는 `writer()` 메서드가 non-interactive일 때는 `new PrintWriter(System.out, true)`를 반환하도록 분기.
-3. `--non-ansi` 옵션이 이미 존재하므로 (`OPTION_NON_ANSI`, line 93), 이 옵션 활성화 시 자동으로 plain stdout PrintWriter 쓰는 경로를 추가하는 것도 가능. 다만 redirect가 항상 동작해야 하므로 `-c`/`-s` 자체를 트리거로 삼는 게 더 자연스럽다.
+### Patch 제안 (`NessieCliImpl.java` line 183~189)
 
-가장 깔끔한 접근:
-- `NessieCliImpl#call()` (또는 picocli `run()` 진입점)에서 `commandsToRun.commandsSource != null`이면 jline 빌드 분기를 **dumb terminal 또는 streams(System.in, System.out) 모드**로 전환.
-- writer()는 자동으로 `new PrintWriter(System.out, true)`를 사용하게 된다.
+```java
+// Before
+@Override
+public Integer call() throws Exception {
+  Terminal terminal =
+      TerminalBuilder.builder()
+          .jansi(!dumbTerminal)
+          .dumb(dumbTerminal)
+          .provider(dumbTerminal ? TerminalBuilder.PROP_PROVIDER_DUMB : null)
+          .build();
+
+  setTerminal(terminal);
+```
+
+```java
+// After
+@Override
+public Integer call() throws Exception {
+  boolean nonInteractive =
+      commandsToRun != null
+          && commandsToRun.commandsSource != null
+          && !commandsToRun.keepRunning;
+  boolean useDumbTerminal = dumbTerminal || nonInteractive;
+
+  Terminal terminal =
+      TerminalBuilder.builder()
+          .jansi(!useDumbTerminal)
+          .dumb(useDumbTerminal)
+          .provider(useDumbTerminal ? TerminalBuilder.PROP_PROVIDER_DUMB : null)
+          .build();
+
+  setTerminal(terminal);
+```
+
+### 왜 이 변경이 안전한가
+
+- `keepRunning`이 true면 REPL이 계속 살아야 하므로 jline 인터랙티브 모드 유지.
+- `commandsToRun.commandsSource`가 null이면(즉 옵션 없이 그냥 REPL 들어가는 경우) 기존 동작 그대로.
+- `dumbTerminal`이 명시되었으면 이미 dumb이므로 OR로 결합해도 영향 없음.
+- 변경 라인은 6줄 미만, 기존 분기 구조를 그대로 활용.
+
+### 추가 검토 필요 사항
+
+- 배너 출력(`writer.print(readResource(dumbTerminal ? "banner-plain.txt" : "banner.txt"))`)이 dumbTerminal 여부에 따라 다른 파일을 읽는다. non-interactive에서도 plain 배너가 노출될 수 있으니 `quiet` 옵션과 조합해 노이즈를 피하는 게 적절. (별도 PR 거리 또는 같은 PR에 포함 가능)
+- 테스트: `cli/cli/src/test/java/...`에 redirect 검증 테스트가 있는지 확인 후 새 케이스 추가.
+
+### maintainer 확인이 꼭 필요한 부분
+
+코멘트(2026-05-14)에서 다음을 물어본 상태:
+- 위 자동 분기가 맞는 방향인지
+- 아니면 `--non-ansi` 옵션 활성화 또는 별도 플래그 도입이 더 적절한지
+
+응답 받기 전까지 실제 코드 변경은 보류.
 
 ## 재현 절차
 
