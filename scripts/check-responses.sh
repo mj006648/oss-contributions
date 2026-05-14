@@ -18,6 +18,7 @@ TRACKED=(
   "argoproj/argo-cd     18198 argocd-request-timeout"
   "apache/polaris       1325  polaris-storage-docs"
   "kyverno/kyverno      16103 kyverno-certmanager"
+  "projectnessie/nessie 12424 nessie-pr-5349"
 )
 
 # Helper: add a new issue to the TRACKED array in this script.

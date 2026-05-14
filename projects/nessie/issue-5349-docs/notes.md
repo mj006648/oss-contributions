@@ -46,13 +46,15 @@
 - [x] 변경 nuance 파악: consistency(이미 strong)와 atomicity(여전히 부재) 구분 필요
 - [x] PR 초안 작성 (`pr-draft.md`)
 - [x] Patch 제안 작성 (`patch-proposal.md`)
-- [ ] maintainer 응답 확인
-- [ ] 작업 브랜치 생성 (`docs/5349-cloud-object-store-consistency`)
-- [ ] 실제 파일 수정
-- [ ] (선택) mkdocs 로컬 빌드 확인
-- [ ] DCO sign-off 커밋
-- [ ] fork에 push
-- [ ] PR 제출
+- [x] 작업 브랜치 생성 (`docs/5349-cloud-object-store-consistency`)
+- [x] 실제 파일 수정 (`site/docs/develop/index.md` line 4, 24~25)
+- [x] DCO sign-off 커밋 (2825e4806)
+- [x] fork에 push
+- [x] **PR 제출 완료**: https://github.com/projectnessie/nessie/pull/12424
+- [ ] CI 통과 확인
+- [ ] maintainer 리뷰 응답
+- [ ] 리뷰 피드백 반영 (필요 시)
+- [ ] 머지
 - [ ] 영향 받는 페이지 목록화
 - [ ] 각 페이지별 수정안 작성
 - [ ] mkdocs 로컬 빌드 (`mkdocs serve`) 확인

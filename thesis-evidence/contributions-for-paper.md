@@ -13,7 +13,7 @@
 | 프로젝트 | 이슈/PR | 제목 | 상태 | 머지일 | URL |
 |---------|---------|------|------|--------|-----|
 | Nessie  | #10865  | CLI STDOUT redirect 버그 | 의도 코멘트 게시 | - | https://github.com/projectnessie/nessie/issues/10865 |
-| Nessie  | #5349   | Cloud Object Storage 일관성 문서 | 의도 코멘트 게시 | - | https://github.com/projectnessie/nessie/issues/5349 |
+| Nessie  | #5349   | Cloud Object Storage 일관성 문서 | **PR #12424 제출** | - | https://github.com/projectnessie/nessie/pull/12424 |
 | ArgoCD  | #18198  | `--request-timeout` docs/code 불일치 | 의도 코멘트 게시 | - | https://github.com/argoproj/argo-cd/issues/18198 |
 | Polaris | #1325   | Azure/GCS storage 문서 | 의도 코멘트 게시 | - | https://github.com/apache/polaris/issues/1325 |
 | Kyverno | #16103  | chart cert-manager 통합 incomplete | **신규 이슈 등록** | - | https://github.com/kyverno/kyverno/issues/16103 |

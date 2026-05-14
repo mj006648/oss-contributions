@@ -11,7 +11,7 @@
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
 | Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | maintainer 응답 대기 | 2026-05-14 | 본 게임. fork & clone 완료, 빌드 환경 셋업 중 |
-| Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | maintainer 응답 대기 | 2026-05-14 | 워밍업. fork & clone 완료, patch 준비 완료 |
+| Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | **PR [#12424](https://github.com/projectnessie/nessie/pull/12424) 제출** | 2026-05-14 | 첫 upstream PR. 리뷰 대기 |
 | ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시 | 2026-05-14 | 2년 묵힘, assignee 없음, maintainer가 위치 콕 집어줌 |
 | Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Azure/GCS storage 문서 | 의도 코멘트 게시 | 2026-05-14 | PR #1435는 S3만, 나머지 storage 필요. 연구 직결 |
 | Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | **신규 이슈 등록** | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증 |
