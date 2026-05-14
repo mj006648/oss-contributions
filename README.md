@@ -56,6 +56,7 @@
 | 4 | `@NVIDIA` | 정찰 예정 | k8s-device-plugin (GPU 할당, l40s 노드 직결), gpu-operator, dali (data loading) |
 | 5 | `@fastapi` 또는 sub-org | 정찰 예정 | Stats Service 직결. 본체보다 sqlmodel / fastapi-users 등 sub-project 권장 |
 | 6 | `@python` | 보류 | CPython 본체는 너무 큼. 대신 python/typing, python/peps, python/devguide 추천 |
+| 7 | `@supabase` | 정찰 부분 완료 | BSL 라이선스, PostgreSQL+Next.js 스택 본인 친숙. 본체보다 sub-project 권장 |
 
 진입 패턴 (Nessie 첫 PR에서 검증된 워크플로우):
 1. 각 프로젝트 `good first issue` 또는 `help wanted` 라벨 정찰
