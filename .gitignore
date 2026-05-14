@@ -1,0 +1,15 @@
+# OMC runtime state
+.omc/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local scratch
+scratch/
+tmp/
+*.log
