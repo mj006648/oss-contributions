@@ -42,8 +42,17 @@
 - [x] 사실관계 확인 (S3 2020-12 strong consistency, GCS·Azure 전부 strong consistency)
 - [x] 이슈에 의도 코멘트 게시 (https://github.com/projectnessie/nessie/issues/5349#issuecomment-4446982114)
 - [x] Nessie repo fork & clone (`~/chang/Git/nessie`, upstream remote 설정 완료)
+- [x] `site/` 내 "consistency" grep → 수정 대상은 `site/docs/develop/index.md` 한 파일, line 4 + line 24~25
+- [x] 변경 nuance 파악: consistency(이미 strong)와 atomicity(여전히 부재) 구분 필요
+- [x] PR 초안 작성 (`pr-draft.md`)
+- [x] Patch 제안 작성 (`patch-proposal.md`)
 - [ ] maintainer 응답 확인
-- [ ] `site/` 내 "consistency" grep
+- [ ] 작업 브랜치 생성 (`docs/5349-cloud-object-store-consistency`)
+- [ ] 실제 파일 수정
+- [ ] (선택) mkdocs 로컬 빌드 확인
+- [ ] DCO sign-off 커밋
+- [ ] fork에 push
+- [ ] PR 제출
 - [ ] 영향 받는 페이지 목록화
 - [ ] 각 페이지별 수정안 작성
 - [ ] mkdocs 로컬 빌드 (`mkdocs serve`) 확인

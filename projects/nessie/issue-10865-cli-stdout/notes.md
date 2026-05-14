@@ -98,6 +98,12 @@ CLI가 다음 두 모드 중 하나임을 명확히 구분한다.
 - [x] 이슈에 의도 코멘트 게시 (https://github.com/projectnessie/nessie/issues/10865#issuecomment-4446981588)
 - [x] Nessie repo fork & clone (`~/chang/Git/nessie`, upstream remote 설정 완료)
 - [ ] maintainer 응답 확인
+- [ ] **Gradle Java toolchain 이슈 해결** (현재 실패: `Cannot find Java installation matching languageVersion=21`)
+      - 시스템에 Java 21 설치되어 있음 (`/usr/lib/jvm/java-21-openjdk-amd64`)
+      - 해결책 후보:
+        1. `~/.gradle/gradle.properties`에 `org.gradle.java.installations.paths=/usr/lib/jvm/java-21-openjdk-amd64` 추가
+        2. `JAVA_HOME` env 설정 후 빌드
+        3. `./gradlew --auto-detect`
 - [ ] 로컬 빌드 확인 (`./gradlew jar testClasses` 또는 `./gradlew :nessie-cli:cli:jar`)
 - [ ] 버그 로컬 재현
 - [ ] 수정 작성 (non-interactive 모드에서 dumb terminal 또는 plain System.out 사용)
