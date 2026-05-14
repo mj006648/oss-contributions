@@ -44,6 +44,28 @@
 - ArgoCD v3 milestone
 - Nessie Catalog API 발전 동향
 
+## Roadmap — 진입하고 싶은 organization
+
+본인 GitHub 프로필 `Activity overview`에 추가하고 싶은 organization 배지 목록과 진입 후보. 우선순위 순.
+
+| 순위 | Organization | 상태 | 진입 후보 / 메모 |
+|------|------------|------|----------------|
+| 1 | `@apache` | **진행 중** | Polaris #1325, Iceberg #14925 등. 머지 시 자동 배지 |
+| 2 | `@kubernetes-sigs` | 정찰 예정 | kueue (Spark/AI 워크로드 큐잉), gateway-api (Ingress 차세대), descheduler |
+| 3 | `@vercel` | 정찰 예정 | next.js — Trident-Portal이 Next.js 기반, examples/ 또는 docs 진입 가능 |
+| 4 | `@NVIDIA` | 정찰 예정 | k8s-device-plugin (GPU 할당, l40s 노드 직결), gpu-operator, dali (data loading) |
+| 5 | `@fastapi` 또는 sub-org | 정찰 예정 | Stats Service 직결. 본체보다 sqlmodel / fastapi-users 등 sub-project 권장 |
+| 6 | `@python` | 보류 | CPython 본체는 너무 큼. 대신 python/typing, python/peps, python/devguide 추천 |
+
+진입 패턴 (Nessie 첫 PR에서 검증된 워크플로우):
+1. 각 프로젝트 `good first issue` 또는 `help wanted` 라벨 정찰
+2. 다른 작업자 없는 후보 선정
+3. 이슈에 의도 코멘트 게시 (충돌 방지)
+4. fork & clone, 작업 브랜치
+5. DCO sign-off 커밋 → fork push → PR 생성
+6. CLA 봇 안내 따라 서명
+7. `scripts/check-responses.sh add`로 추적 목록에 추가
+
 ---
 
 ## 폴더 구조
