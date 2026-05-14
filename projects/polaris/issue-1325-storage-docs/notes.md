@@ -4,58 +4,101 @@
 - 등록일: 2025-04-06
 - 라벨: documentation, enhancement, good first issue
 - assignee: 없음
-- 상태: 부분 머지 (PR #1435), 나머지 storage backend 문서 필요
+- maintainer 컨택: @flyrain (Yufei Gu, Snowflake, Polaris PMC member)
 
 ## 이슈 본문 요약
 
 `polaris.apache.org/in-dev/unreleased/configuration/`와 `overview/#storage-configuration` 페이지가 S3/Azure Blob/GCS 각 storage backend 설정 방법을 충분히 설명하지 않는다. 전용 페이지가 필요.
 
-## 진행 상황
+## 진행 타임라인
 
-- 2025-04-24: @iihimanshuu가 PR 제안
-- 2025-04-24: @adnanhemani가 PR #1435 제출 (Spark + S3 중심)
-- 2025-05-05: PR #1435 머지됨
-- 2025-05-05: maintainer @flyrain — "오프라인 논의 결과 다른 storage backend(Azure Blob, GCS) 문서 더 필요"
-- 이후 추가 작업 없음
+- 2025-04-06: 이슈 등록
+- 2025-04-24: @iihimanshuu PR 제안
+- 2025-04-24: @adnanhemani PR #1435 제출
+- 2025-05-05: PR #1435 머지 (quickstart-deploy 파일 추가)
+- 2025-05-05: @flyrain — 더 많은 storage backend docs 필요 명시
+- 2026-05-14 03:10: 본인 의도 코멘트 게시 (잘못된 가정: Azure Blob + GCS 필요)
+- 2026-05-14 05:56: @flyrain 응답 — system admin end-to-end perspective, server + client 둘 다, skill.md 옵션 제안
+- 2026-05-14 07:14: 본인 확인 코멘트 게시 (잘못된 범위 유지)
+- 2026-05-14 (당일): Polaris fork & clone, 실제 코드 구조 파악
+- 2026-05-14: 본인 보완 코멘트 게시 (옵션 1 vs 옵션 2 명시 요청)
 
-즉 **이슈는 부분 해결, 나머지 Azure Blob + GCS 문서가 비어있는 상태**.
+## 실제 Polaris docs 구조 (2026-05-14 확인)
 
-## 우리 접근 방향
+이미 존재:
+- `getting-started/deploying-polaris/cloud-deploy/quickstart-deploy-aws.md` (PR #1435)
+- `getting-started/deploying-polaris/cloud-deploy/quickstart-deploy-azure.md` (PR #1435)
+- `getting-started/deploying-polaris/cloud-deploy/quickstart-deploy-gcp.md` (PR #1435)
+- `configuration/configuring-polaris-for-production/configuring-gcs-cloud-storage-specific.md` (33줄, server-side only)
 
-PR #1435가 다룬 부분(S3 + Spark) 외에:
+빠진 부분 (production configuration):
+- `configuring-aws-s3-cloud-storage-specific.md` — 없음
+- `configuring-azure-blob-cloud-storage-specific.md` — 없음
 
-1. **Azure Blob Storage** 설정 페이지
-   - storage configuration JSON 예시
-   - tenant ID, client ID, client secret 또는 Workload Identity
-   - ADLS Gen2 endpoint 형식
-   - Vended Credentials 동작 (참고: #418)
-2. **Google Cloud Storage** 설정 페이지
-   - service account 키 또는 Workload Identity
-   - bucket-level vs uniform IAM
-   - GCS HMAC vs ADC 방식
-3. 각 backend가 Polaris의 `STORAGE_CONFIG_INFO`에 매핑되는 방식
-4. Spark/Trino/PyIceberg 클라이언트에서 각 backend 사용 시 의존성 (ex: hadoop-azure, hadoop-aws, gcs-connector)
+기존 GCS 페이지 본문 (참조 패턴):
+- frontmatter + title
+- 개요 1문단 (credential vending)
+- IAM + HNS ACL 주의사항
+- HNS 옵션 안내
+- 총 33줄, 매우 짧음
+
+## maintainer @flyrain 응답 핵심 (2026-05-14)
+
+> "Thanks for picking this up, @mj006648. My idea is to provide end to end instructions that include both Polaris server side and client side configuration for different object storage systems, including AWS S3, Azure, and GCS. What you described here is already pretty close. I'm thinking from the perspective of a system admin who wants to set up Polaris with a specific storage backend. The docs should clearly describe the recommended setup process from start to finish. Beside a doc, another option could be to provide a skill.md so an agent can help automate the setup process."
+
+요구사항:
+1. System admin 관점 end-to-end
+2. Server side + client side 둘 다
+3. AWS S3, Azure, GCS 셋 다 다룸 (GCS 기존 페이지 확장 가능성)
+4. skill.md 옵션 추가 (AI agent 자동화)
+
+## 옵션 1 vs 옵션 2 (본인이 maintainer에 질문)
+
+옵션 1 — minimal gap fill:
+- AWS S3, Azure Blob 페이지 2개 추가 (기존 GCS 페이지 패턴, server-side만)
+- client-side wiring과 skill.md는 별도 follow-up
+- 작업량: 본인 3~6시간 추정
+
+옵션 2 — full E2E guide:
+- backend별 페이지 (server config + client connection + verification 통합)
+- 기존 GCS 페이지도 확장해서 매칭
+- skill.md follow-up
+- 작업량: 본인 10~20시간 추정
 
 ## 본인 연구 연관성
 
-Trident가 Ceph S3(현재) + Azure/GCS(계획)를 모두 다루는 멀티 클라우드 Lakehouse라 직접 활용. 본 연구 중 실제로 마주칠 설정 이슈를 문서화하는 셈.
-
-## 주의
-
-- PR #1435 머지로 일부 해결됐기 때문에 **이슈는 닫혀있을 수 있음**. 우선 현재 open 상태 재확인 후 진행.
-- Apache 프로젝트는 ICLA 서명 필요.
-- maintainer @flyrain가 명시적으로 "더 필요"라 했으므로 새 PR 환영 가능성 높음.
+- Trident가 Ceph S3(현재) + Azure/GCS(계획)를 모두 다루는 멀티 클라우드 Lakehouse
+- 본인 KubeCon Japan 2025 발표 + master-thesis multi-cloud 컨셉과 직결
+- AWS S3는 본인 직접 운영 경험 (Ceph S3 호환)
+- Azure / GCS는 본인 학습 + 공식 docs 참고 필요
 
 ## 작업 체크리스트
 
 - [x] 이슈 본문 정독
 - [x] 진행 상황 파악 (PR #1435 부분 머지)
-- [ ] 이슈 현재 open/closed 상태 확인
 - [x] 의도 코멘트 게시 (https://github.com/apache/polaris/issues/1325#issuecomment-4447111795)
-- [ ] Polaris repo fork & clone
-- [ ] `site/`(또는 docs 디렉터리) 구조 확인
-- [ ] PR #1435 머지 commit 보고 작성 형식 참고
-- [ ] 응답 받으면 작업 진행
-- [ ] ICLA 서명
+- [x] maintainer @flyrain 응답 받음 (system admin end-to-end + server/client + skill.md)
+- [x] 본인 확인 코멘트 게시 (https://github.com/apache/polaris/issues/1325#issuecomment-4448535662)
+- [x] Polaris repo fork (mj006648/polaris) & clone (`~/chang/Git/polaris`)
+- [x] upstream remote 설정
+- [x] 실제 docs 구조 정찰 (production config 위치 + 기존 GCS 페이지 패턴)
+- [x] 보완 코멘트 게시 (옵션 1 vs 옵션 2 질문)
+- [ ] @flyrain 응답 대기 (옵션 1/2 선택)
+- [ ] 결정된 옵션대로 페이지 작성
+- [ ] ICLA 서명 (Apache Individual CLA)
 - [ ] DCO sign-off 커밋
-- [ ] PR 제출
+- [ ] Draft PR 제출
+- [ ] 리뷰 대응
+
+## 다음 진입점
+
+@flyrain 응답 후:
+- 옵션 1 선택 시: AWS S3 + Azure Blob production config 페이지 2개 추가
+- 옵션 2 선택 시: 3개 backend 통합 페이지 + GCS 페이지 확장
+
+## 참고
+
+- Polaris fork 위치: https://github.com/mj006648/polaris
+- 로컬 clone: `/home/netai/chang/Git/polaris`
+- Apache ICLA 서명 사이트: https://www.apache.org/licenses/contributor-agreements.html
+- 첫 Apache PR이라 ICLA 신규 서명 필요
