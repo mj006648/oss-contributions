@@ -20,6 +20,7 @@ TRACKED=(
   "kyverno/kyverno      16103 kyverno-certmanager"
   "projectnessie/nessie 12424 nessie-pr-5349"
   "kubeflow/spark-operator 2924 spark-operator-emptydir"
+  "milvus-io/pymilvus 2724 pymilvus-pkg-resources"
 )
 
 # Helper: add a new issue to the TRACKED array in this script.

@@ -16,6 +16,7 @@
 | Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | maintainer 응답 + 본인 보완 코멘트, scope 확정 대기 | 2026-05-14 | Polaris fork & clone 완료, 실제 docs 구조 파악, AWS S3 + Azure Blob 누락 확인 |
 | Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증 |
 | Kubeflow | [spark-operator#2924](https://github.com/kubeflow/spark-operator/issues/2924) EmptyDir medium not forwarded | 의도 코멘트 게시 | 2026-05-14 | 본인이 매일 운영하는 spark-operator. 코드 위치 명시됨, bug fix PR 예정 |
+| Milvus | [pymilvus#2724](https://github.com/milvus-io/pymilvus/issues/2724) pkg_resources deprecated | 본인 production 데이터 포인트 코멘트 추가 | 2026-05-14 | setuptools 82.x로 인한 hard failure 케이스 증언, milvus-io organization 진입 |
 
 ## 정찰 완료, 회피한 후보
 
@@ -65,7 +66,8 @@
 |------|------------|------|----------------|
 | 1 | `@apache` | 진행 중 | Polaris #1325 maintainer 응답, Iceberg/Spark/Trino docs 다수 |
 | 2 | `@kubeflow` | 진행 중 | spark-operator #2924 EmptyDir medium bug, #2891 ports |
-| 3 | `@kubernetes-sigs` | 정찰 완료, 진입 어려움 | kueue/gateway-api/kustomize/descheduler 모두 작업자 있음. 본인 발견 버그로 진입 가능 |
+| 3 | `@milvus-io` | 코멘트 추가 | pymilvus #2724 본인 production 데이터 포인트 |
+| 4 | `@kubernetes-sigs` | 정찰 완료, 진입 어려움 | kueue/gateway-api/kustomize/descheduler 모두 작업자 있음. 본인 발견 버그로 진입 가능 |
 | 4 | `@NVIDIA` | 정찰 완료, 어려움 | good first issue 라벨 정책 없음. 본인 l40s/MIG 운영 발견 버그로 진입 가능 |
 | 5 | `@supabase` | 정찰 완료 | docs 영역 일부 가능 (#42997 작업자 있음). 본인 PostgreSQL+Keycloak 직결 |
 | 6 | `@vercel` | 정찰 완료, 어려움 | good first issue 거의 미사용. Next.js examples/ 추가 PR로 진입 가능 |

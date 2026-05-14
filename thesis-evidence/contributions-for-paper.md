@@ -18,6 +18,7 @@
 | Polaris | #1325   | Storage backend production config 문서 | maintainer 응답 + scope 확정 대기 | - | https://github.com/apache/polaris/issues/1325 |
 | Kyverno | #16103  | chart cert-manager 통합 incomplete | 신규 이슈 등록 | - | https://github.com/kyverno/kyverno/issues/16103 |
 | Kubeflow | spark-operator #2924 | EmptyDir medium not forwarded | 의도 코멘트 게시, PR 예정 | - | https://github.com/kubeflow/spark-operator/issues/2924 |
+| Milvus | pymilvus #2724 | pkg_resources deprecated + setuptools 82.x failure | 본인 production 데이터 포인트 코멘트 | - | https://github.com/milvus-io/pymilvus/issues/2724 |
 
 ## 논문 본문 예시 문구 (초안)
 
