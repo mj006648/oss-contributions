@@ -10,13 +10,13 @@
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | maintainer 응답 대기 | 2026-05-14 | 본 게임. fork & clone 완료, 빌드 환경 셋업 중 |
-| Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | **PR [#12424](https://github.com/projectnessie/nessie/pull/12424) 제출** | 2026-05-14 | 첫 upstream PR. 리뷰 대기 |
-| ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시 | 2026-05-14 | 2년 묵힘, assignee 없음, maintainer가 위치 콕 집어줌 |
-| Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | maintainer 응답 + 본인 보완 코멘트, scope 확정 대기 | 2026-05-14 | Polaris fork & clone 완료, 실제 docs 구조 파악, AWS S3 + Azure Blob 누락 확인 |
-| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증 |
-| Kubeflow | [spark-operator#2924](https://github.com/kubeflow/spark-operator/issues/2924) EmptyDir medium not forwarded | 의도 코멘트 게시 | 2026-05-14 | 본인이 매일 운영하는 spark-operator. 코드 위치 명시됨, bug fix PR 예정 |
-| Milvus | [pymilvus#2724](https://github.com/milvus-io/pymilvus/issues/2724) pkg_resources deprecated | 본인 production 데이터 포인트 코멘트 추가 | 2026-05-14 | setuptools 82.x로 인한 hard failure 케이스 증언, milvus-io organization 진입 |
+| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | **maintainer GO 사인** (2026-05-15) | 2026-05-14 | dimas-b: 방향 OK, `--plain`/`-P` 선호. PR 작업 시작 가능 |
+| Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | **PR [#12424](https://github.com/projectnessie/nessie/pull/12424) APPROVED** (2026-05-15) | 2026-05-14 | dimas-b APPROVED, @snazy 추가 리뷰 대기 |
+| ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시, maintainer 응답 대기 | 2026-05-14 | A(docs-only) vs B(implement) 방향 결정 요청 |
+| Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **scope 확정 — Option 1** (2026-05-15) | 2026-05-14 | flyrain 합의: AWS S3 + Azure Blob 페이지 신규, GCS는 후속 보강. PR 작업 시작 가능 |
+| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록, 응답 대기 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증 |
+| Kubeflow | [spark-operator#2924](https://github.com/kubeflow/spark-operator/issues/2924) EmptyDir medium not forwarded | 의도 코멘트 게시, 작업자 없음 | 2026-05-14 | 재현 + bug fix PR 작업 진행 가능 |
+| Milvus | [pymilvus#2724](https://github.com/milvus-io/pymilvus/issues/2724) pkg_resources deprecated | 이슈 closed (다른 사용자), 본인 데이터 포인트 기록 완료 | 2026-05-14 | setuptools 82.x hard failure 증언, milvus-io organization 진입 |
 
 ## 정찰 완료, 회피한 후보
 
@@ -156,4 +156,4 @@ oss-contributions/
 
 ---
 
-Last updated: 2026-05-14
+Last updated: 2026-05-15
