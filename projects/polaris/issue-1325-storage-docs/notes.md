@@ -83,22 +83,40 @@
 - [x] upstream remote 설정
 - [x] 실제 docs 구조 정찰 (production config 위치 + 기존 GCS 페이지 패턴)
 - [x] 보완 코멘트 게시 (옵션 1 vs 옵션 2 질문)
-- [ ] @flyrain 응답 대기 (옵션 1/2 선택)
-- [ ] 결정된 옵션대로 페이지 작성
-- [ ] ICLA 서명 (Apache Individual CLA)
-- [ ] DCO sign-off 커밋
+- [x] @flyrain 응답 대기 (옵션 1/2 선택) — **옵션 1 확정 (2026-05-15)**
+- [x] 옵션 1 작성: AWS S3 + Azure Blob production config 페이지 2개
+  - [x] draft 초안 (oss-contributions/projects/polaris/issue-1325-storage-docs/)
+  - [x] polaris fork에 브랜치 생성 + 파일 이식 — `docs/1325-aws-s3-azure-blob-storage`
+  - [x] hugo 빌드 로컬 검증 (186 pages, 에러 0)
+- [x] end-to-end 검증
+  - [x] MinIO + Polaris + Spark: CREATE/INSERT/SELECT 성공
+  - [x] MinIO + Polaris + Trino: CREATE/INSERT/SELECT 성공 → 누락 properties 발견·반영
+  - [x] MinIO + Polaris + PyIceberg 0.11.1: append/scan 성공 → 누락 옵션 발견·반영
+  - [x] Ceph RGW + Polaris: STS 미지원 발견 (`Failed to get subscoped credentials` STS 400) → S3-compatible endpoints 섹션 STS 분기로 재작성
+  - [x] ADLS Gen2 (HNS on) + SP + Polaris + Spark: 성공
+  - [x] ADLS Gen2 RBAC 제거 후: `AuthorizationPermissionMismatch` 403 정확 재현 → Azure 트러블슈팅 메시지 보강
+- [ ] ICLA 서명 (Apache Individual CLA) — PR 생성 후 CLA bot 안내에 따라
+- [x] DCO sign-off 커밋
 - [ ] Draft PR 제출
 - [ ] 리뷰 대응
 
-## 다음 진입점
+## 검증 환경 정리 기록
 
-@flyrain 응답 후:
-- 옵션 1 선택 시: AWS S3 + Azure Blob production config 페이지 2개 추가
-- 옵션 2 선택 시: 3개 backend 통합 페이지 + GCS 페이지 확장
+| 자원 | 상태 |
+|---|---|
+| Azure RG `polaris-test-rg` | 삭제 (`--no-wait`) |
+| Azure RG `polaris-acl-test-rg` | 삭제 (`--no-wait`) |
+| Azure SP `polaris-storage-test` / `polaris-acl-test` | 모두 삭제, app도 삭제 |
+| `az logout` | 완료, `~/.azure-cli-home` 제거 |
+| MinIO + Polaris + Trino 컨테이너 | 모두 down -v |
+| Polaris+Ceph 컨테이너 | down |
+| Polaris+Azure 컨테이너 (Phase A/B) | down |
+| `/tmp/*-verify*` 임시 파일 | 삭제 |
 
 ## 참고
 
 - Polaris fork 위치: https://github.com/mj006648/polaris
 - 로컬 clone: `/home/netai/chang/Git/polaris`
+- PR 브랜치: `docs/1325-aws-s3-azure-blob-storage` (4 커밋)
 - Apache ICLA 서명 사이트: https://www.apache.org/licenses/contributor-agreements.html
 - 첫 Apache PR이라 ICLA 신규 서명 필요
