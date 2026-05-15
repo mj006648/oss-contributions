@@ -95,9 +95,10 @@
   - [x] Ceph RGW + Polaris: STS 미지원 발견 (`Failed to get subscoped credentials` STS 400) → S3-compatible endpoints 섹션 STS 분기로 재작성
   - [x] ADLS Gen2 (HNS on) + SP + Polaris + Spark: 성공
   - [x] ADLS Gen2 RBAC 제거 후: `AuthorizationPermissionMismatch` 403 정확 재현 → Azure 트러블슈팅 메시지 보강
-- [ ] ICLA 서명 (Apache Individual CLA) — PR 생성 후 CLA bot 안내에 따라
+- [x] ICLA 서명 (Apache Individual CLA) — 2026-05-15 secretary@apache.org 제출, 승인 회신 대기
 - [x] DCO sign-off 커밋
-- [ ] Draft PR 제출
+- [x] Draft PR 제출 — apache/polaris#4451 (2026-05-15)
+- [ ] CI 승인 대기 (신규 contributor는 maintainer 수동 승인 필요)
 - [ ] 리뷰 대응
 
 ## 검증 환경 정리 기록
