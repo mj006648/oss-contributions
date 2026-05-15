@@ -10,7 +10,7 @@
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | **maintainer GO 사인** (2026-05-15) | 2026-05-14 | dimas-b: 방향 OK, `--plain`/`-P` 선호. PR 작업 시작 가능 |
+| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | **PR [#12425](https://github.com/projectnessie/nessie/pull/12425) SUBMITTED** (2026-05-15) | 2026-05-14 | `--plain`/`-P` alias 추가. 5줄 변경, 6-test 검증 매트릭스. dimas-b 리뷰 대기 |
 | Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | **PR [#12424](https://github.com/projectnessie/nessie/pull/12424) APPROVED** (2026-05-15) | 2026-05-14 | dimas-b APPROVED, @snazy 추가 리뷰 대기 |
 | ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시, maintainer 응답 대기 | 2026-05-14 | A(docs-only) vs B(implement) 방향 결정 요청 |
 | Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) 제출** (2026-05-15) | 2026-05-14 | AWS S3 + Azure Blob 페이지 신규. MinIO+Spark/Trino/PyIceberg, Ceph(STS-unsupported), ADLS Gen2 happy/sad path 모두 end-to-end 검증. CLA bot/CI/리뷰 대기 |

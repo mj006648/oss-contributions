@@ -5,7 +5,7 @@
 - 보고일: 2025-06-03
 - 라벨: good first issue
 - 영향 버전: Nessie 0.103.* 이상
-- 상태: **maintainer GO 사인 받음 (2026-05-15)** — `--plain`/`-P` 옵션 추가 방향 합의. 빌드 환경 셋업 후 patch 작성 단계.
+- 상태: **PR [#12425](https://github.com/projectnessie/nessie/pull/12425) SUBMITTED (2026-05-15)** — `--plain`/`-P` alias 추가, 5줄 변경, 검증 매트릭스 포함. dimas-b 리뷰 대기.
 
 ## 이슈 본문 요약
 
@@ -250,12 +250,14 @@ PATH=~/.sdkman/candidates/java/21.0.11-graal/bin:$PATH \
 - [x] **로컬 빌드 성공** — `cli/cli/build/libs/nessie-cli-0.107.6-SNAPSHOT.jar`
 - [x] **`--non-ansi` 단독 동작 검증** — redirect/pipe 둘 다 해결됨, ANSI escape 0개. PR 스코프 = alias 추가만으로 충분 확정
 - [x] **추가 버그 발견** — default 동작이 redirect/pipe 시 `IllegalStateException` crash (PR description 자료)
-- [ ] patch 작성 (alias 추가)
-- [ ] 기존 테스트 통과 확인 (`./gradlew :nessie-cli:test`)
-- [ ] `--plain` / `-P` 동작 검증 테스트 추가
-- [ ] DCO sign-off 커밋 (`git commit -s`)
-- [ ] PR 초안 작성 (이슈 #10865 링크, 검증 매트릭스, crash 발견 포함)
-- [ ] PR 제출 (사용자와 함께 최종 검토)
+- [x] **patch 작성** — `cli-stdout-plain` 브랜치, 5줄 변경 (+5, -2)
+- [x] **재빌드 + 동작 검증** — `-P`, `--plain`, `--non-ansi` 모두 동등 동작 확인 (2731B, ANSI 0)
+- [x] **DCO sign-off 커밋** — `a7c14609a`, `mj006648 <uckdekf@gmail.com>`
+- [x] **fork에 push** — `origin/cli-stdout-plain`
+- [x] **PR 제출** — [projectnessie/nessie#12425](https://github.com/projectnessie/nessie/pull/12425) (2026-05-15)
+- [ ] **maintainer 리뷰 응답 대응**
+- [ ] (필요 시) `--plain` / `-P` 옵션 파싱 unit test 추가
+- [ ] PR merged → README "Merged" 표로 이동
 
 ## 참고
 
