@@ -21,6 +21,7 @@ TRACKED=(
   "projectnessie/nessie 12424 nessie-pr-5349"
   "kubeflow/spark-operator 2924 spark-operator-emptydir"
   "milvus-io/pymilvus 2724 pymilvus-pkg-resources"
+  "apache/polaris 4451 polaris-pr-1325"
 )
 
 # Helper: add a new issue to the TRACKED array in this script.
