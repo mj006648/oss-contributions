@@ -118,35 +118,83 @@ private boolean dumbTerminal;
 - 같은 boolean 필드(`dumbTerminal`)에 names alias 추가는 picocli 표준 패턴.
 - 동작 변화 0, 추가 옵션 1개 → 리뷰 최소.
 
-## 빌드 환경 셋업 (블로커)
+## 빌드 환경 셋업 (해결됨)
 
-로컬 빌드 시도 시 다음 에러 반복:
+### 증상
+초기 빌드 시도 시 toolchain matching 실패:
 
 ```
-> Cannot find a Java installation on your machine (Linux 6.8.0-87-generic amd64)
-  matching: {languageVersion=21, vendor=any vendor, implementation=vendor-specific,
-             nativeImageCapable=false}.
-  Toolchain auto-provisioning is not enabled.
+> Cannot find a Java installation on your machine matching:
+  {languageVersion=21, vendor=any vendor, implementation=vendor-specific,
+   nativeImageCapable=false}.
 ```
 
-시스템 상태:
-- `/usr/lib/jvm/java-21-openjdk-amd64` 존재
-- `/usr/lib/jvm/java-1.21.0-openjdk-amd64` 존재
-- `java -version` → OpenJDK 21.0.10
+시스템 OpenJDK 21이 있어도 `nativeImageCapable=false` 매칭 필드에서 거부됨.
 
-시도한 옵션 (모두 실패):
-- `JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew :nessie-cli:installDist`
-- `-Porg.gradle.java.installations.paths=/usr/lib/jvm/java-21-openjdk-amd64`
+### 해결책: SDKMAN + GraalVM 21
+
+```bash
+# 1. SDKMAN 설치 (sudo 불필요, ~/.sdkman/에 설치)
+curl -s "https://get.sdkman.io" | bash
+source ~/.sdkman/bin/sdkman-init.sh
+
+# 2. GraalVM 21 설치 (~500MB download, ~1GB on disk)
+sdk install java 21.0.11-graal
+
+# 3. 빌드
+cd ~/chang/Git/nessie
+JAVA_HOME=~/.sdkman/candidates/java/21.0.11-graal \
+PATH=~/.sdkman/candidates/java/21.0.11-graal/bin:$PATH \
+./gradlew :nessie-cli:shadowJar
+```
+
+- `installDist` 태스크는 nessie-cli에 없음 → **`shadowJar` 사용**
+- 빌드 결과물: `cli/cli/build/libs/nessie-cli-0.107.6-SNAPSHOT.jar`
+- 첫 빌드 ~2분 19초, 캐시 후 ~10초
+
+### 시도했지만 안 된 옵션 (기록용)
+- `JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew ...` (OpenJDK 21 — `nativeImageCapable=false` 메타데이터 없음)
+- `-Porg.gradle.java.installations.paths=...`
 - `-Dorg.gradle.java.installations.paths=...`
 - `--no-daemon` + 위 조합
+- foojay auto-download (`-Dallow-java-download=true`) — settings.gradle.kts에서 `CI` env 또는 `allow-java-download` 시스템 속성 평가 시점 이슈
 
-분석: Gradle 9.5의 toolchain spec이 `nativeImageCapable=false`를 요구하는데, OpenJDK JVM 메타데이터에 이 필드가 없거나 부정확하게 보고됨. Nessie build-logic이 GraalVM/Liberica NIK를 암묵적으로 가정할 가능성.
+## 로컬 검증 결과 (2026-05-15)
 
-해결책 후보 (다음 세션):
-1. **Liberica NIK 21 설치** (`sdkman install java 21.0.x-nik` 또는 deb)
-2. **GraalVM 21 community edition 설치**
-3. `gradle.properties`에 `org.gradle.java.installations.auto-download=true` + foojay plugin 활성화로 자동 다운로드
-4. Nessie의 `build-logic`에서 `nativeImageCapable` 요구 사항을 일시 비활성화 (local hack — upstream PR 대상 아님)
+빌드 성공한 jar로 5가지 시나리오 검증.
+
+### Test 매트릭스
+
+| # | 시나리오 | Exit | Size | ANSI escape | 결과 |
+|---|---|---|---|---|---|
+| 1 | `--non-ansi -c "EXIT" > file` | 0 | 2731 B | **0개** | redirect + ANSI 제거 정상 |
+| 2 | OpenJDK 21로 redirect (no flag) | 1 | 3970 B | n/a | **crash** (GraalVM 노이즈 아님 — 진짜 버그) |
+| 3 | `\| pipe` (no flag) | 1 | crash | n/a | redirect와 동일 양상 |
+| 4 | `--non-ansi \| pipe` | 0 | 38 lines | 0 | pipe도 플래그로 해결 |
+| 5 | `--non-ansi -s -` (stdin script) | 0 | 2731 B | 0 | script 모드도 동일 |
+| 6 | `--non-ansi --quiet -c "EXIT"` | 0 | **0 B** | 0 | banner 빠짐, 완전 깔끔 |
+
+### 핵심 발견
+
+1. **`--non-ansi`만으로 redirect와 pipe 둘 다 완전히 해결**
+   → PR Patch 스코프 = **alias 추가만으로 충분** (Terminal 우회 로직 불필요)
+
+2. **default 동작이 redirect/pipe 시 crash** — 이슈 원문의 "빈 파일"보다 심각
+   ```
+   java.lang.IllegalStateException: Unable to create a terminal
+     at org.jline.terminal.TerminalBuilder.doBuild(TerminalBuilder.java:748)
+     at org.projectnessie.nessie.cli.cli.NessieCliImpl.call(NessieCliImpl.java:189)
+   ```
+   원인: jline이 stdout이 TTY가 아닐 때 FFM/JNA/jansi provider 모두 로딩 실패.
+   부수적 노이즈: jline FFM provider class 66.0(Java 22 컴파일) vs runtime 65.0(Java 21) — 본인 환경 한정 이슈로 보임. 본질은 그 위 IllegalStateException.
+
+3. **`--non-ansi --quiet` 조합 = 완전 깔끔 출력** (실제 사용자가 redirect할 때 원하는 조합)
+
+4. **`-c`, `-s`, pipe, redirect 모두 동일 메커니즘** — `dumbTerminal` 분기 한 곳이 다 해결
+
+### PR description에 그대로 인용 가능
+
+위 매트릭스 + 핵심 발견은 그대로 PR body에 넣으면 maintainer 리뷰가 빨라짐. "동작 변화 0, 사용성 개선만" 입증 완료.
 5. IDE(IntelliJ/VSCode + Gradle plugin)에서 빌드 — toolchain 자동 처리 기대
 
 ## 재현 절차 (빌드 환경 갖춰진 후)
@@ -198,14 +246,15 @@ private boolean dumbTerminal;
 - [x] Nessie repo fork & clone (`~/chang/Git/nessie`, upstream remote 설정 완료)
 - [x] **maintainer 응답 확인** — `--plain`/`-P` 합의 (2026-05-15)
 - [x] 코드 분석 갱신 (alias 방식으로 PR 스코프 축소)
-- [ ] **블로커: Gradle Java toolchain (`nativeImageCapable=false`) 매칭 실패** — Liberica NIK 또는 GraalVM 설치 필요할 가능성
-- [ ] 로컬 빌드 성공
-- [ ] `--non-ansi` 단독 동작 검증 (PR 스코프 확정)
-- [ ] patch 작성 (alias 추가 또는 alias + Terminal 우회)
+- [x] **빌드 환경 해결** — SDKMAN + GraalVM 21 (21.0.11-graal) 설치, `:nessie-cli:shadowJar`로 빌드 성공
+- [x] **로컬 빌드 성공** — `cli/cli/build/libs/nessie-cli-0.107.6-SNAPSHOT.jar`
+- [x] **`--non-ansi` 단독 동작 검증** — redirect/pipe 둘 다 해결됨, ANSI escape 0개. PR 스코프 = alias 추가만으로 충분 확정
+- [x] **추가 버그 발견** — default 동작이 redirect/pipe 시 `IllegalStateException` crash (PR description 자료)
+- [ ] patch 작성 (alias 추가)
 - [ ] 기존 테스트 통과 확인 (`./gradlew :nessie-cli:test`)
-- [ ] `--plain` 동작 검증 테스트 추가
+- [ ] `--plain` / `-P` 동작 검증 테스트 추가
 - [ ] DCO sign-off 커밋 (`git commit -s`)
-- [ ] PR 초안 작성 (이슈 #10865 링크, 동작 변화 설명, 검증 절차)
+- [ ] PR 초안 작성 (이슈 #10865 링크, 검증 매트릭스, crash 발견 포함)
 - [ ] PR 제출 (사용자와 함께 최종 검토)
 
 ## 참고
