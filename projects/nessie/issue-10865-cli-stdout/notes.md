@@ -255,9 +255,13 @@ PATH=~/.sdkman/candidates/java/21.0.11-graal/bin:$PATH \
 - [x] **DCO sign-off 커밋** — `a7c14609a`, `mj006648 <uckdekf@gmail.com>`
 - [x] **fork에 push** — `origin/cli-stdout-plain`
 - [x] **PR 제출** — [projectnessie/nessie#12425](https://github.com/projectnessie/nessie/pull/12425) (2026-05-15)
-- [ ] **maintainer 리뷰 응답 대응**
+- [x] **maintainer 리뷰 응답 (2026-05-15)** — dimas-b: 이 변경은 OK하지만 본인 원래 의도(`PosixSysTerminal` 강제)와는 다름. 옵션 A(확장) / B(이거 머지 + 후속) 제안
+- [x] **본인 답변 (2026-05-16)** — B 선택. 이 PR은 discoverability fix로 머지, `#10865` 열어둠. 머지 후 후속 PR (`--stdout`/`-S` + PosixSysTerminal) 작업 약속. [comment](https://github.com/projectnessie/nessie/pull/12425#issuecomment-4466091419)
+- [ ] **CI flaky 무시** — `CI Test Quarkus` fail은 Keycloak OIDC startup race condition (본인 patch 무관). maintainer가 머지 시 알아서 retry
+- [ ] PR #12425 머지 대기
 - [ ] (필요 시) `--plain` / `-P` 옵션 파싱 unit test 추가
 - [ ] PR merged → README "Merged" 표로 이동
+- [ ] **후속 PR 작업 시작** — `PosixSysTerminal` 강제 + `--stdout`/`-S` 옵션 (이슈 #10865 진짜 close)
 
 ## 참고
 
