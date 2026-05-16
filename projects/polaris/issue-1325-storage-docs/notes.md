@@ -98,8 +98,10 @@
 - [x] ICLA 서명 (Apache Individual CLA) — 2026-05-15 secretary@apache.org 제출, 승인 회신 대기
 - [x] DCO sign-off 커밋
 - [x] Draft PR 제출 — apache/polaris#4451 (2026-05-15)
-- [ ] CI 승인 대기 (신규 contributor는 maintainer 수동 승인 필요)
-- [ ] 리뷰 대응
+- [x] CI 통과 — 24개 check 전부 SUCCESS (2026-05-15)
+- [x] 1차 리뷰 수령 — @dimas-b 인라인 코멘트 14개 (2026-05-15)
+- [x] 1차 리뷰 대응 commit `f5eae4e` (2026-05-16) — S3 페이지 제목 변경, `userArn`/STS 모순/KMS 문구 정정, Azure HNS 의미 재작성, `multiTenantAppName` informational 표기
+- [x] PR 답글 작성 — Trino S3 block 추가 검증 가능성 reviewer에 질문
 
 ## 검증 환경 정리 기록
 
