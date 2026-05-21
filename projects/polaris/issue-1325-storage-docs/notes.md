@@ -102,6 +102,18 @@
 - [x] 1차 리뷰 수령 — @dimas-b 인라인 코멘트 14개 (2026-05-15)
 - [x] 1차 리뷰 대응 commit `f5eae4e` (2026-05-16) — S3 페이지 제목 변경, `userArn`/STS 모순/KMS 문구 정정, Azure HNS 의미 재작성, `multiTenantAppName` informational 표기
 - [x] PR 답글 작성 — Trino S3 block 추가 검증 가능성 reviewer에 질문
+- [x] 2차 리뷰 수령 — @dimas-b 코멘트 3건 (2026-05-20)
+  - L220 "Do you think this is still necessary?" — Trino `s3.*` 명시 블록 의문
+  - L220 follow-up "These properties are provided by Polaris in config responses. AFAIK clients do not need to set them explicitly, but I have not tested that with Trino."
+  - L261 "Did you mean `roleArn` here?" — `userArn` 잔존
+- [x] 2차 리뷰 대응 commit `b9b1198b5` (2026-05-21) — Polaris 코드 추적 후 결론
+  - 근거: `polaris-core/.../StorageAccessProperty.java:41-44` — Polaris가 LoadTable response config로 vending하는 키는 `s3.endpoint`, `s3.path-style-access`, `client.region`. `AwsCredentialsStorageIntegration.java:172-193`에서 storage config의 endpoint/pathStyleAccess/region에서 채움
+  - 결정: `s3.region` 및 별도 `s3.endpoint`/`s3.path-style-access` 블록 제거 (Polaris vending과 중복)
+  - 결정: `fs.native-s3.enabled=true`는 유지 (Trino native S3 filesystem 활성화 flag, Polaris vending 대상 아님)
+  - 결정: L251 `userArn` → `roleArn`
+  - 본문 문구 재작성: "Polaris vends ... so they do not need to be repeated on the client. The native S3 filesystem still has to be enabled on the Trino side"
+  - 검증 한계: 1차 검증 환경(MinIO+Polaris+Trino 컨테이너) 이미 정리됨. 2차에는 코드 근거만 활용, 실측 미수행
+- [x] 2차 리뷰 PR 코멘트 게시 — https://github.com/apache/polaris/pull/4451#issuecomment-4504344198
 
 ## 검증 환경 정리 기록
 
