@@ -10,15 +10,20 @@
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | **PR [#12425](https://github.com/projectnessie/nessie/pull/12425) discussion round 1** (2026-05-16) | 2026-05-14 | `--plain`/`-P` alias 추가. dimas-b: "변경은 OK지만 원래 의도는 `PosixSysTerminal` 강제였음". 본인 B 선택: 이 PR 머지 후 후속 PR (`--stdout`/`-S` + PosixSysTerminal). dimas-b 머지 대기 |
-| Nessie  | [#5349](https://github.com/projectnessie/nessie/issues/5349) Cloud Object Storage 일관성 문서 | **PR [#12424](https://github.com/projectnessie/nessie/pull/12424) APPROVED** (2026-05-15) | 2026-05-14 | dimas-b APPROVED, @snazy 추가 리뷰 대기 |
-| ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시, maintainer 응답 대기 | 2026-05-14 | A(docs-only) vs B(implement) 방향 결정 요청 |
-| Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) 1차 리뷰 대응 완료** (2026-05-16) | 2026-05-14 | dimas-b 인라인 코멘트 14건 모두 반영 (`f5eae4e`). CI 24/24 SUCCESS. 2차 리뷰 대기 |
-| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록, 응답 대기 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증 |
-| Kubeflow | [spark-operator#2924](https://github.com/kubeflow/spark-operator/issues/2924) EmptyDir medium not forwarded | 의도 코멘트 게시, 작업자 없음 | 2026-05-14 | 재현 + bug fix PR 작업 진행 가능 |
+| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | **후속 PR 대기** (2026-05-21) | 2026-05-14 | PR #12425 머지 완료 후 잔여 작업: `--stdout`/`-S` 옵션 + `PosixSysTerminal` 강제 (dimas-b 원래 의도). 이슈 자체는 OPEN |
+| Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) 2차 리뷰 도착** (2026-05-21) | 2026-05-14 | 1차 14건 반영 후 dimas-b 2차 리뷰 코멘트(2026-05-20). 대응 필요 |
+| ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시, maintainer 응답 대기 | 2026-05-14 | A(docs-only) vs B(implement) 방향 결정 요청. 5/14 이후 무반응 |
+| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록, 응답 대기 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증. 코멘트 0건 |
 | Milvus | [pymilvus#2724](https://github.com/milvus-io/pymilvus/issues/2724) pkg_resources deprecated | 이슈 closed (다른 사용자), 본인 데이터 포인트 기록 완료 | 2026-05-14 | setuptools 82.x hard failure 증언, milvus-io organization 진입 |
 
+## 종결 / Closed Upstream
+
+| 프로젝트 | 이슈/PR | 결과 |
+|---------|---------|------|
+| Kubeflow | [spark-operator#2924](https://github.com/kubeflow/spark-operator/issues/2924) EmptyDir medium not forwarded | **CLOSED** (2026-05-18). 본인 의도 코멘트만 남기고 종결됨, 후속 추적 종료 |
+
 ## 정찰 완료, 회피한 후보
+
 
 | 프로젝트 | 이슈 | 회피 이유 |
 |---------|------|----------|
@@ -46,7 +51,10 @@
 
 ## Merged
 
-(아직 없음 — 곧 추가될 예정)
+| 프로젝트 | PR | 머지일 | 비고 |
+|---------|----|--------|------|
+| Nessie | [#12425](https://github.com/projectnessie/nessie/pull/12425) CLI `--plain`/`-P` alias (issue #10865) | 2026-05-20 | dimas-b APPROVED + merge. **후속 작업 필요**: `--stdout`/`-S` + `PosixSysTerminal` 강제 — 이슈 #10865는 OPEN 유지 |
+| Nessie | [#12424](https://github.com/projectnessie/nessie/pull/12424) Cloud Object Storage 일관성 문서 (issue #5349) | 2026-05-20 | dimas-b + @snazy APPROVED. **첫 머지 기여** |
 
 ## Closed / Rejected
 
@@ -156,4 +164,4 @@ oss-contributions/
 
 ---
 
-Last updated: 2026-05-15 (polaris PR #4451 제출)
+Last updated: 2026-05-21 (Nessie PR #12425, #12424 머지 / Polaris #4451 2차 리뷰 도착 / spark-operator #2924 closed / Nessie #10865 후속 PR 작업 대기)
