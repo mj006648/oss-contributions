@@ -14,7 +14,6 @@
 | Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) APPROVED** (2026-05-21 15:37 UTC) | 2026-05-14 | dimas-b APPROVED on `b9b1198b5` (2차 리뷰 반영 후). Trino `s3.*` 제거, `fs.native-s3.enabled=true` 유지, `userArn`→`roleArn`. **머지 대기** — committer 머지 모니터링 |
 | ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시, maintainer 응답 대기 | 2026-05-14 | A(docs-only) vs B(implement) 방향 결정 요청. 5/14 이후 무반응 |
 | Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록, 응답 대기 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증. 코멘트 0건 |
-| Milvus | [pymilvus#2724](https://github.com/milvus-io/pymilvus/issues/2724) pkg_resources deprecated | 이슈 closed (다른 사용자), 본인 데이터 포인트 기록 완료 | 2026-05-14 | setuptools 82.x hard failure 증언, milvus-io organization 진입 |
 
 ## Merged
 
@@ -28,6 +27,7 @@
 | 프로젝트 | 이슈/PR | 결과 |
 |---------|---------|------|
 | Kubeflow | [spark-operator#2924](https://github.com/kubeflow/spark-operator/issues/2924) EmptyDir medium not forwarded | **CLOSED** (2026-05-18). 본인 의도 코멘트만 남기고 종결됨, 후속 추적 종료 |
+| Milvus | [pymilvus#2724](https://github.com/milvus-io/pymilvus/issues/2724) pkg_resources deprecated | **CLOSED** (다른 사용자에 의해). 본인 데이터 포인트(setuptools 82.x hard failure) 코멘트로 milvus-io organization 진입 흔적 남김 |
 
 ## 정찰 완료, 회피한 후보
 
