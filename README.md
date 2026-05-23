@@ -11,7 +11,7 @@
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
 | Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | **후속 PR 대기** (2026-05-21) | 2026-05-14 | PR #12425 머지 완료 후 잔여 작업: `--stdout`/`-S` 옵션 + `PosixSysTerminal` 강제 (dimas-b 원래 의도). 이슈 자체는 OPEN |
-| Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) 2차 리뷰 대응 완료** (2026-05-21) | 2026-05-14 | dimas-b 2차 코멘트 3건 반영 (`b9b1198b5`): Trino `s3.region`/`s3.endpoint`/`s3.path-style-access` 제거 (Polaris vending), `fs.native-s3.enabled=true` 유지 (Trino 활성화 flag), `userArn`→`roleArn`. 코드 근거 `StorageAccessProperty.java:41-44` 인용. 3차 리뷰 대기 |
+| Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) APPROVED** (2026-05-21 15:37 UTC) | 2026-05-14 | dimas-b APPROVED on `b9b1198b5` (2차 리뷰 반영 후). Trino `s3.*` 제거, `fs.native-s3.enabled=true` 유지, `userArn`→`roleArn`. **머지 대기** — committer 머지 모니터링 |
 | ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시, maintainer 응답 대기 | 2026-05-14 | A(docs-only) vs B(implement) 방향 결정 요청. 5/14 이후 무반응 |
 | Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록, 응답 대기 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증. 코멘트 0건 |
 | Milvus | [pymilvus#2724](https://github.com/milvus-io/pymilvus/issues/2724) pkg_resources deprecated | 이슈 closed (다른 사용자), 본인 데이터 포인트 기록 완료 | 2026-05-14 | setuptools 82.x hard failure 증언, milvus-io organization 진입 |
@@ -164,4 +164,4 @@ oss-contributions/
 
 ---
 
-Last updated: 2026-05-21 (Polaris PR #4451 2차 리뷰 대응 완료 `b9b1198b5` / Nessie PR #12425, #12424 머지 / spark-operator #2924 closed / Nessie #10865 후속 PR 작업 대기)
+Last updated: 2026-05-23 (Polaris PR #4451 **APPROVED** 2026-05-21 15:37 UTC by dimas-b on `b9b1198b5` — 머지 대기 / Nessie #10865 후속 PR 작업 대기)
