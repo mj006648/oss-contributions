@@ -23,16 +23,14 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 ## 정찰 완료 — 진입 가능 후보
 
-다음 PR로 검토 중인 fresh 이슈들. 2026-05-27 일괄 정찰. 본인이 골라서 작업 시작 시 In Progress로 이동.
+다음 PR로 검토 중인 fresh 이슈들. 2026-05-27 엄격한 룰로 재정찰:
+- 60일 이내 fresh, 코멘트 0건, linked PR 0건, assignee 0명 모두 만족하는 것만 유지.
 
 | 우선 | 프로젝트 | 이슈 | 작업 종류 | 무엇을 / 본인 강점 / 위험 |
 |---|---|---|---|---|
-| 🟢 1 | Nessie | [#12426](https://github.com/projectnessie/nessie/issues/12426) `IcebergConfigurer.writeable` check fails for HadoopFileIO tables (s3a:// vs s3://) | **코드 bug fix** | **무엇**: Spark HadoopFileIO가 `s3a://`로 쓴 metadata.location을 Nessie 서버가 `s3://` warehouse와 비교할 때 `S3Utils.normalizeS3Scheme`을 적용 안 해서 `writeable[]`이 비어버림 → 모든 PUT/DELETE 403 거부. 결과적으로 HadoopFileIO 테이블이 silently read-only. **버그 위치 사용자가 짚음** = `IcebergConfigurer.icebergConfigPerTable()`에 normalizeS3Scheme 추가하면 끝. **본인 강점**: Trident에서 s3/s3a 스킴 처리 + HadoopFileIO + CUDF-02c 경험 직결. **상태**: 10일 fresh / 코멘트 0건 / assignee 0명 / 라벨 없음. **위험**: 라벨 없는 게 살짝 의아 — dimas-b에게 의도 확인 코멘트 권장. |
-| 🟢 2 | Iceberg | [#15916](https://github.com/apache/iceberg/issues/15916) Docs: Clarify Spark branch write precedence over WAP branch | **docs** | **무엇**: Spark로 Iceberg 테이블에 쓸 때 어느 branch에 쓰일지 결정하는 우선순위 문서화. branch 쓰는 방법이 두 가지(세션 conf의 WAP branch vs 쿼리 안 명시적 branch hint), 둘 다 설정되면 누가 이기는지 docs에 안 적혀있음. **왜 필요**: 코드는 명확히 동작하지만 사용자가 헷갈리는 영역. **범위**: 순수 docs 추가, 코드 변경 0. **본인 강점**: 첫 Iceberg PR로 가벼운 진입에 적합. **상태**: linked PR 0건 / assignee 0명 / 47일 묵힘 (적정). |
-| 🟢 3 | Nessie | [#12429](https://github.com/projectnessie/nessie/issues/12429) [Feature]: add nessie GC to the helm chart | **인프라 (Helm)** | **무엇**: 현재 Nessie Helm chart에 Nessie GC 컴포넌트가 빠져있음. 추가해달라는 요청. **왜 필요**: Helm으로 Nessie 배포한 사용자가 GC 별도로 설정해야 하는 불편. **범위**: Helm chart values + templates 추가. **본인 강점**: TwinX 운영 + ArgoCD/Helm 경험 직결 ([[project_trident_components]] Trident ArgoCD 작업 다수). **상태**: 6일 fresh / 코멘트 0건 / assignee 0명. **위험**: feature 추가라 maintainer가 디자인 의견 강하게 가질 수 있음, dev ML 토론 필요 가능성. |
-| 🟡 4 | Nessie | [#11759](https://github.com/projectnessie/nessie/issues/11759) nessie cannot obtain the S3 access key and secret | **코드 + 운영** | **무엇**: Nessie가 S3 자격증명을 못 받아오는 케이스. **본인 강점**: [[project_nessie_cnpg_auth]] 메모리에 본인이 정확히 OBC + Nessie 셋업 경험 적어둠. **상태**: 160일 묵힘 (위험 구간 진입). **위험**: 오래된 이슈 — 코드가 이미 바뀌었거나 다른 방법으로 해결됐을 가능성 검증 필요. |
-| 🟡 5 | Nessie | [#12367](https://github.com/projectnessie/nessie/issues/12367) Missing Spark 4.0 Nessie SQL extension artifacts in Maven Central | **빌드/배포** | **무엇**: Nessie의 Spark 4.0 SQL extension이 Maven Central에 배포 안 됨. **왜 필요**: Spark 4.0 사용자가 Nessie SQL extension 쓰려면 직접 빌드해야 함. **범위**: Gradle 배포 설정 + Maven publish. **본인 강점**: Gradle/Maven 약간 익숙하면 가능. **상태**: 15일 fresh / 코멘트 0건. **위험**: 배포 권한이 있어야 직접 검증 가능 — PR 작성은 되지만 실제 Maven Central에 올라가는 건 maintainer가 함. |
-| 🟢 6 | iceberg-python | [#1008](https://github.com/apache/iceberg-python/issues/1008) DOCS: Improve Documentation on Write Support | **docs** | **무엇**: PyIceberg의 write 기능 문서 보강. **왜 필요**: PyIceberg가 write 지원 늘어났는데 docs가 따라가지 못함. **본인 강점**: Trident에서 PyIceberg 자주 씀 ([[project_trident_cudf_experiments]] CUDF-02a/02d/02e). **상태**: 163일 묵힘 (위험) / assignee 0명. **위험**: 오래된 이슈 — PyIceberg API가 그동안 바뀌었을 가능성. 현재 코드 기준 재작성 필요. |
+| 🟢 1 | Nessie | [#12426](https://github.com/projectnessie/nessie/issues/12426) `IcebergConfigurer.writeable` check fails for HadoopFileIO tables (s3a:// vs s3://) | **코드 bug fix** | **무엇**: Spark HadoopFileIO가 `s3a://`로 쓴 metadata.location을 Nessie 서버가 `s3://` warehouse와 비교할 때 `S3Utils.normalizeS3Scheme`을 적용 안 해서 `writeable[]`이 비어버림 → 모든 PUT/DELETE 403 거부. 결과적으로 HadoopFileIO 테이블이 silently read-only. **버그 위치 사용자가 짚음** = `IcebergConfigurer.icebergConfigPerTable()`에 normalizeS3Scheme 추가하면 끝. **본인 강점**: Trident에서 s3/s3a 스킴 처리 + HadoopFileIO + CUDF-02c 경험 직결. **상태**: 10일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명. **위험**: 라벨 없는 게 살짝 의아 — dimas-b에게 의도 확인 코멘트 권장. |
+| 🟢 2 | Nessie | [#12429](https://github.com/projectnessie/nessie/issues/12429) [Feature]: add nessie GC to the helm chart | **인프라 (Helm)** | **무엇**: 현재 Nessie Helm chart에 Nessie GC 컴포넌트가 빠져있음. **왜 필요**: Helm으로 Nessie 배포한 사용자가 GC 별도로 설정해야 하는 불편. **범위**: Helm chart values + templates 추가. **본인 강점**: TwinX 운영 + ArgoCD/Helm 경험 직결 ([[project_trident_components]] Trident ArgoCD 작업 다수). **상태**: 6일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명. **위험**: feature 추가라 maintainer가 디자인 의견 강하게 가질 수 있음, dev ML 토론 필요 가능성. |
+| 🟢 3 | Iceberg | [#16530](https://github.com/apache/iceberg/issues/16530) Flaky tests in iceberg-azure integrationTest | **테스트 안정화** | **무엇**: `iceberg-azure:integrationTest`의 `TestADLSFileIO` / `TestADLSInputStream`이 testcontainer 환경에서 간헐 실패. CI 로그상 `ContainerFetchException`. **왜 필요**: flaky test는 CI 신뢰도/머지 속도 저하. **범위**: testcontainer 셋업 + Azure mock 컨테이너 안정화. **본인 강점**: Trident에서 Docker/testcontainer/K8s 운영 경험. **상태**: 4일 fresh / 코멘트 0건 / linked PR 0건. **위험**: flaky 디버깅은 재현성이 까다로워 PR 임팩트 입증이 핵심. |
 
 ## Merged
 
@@ -54,6 +52,10 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 프로젝트 | 이슈 | 회피 이유 |
 |---------|------|----------|
+| Nessie | [#11759](https://github.com/projectnessie/nessie/issues/11759) S3 access key/secret 못 받음 | 160일 묵힘 + dimas-b가 사용자에게 `pathPrefix` 트레일링 슬래시 가이드 (2025-12-17). 사용자 답변 대기 상태, PR 진입 어색 (2026-05-27) |
+| Nessie | [#12367](https://github.com/projectnessie/nessie/issues/12367) Spark 4.0 Maven artifact | dimas-b 5/12 코멘트로 "Spark 4 support는 #12126로 이미 v0.107.4에 배포됨"이라고 답변. **사실상 해결된 이슈** (2026-05-27) |
+| Iceberg | [#15916](https://github.com/apache/iceberg/issues/15916) Spark branch precedence docs | @yadavay-amzn이 PR [#15917](https://github.com/apache/iceberg/pull/15917)로 진행 중, 5/12 committer 리뷰 반영 push, 머지 직전 (2026-05-27) |
+| iceberg-python | [#1008](https://github.com/apache/iceberg-python/issues/1008) Write Support 문서 | @pramila-bishnoi이 PR 제출 의도 코멘트 (2025-11) + kevinjqliu(committer)가 OK 답변. 이미 작업자 있음 (2026-05-27) |
 | Polaris | [#2774](https://github.com/apache/polaris/issues/2774) Move blogs to separate branch | @tiru-venkatesh가 dev mailing list 제안서 제출 후 진행 중 (2026-01-31). 가로채기 회피 (2026-05-27) |
 | Polaris | [#996](https://github.com/apache/polaris/issues/996) Using case insensitive storage type names | @evindj + @tiru-venkatesh 둘 다 관심 + dev ML 토론 진행 (2026-01). 가로채기 회피 (2026-05-27) |
 | ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 5/14 의도 코멘트 후 12일+ 무반응. lakehouse 3종 집중 전략에 따라 PR effort 미투입 (2026-05-27) |
