@@ -1,18 +1,24 @@
 # OSS Contributions Tracker
 
-클라우드 네이티브 데이터 인프라 프로젝트(Nessie, Apache Iceberg, ArgoCD, Kubernetes 등)에 대한 오픈소스 기여 활동을 기록하는 개인 저장소.
-
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
----
+## 기여 집중 전략 (2026-05-27~)
+
+PR effort는 lakehouse 핵심 3종에 집중한다:
+
+- **Apache Iceberg** — 테이블 포맷 (apache/iceberg, apache/iceberg-python)
+- **Project Nessie** — Git-style 카탈로그 (projectnessie/nessie)
+- **Apache Polaris** — REST 카탈로그 (apache/polaris)
+
+위 세 프로젝트는 reviewer 풀이 겹치고, 본 연구의 데이터 평면을 그대로 구성한다. 단일 도메인 집중을 통해 Apache committer 진입 조건(단일 프로젝트 깊이)을 충족하는 것이 중기 목표.
+
+클러스터 운영(rook-ceph, cilium, kyverno, argocd 등) 중 발견한 이슈는 upstream에 등록만 하고 PR effort는 투입하지 않는다.
 
 ## In Progress
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
 | Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) flyrain 요청 반영 push** (2026-05-26) | 2026-05-14 | dimas-b 1차 APPROVED `b9b1198b5` 받은 후 5/26 flyrain이 "3개 IAM identity 모두 다뤄달라" 요청. `0837f0a4a` push로 IAM identities 개요 + Polaris service identity 섹션 추가, 기존 헤더를 Catalog access role로 rename. flyrain 재리뷰 + dimas-b 재승인 대기 |
-| ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시, maintainer 응답 대기 | 2026-05-14 | A(docs-only) vs B(implement) 방향 결정 요청. 5/14 이후 무반응 |
-| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록, 응답 대기 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증. 코멘트 0건 |
 
 ## Merged
 
@@ -34,6 +40,8 @@
 
 | 프로젝트 | 이슈 | 회피 이유 |
 |---------|------|----------|
+| ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 5/14 의도 코멘트 후 12일+ 무반응. lakehouse 3종 집중 전략에 따라 PR effort 미투입 (2026-05-27) |
+| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 5/14 등록 후 12일+ 무반응. lakehouse 3종 집중 전략에 따라 PR effort 미투입 (2026-05-27) |
 | PyIceberg | [#1008](https://github.com/apache/iceberg-python/issues/1008) Write Support docs | 다른 작업자 진행 중 |
 | PyIceberg | [#1169](https://github.com/apache/iceberg-python/issues/1169) Time64[ns] | assigned + stale PR 다수 |
 | PyIceberg | [#1310](https://github.com/apache/iceberg-python/issues/1310) `@override` 추가 | 다수 stale 시도 |
