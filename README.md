@@ -199,7 +199,13 @@ oss-contributions/
 
 ## 관련 저장소
 
+### SmartX-Team (조직, GIST NetAI Lab)
+
+- [ScaleX-POD](https://github.com/SmartX-Team/ScaleX-POD) — 클라우드 네이티브 디지털 트윈 멀티클러스터 인프라 본체
+- [TwinX-Ops](https://github.com/SmartX-Team/TwinX-Ops) — ArgoCD GitOps / 배포 매니페스트
+
+### Personal
+
 - [Trident-Portal](https://github.com/mj006648/Trident-Portal) — 석사 연구 포털 (Next.js + FastAPI)
-- [TwinX](https://github.com/mj006648/Twinx) — ArgoCD GitOps
 - [Trident-Twin](https://github.com/mj006648/Trident-Twin) — 3D Omniverse Twin
 - master-thesis — 논문 원고 (local)
