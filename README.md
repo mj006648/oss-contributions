@@ -2,15 +2,16 @@
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
-## 기여 집중 전략 (2026-05-27~)
+## 기여 집중 전략
 
-PR effort는 lakehouse 핵심 3종에 집중한다:
+PR effort는 lakehouse 핵심 스택에 집중한다:
 
-- **Apache Iceberg** — 테이블 포맷 (apache/iceberg, apache/iceberg-python)
+- **Apache Iceberg** — 테이블 포맷 (apache/iceberg)
+- **PyIceberg** — Iceberg Python 구현체 (apache/iceberg-python)
 - **Project Nessie** — Git-style 카탈로그 (projectnessie/nessie)
 - **Apache Polaris** — REST 카탈로그 (apache/polaris)
 
-위 세 프로젝트는 reviewer 풀이 겹치고, 본 연구의 데이터 평면을 그대로 구성한다. 단일 도메인 집중을 통해 Apache committer 진입 조건(단일 프로젝트 깊이)을 충족하는 것이 중기 목표.
+위 프로젝트들은 reviewer 풀이 겹치고, 본 연구의 데이터 평면을 그대로 구성한다. 단일 도메인 집중을 통해 Apache committer 진입 조건(단일 프로젝트 깊이)을 충족하는 것이 중기 목표.
 
 클러스터 운영(rook-ceph, cilium, kyverno, argocd 등) 중 발견한 이슈는 upstream에 등록만 하고 PR effort는 투입하지 않는다.
 
