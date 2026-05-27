@@ -10,7 +10,6 @@
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Nessie  | [#10865](https://github.com/projectnessie/nessie/issues/10865) CLI STDOUT redirect 버그 | **PR [#12431](https://github.com/projectnessie/nessie/pull/12431) 1차 APPROVED + nit 수정 push** (2026-05-26) | 2026-05-14 | `--stdout`/`-S` 옵션 신규, `system(false).streams(...).type("dumb")` 로 stream-backed terminal 강제. 5/25 dimas-b 1차 APPROVED (`b692f9f9`) with 2 nits. 5/26 description 문구 다듬어 `e38ddd30` 추가 push, 두 코멘트 Resolve 완료. **재승인 대기** |
 | Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) flyrain 요청 반영 push** (2026-05-26) | 2026-05-14 | dimas-b 1차 APPROVED `b9b1198b5` 받은 후 5/26 flyrain이 "3개 IAM identity 모두 다뤄달라" 요청. `0837f0a4a` push로 IAM identities 개요 + Polaris service identity 섹션 추가, 기존 헤더를 Catalog access role로 rename. flyrain 재리뷰 + dimas-b 재승인 대기 |
 | ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 의도 코멘트 게시, maintainer 응답 대기 | 2026-05-14 | A(docs-only) vs B(implement) 방향 결정 요청. 5/14 이후 무반응 |
 | Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 신규 이슈 등록, 응답 대기 | 2026-05-14 | 본인이 TwinX 운영 중 직접 발견. chart v3.7.2 검증. 코멘트 0건 |
@@ -19,6 +18,7 @@
 
 | 프로젝트 | PR | 머지일 | 비고 |
 |---------|----|--------|------|
+| Nessie | [#12431](https://github.com/projectnessie/nessie/pull/12431) CLI `--stdout`/`-S` for stream-backed terminal (issue #10865) | 2026-05-26 | dimas-b APPROVED + merge. `system(false).streams(...).type("dumb")` 로 redirected stdout/pipe 시 PTY 우회. 5/25 1차 APPROVED with 2 nits → 5/26 description 다듬어 `e38ddd30` push → dimas-b 재APPROVED → 17분 뒤 머지. **3번째 머지 기여** |
 | Nessie | [#12425](https://github.com/projectnessie/nessie/pull/12425) CLI `--plain`/`-P` alias (issue #10865) | 2026-05-20 | dimas-b APPROVED + merge. **후속 작업 필요**: `--stdout`/`-S` + `PosixSysTerminal` 강제 — 이슈 #10865는 OPEN 유지 |
 | Nessie | [#12424](https://github.com/projectnessie/nessie/pull/12424) Cloud Object Storage 일관성 문서 (issue #5349) | 2026-05-20 | dimas-b + @snazy APPROVED. **첫 머지 기여** |
 
