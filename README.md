@@ -19,6 +19,8 @@ PR effort는 lakehouse 핵심 3종에 집중한다:
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
 | Polaris | [#1325](https://github.com/apache/polaris/issues/1325) Storage backend production config 문서 | **PR [#4451](https://github.com/apache/polaris/pull/4451) flyrain 요청 반영 push** (2026-05-26) | 2026-05-14 | dimas-b 1차 APPROVED `b9b1198b5` 받은 후 5/26 flyrain이 "3개 IAM identity 모두 다뤄달라" 요청. `0837f0a4a` push로 IAM identities 개요 + Polaris service identity 섹션 추가, 기존 헤더를 Catalog access role로 rename. flyrain 재리뷰 + dimas-b 재승인 대기 |
+| Nessie  | [#8262](https://github.com/projectnessie/nessie/issues/8262) Replace system-property `aws.region` with Iceberg property `client.region` | 신규 진입 결정 (2026-05-27) | 2026-05-27 | "Cleanup" 라벨, good first issue. 코멘트 0건 / assignee 0명 / 2024-03 이후 무활동 = 깨끗한 진입점. 본인 Polaris #4451에서 `client.region` 경로(StorageAccessProperty.java) 이미 추적 → 컨텍스트 직접 재활용 가능. 다음 단계: nessie repo에서 `aws.region` system property 사용처 grep → 치환 → PR |
+| Iceberg | [#15916](https://github.com/apache/iceberg/issues/15916) Docs: Clarify Spark branch write precedence over WAP branch | 신규 진입 결정 (2026-05-27) | 2026-05-27 | good first issue, 순수 docs 작업. 5/27 재정찰 결과 linked PR 0건 / assignee 0명 / 마지막 활동 2026-04 — 정찰완료 리스트에 잘못 적혀있던 항목 재분류. 본인 첫 Iceberg PR 후보 (도메인 진입 + 새 reviewer 풀과 신뢰 시작) |
 
 ## Merged
 
@@ -40,6 +42,8 @@ PR effort는 lakehouse 핵심 3종에 집중한다:
 
 | 프로젝트 | 이슈 | 회피 이유 |
 |---------|------|----------|
+| Polaris | [#2774](https://github.com/apache/polaris/issues/2774) Move blogs to separate branch | @tiru-venkatesh가 dev mailing list 제안서 제출 후 진행 중 (2026-01-31). 가로채기 회피 (2026-05-27) |
+| Polaris | [#996](https://github.com/apache/polaris/issues/996) Using case insensitive storage type names | @evindj + @tiru-venkatesh 둘 다 관심 + dev ML 토론 진행 (2026-01). 가로채기 회피 (2026-05-27) |
 | ArgoCD  | [#18198](https://github.com/argoproj/argo-cd/issues/18198) `--request-timeout` docs/code 불일치 | 5/14 의도 코멘트 후 12일+ 무반응. lakehouse 3종 집중 전략에 따라 PR effort 미투입 (2026-05-27) |
 | Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager 통합 incomplete | 5/14 등록 후 12일+ 무반응. lakehouse 3종 집중 전략에 따라 PR effort 미투입 (2026-05-27) |
 | PyIceberg | [#1008](https://github.com/apache/iceberg-python/issues/1008) Write Support docs | 다른 작업자 진행 중 |
