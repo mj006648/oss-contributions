@@ -1,0 +1,60 @@
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: pv-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_REGION_NAME: us-east-1
+    ports:
+      - "19000:9000"
+      - "19001:9001"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  minio-init:
+    image: minio/mc:latest
+    container_name: pv-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 minioadmin minioadmin &&
+      mc mb -p local/warehouse &&
+      mc admin user svcacct add local minioadmin --access-key polaris-key --secret-key polaris-secret-12345 || true &&
+      echo 'minio init done'
+      "
+
+  polaris:
+    image: apache/polaris:latest
+    container_name: pv-polaris
+    depends_on:
+      minio-init:
+        condition: service_completed_successfully
+    environment:
+      POLARIS_BOOTSTRAP_CREDENTIALS: POLARIS,root,s3cr3t
+      polaris.realm-context.realms: POLARIS
+      quarkus.log.level: INFO
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: polaris-key
+      AWS_SECRET_ACCESS_KEY: polaris-secret-12345
+      polaris.storage.aws.access-key: polaris-key
+      polaris.storage.aws.secret-key: polaris-secret-12345
+    ports:
+      - "18181:8181"
+      - "18182:8182"
+
+  trino:
+    image: trinodb/trino:latest
+    container_name: pv-trino
+    depends_on:
+      - polaris
+    ports:
+      - "18080:8080"
+    volumes:
+      - ./trino-catalog:/etc/trino/catalog
