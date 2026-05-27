@@ -19,6 +19,8 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
+| Nessie | [#12426](https://github.com/projectnessie/nessie/issues/12426) `IcebergConfigurer.writeable` s3a:// vs s3:// | 의도 코멘트 게시, maintainer 답 대기 | 2026-05-27 | 멘션 없이 게시 ([comment](https://github.com/projectnessie/nessie/issues/12426#issuecomment-4551881490)). 답 받으면 fork → DCO sign-off → PR |
+| iceberg-python | [#3247](https://github.com/apache/iceberg-python/issues/3247) LoadTable per-table config 머지 누락 | 의도 코멘트 게시, maintainer 답 대기 | 2026-05-27 | 첫 iceberg-python 진입, 멘션 없이 게시 ([comment](https://github.com/apache/iceberg-python/issues/3247#issuecomment-4551881977)). 답 받으면 ICLA 확인 → fork → PR |
 
 ## 정찰 완료 — 진입 가능 후보
 
@@ -27,10 +29,8 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 우선 | 프로젝트 | 이슈 | 작업 종류 | 무엇 | 왜 필요 | 본인 강점 | 위험 | 상태 |
 |---|---|---|---|---|---|---|---|---|
-| 🟢 1 | Nessie | [#12426](https://github.com/projectnessie/nessie/issues/12426) `IcebergConfigurer.writeable` check fails for HadoopFileIO tables (s3a:// vs s3://) | 코드 bug fix | Spark HadoopFileIO가 `s3a://`로 쓴 metadata.location을 Nessie 서버가 `s3://` warehouse와 비교할 때 `S3Utils.normalizeS3Scheme`을 적용 안 해서 `writeable[]`이 비어버림 → 모든 PUT/DELETE 403 거부. 결과적으로 HadoopFileIO 테이블이 silently read-only. 버그 위치 사용자가 짚음 = `IcebergConfigurer.icebergConfigPerTable()`에 normalizeS3Scheme 추가하면 끝 | Nessie REST + Spark HadoopFileIO 조합 사용자가 모든 write 실패하는 심각한 silent failure | Trident에서 s3/s3a 스킴 처리 + HadoopFileIO + CUDF-02c 경험 직결 | 라벨 없는 게 살짝 의아 — dimas-b에게 의도 확인 코멘트 권장 | 10일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 |
-| 🟢 2 | Nessie | [#12429](https://github.com/projectnessie/nessie/issues/12429) [Feature]: add nessie GC to the helm chart | 인프라 (Helm) | 현재 Nessie Helm chart에 Nessie GC 컴포넌트가 빠져있음. Helm chart values + templates 추가 | Helm으로 Nessie 배포한 사용자가 GC 별도로 설정해야 하는 불편 | TwinX 운영 + ArgoCD/Helm 경험 직결 ([[project_trident_components]] Trident ArgoCD 작업 다수) | feature 추가라 maintainer가 디자인 의견 강하게 가질 수 있음, dev ML 토론 필요 가능성 | 6일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 |
-| 🟢 3 | iceberg-python | [#3247](https://github.com/apache/iceberg-python/issues/3247) Discrepency in the fetched table properties | 버그 fix | PyIceberg가 Polaris catalog에서 테이블을 load할 때 응답의 `config`(s3.endpoint, s3.path-style-access 등)가 Polaris CLI로 직접 보는 것과 달라서 client filesystem이 잘못된 자격증명으로 S3 접근 → Permission Denied. 범위: PyIceberg LoadTable response 파싱(`pyiceberg/catalog/rest.py` 근처)에서 config 키 누락/오매핑 위치 추적 + fix + 회귀 테스트 | Polaris + PyIceberg 사용자가 silently 실패하는 흔한 환경 문제 | Polaris #4451에서 본인이 `StorageAccessProperty.java`의 `s3.endpoint`/`s3.path-style-access`/`client.region` 경로(라인 41-44, 172-193) 직접 추적. 이슈 사용자 환경이 본인과 동일 (Polaris + PyIceberg + s3.path-style-access) | PyIceberg 버전이 PR #4451 시점 대비 변경됐을 가능성 — 현재 master 기준 재현 필요 | 40일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 |
-| 🟢 3-alt | Iceberg | [#16530](https://github.com/apache/iceberg/issues/16530) Flaky tests in iceberg-azure integrationTest | 테스트 안정화 | `iceberg-azure:integrationTest`의 `TestADLSFileIO` / `TestADLSInputStream`이 testcontainer 환경에서 간헐 실패. CI 로그상 `ContainerFetchException`. testcontainer 셋업 + Azure mock 컨테이너 안정화 | flaky test는 CI 신뢰도/머지 속도 저하 | Trident에서 Docker/testcontainer/K8s 운영 경험 | flaky 디버깅은 재현성이 까다로워 PR 임팩트 입증이 핵심. 첫 Iceberg PR로는 부담 — Polaris #4451 후속이라는 의미로 #3247이 우선 | 4일 fresh / 코멘트 0건 / linked PR 0건 |
+| 🟢 1 | Nessie | [#12429](https://github.com/projectnessie/nessie/issues/12429) [Feature]: add nessie GC to the helm chart | 인프라 (Helm) | 현재 Nessie Helm chart에 Nessie GC 컴포넌트가 빠져있음. Helm chart values + templates 추가 | Helm으로 Nessie 배포한 사용자가 GC 별도로 설정해야 하는 불편 | TwinX 운영 + ArgoCD/Helm 경험 직결 ([[project_trident_components]] Trident ArgoCD 작업 다수) | feature 추가라 maintainer가 디자인 의견 강하게 가질 수 있음, dev ML 토론 필요 가능성 | 6일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 |
+| 🟢 2 | Iceberg | [#16530](https://github.com/apache/iceberg/issues/16530) Flaky tests in iceberg-azure integrationTest | 테스트 안정화 | `iceberg-azure:integrationTest`의 `TestADLSFileIO` / `TestADLSInputStream`이 testcontainer 환경에서 간헐 실패. CI 로그상 `ContainerFetchException`. testcontainer 셋업 + Azure mock 컨테이너 안정화 | flaky test는 CI 신뢰도/머지 속도 저하 | Trident에서 Docker/testcontainer/K8s 운영 경험 | flaky 디버깅은 재현성이 까다로워 PR 임팩트 입증이 핵심. 첫 Iceberg PR로는 부담 — Polaris #4451 후속이라는 의미로 #3247이 우선 | 4일 fresh / 코멘트 0건 / linked PR 0건 |
 
 ## Merged
 
@@ -180,6 +180,21 @@ oss-contributions/
 4. 피드백 즉시 기록 — 받은 리뷰 코멘트를 `learnings/code-review-feedback.md`에 누적
 5. 거절도 기록 — 왜 거절됐는지가 가장 큰 학습 자산
 
+## 의도 코멘트 (intent comment) 원칙
+
+새 이슈에 처음 들어갈 때 따르는 OSS etiquette. Nessie/Apache 양쪽에서 검증된 패턴.
+
+1. **인사말 생략** — `Hi @user` 같은 도입부 없이 본론부터.
+2. **재현/이해 증거 1~2줄** — 본인이 코드 읽었다는 신호. 파일/라인/버전 명시.
+3. **"가져가도 되나" 명시** — `If nobody is on this, I'd like to take it on.` 류 한 줄 필수.
+4. **scope bullet** — maintainer가 yes/no 답하기 쉽게 3~4개로.
+5. **maintainer 직접 멘션 금지** — 첫 코멘트에서 `@maintainer` 호출은 결례. 디자인 토론은 PR에서.
+6. **디자인 분기점은 PR로 미루기** — 첫 코멘트에서 "A vs B 중 뭐가 좋나요?"는 부담. "A로 가려 한다, 리뷰에서 조정 환영"까지만.
+7. **assign 요청 금지** — Apache/Nessie 모두 비권장. 코멘트로 의도만 표명.
+8. **답 없으면 3~7일 기다림** — 강행하지 말 것. Nessie는 빠른 편, Apache는 며칠 여유.
+9. **DCO/CLA 사전 확인** — Nessie는 DCO sign-off, Apache는 ICLA.
+10. **assign 안 받아도 fork+PR 올려도 됨** — 단 본인 시간 risk 감수. 의도 코멘트 후 답 받고 진행하는 게 안전.
+
 ---
 
 ## 관련 저장소
@@ -188,7 +203,3 @@ oss-contributions/
 - [TwinX](https://github.com/mj006648/Twinx) — ArgoCD GitOps
 - [Trident-Twin](https://github.com/mj006648/Trident-Twin) — 3D Omniverse Twin
 - master-thesis — 논문 원고 (local)
-
----
-
-Last updated: 2026-05-23 (Nessie 후속 PR #12431 제출 — `--stdout`/`-S` 옵션 + stream-backed terminal / Polaris PR #4451 APPROVED 머지 대기)
