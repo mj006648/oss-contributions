@@ -19,7 +19,7 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Nessie | [#12426](https://github.com/projectnessie/nessie/issues/12426) `IcebergConfigurer.writeable` s3a:// vs s3:// | 의도 코멘트 게시, maintainer 답 대기 | 2026-05-27 | 멘션 없이 게시 ([comment](https://github.com/projectnessie/nessie/issues/12426#issuecomment-4551881490)). 답 받으면 fork → DCO sign-off → PR |
+| Nessie | [PR #12432](https://github.com/projectnessie/nessie/pull/12432) Normalize S3 scheme in IcebergConfigurer writeable derivation (issue [#12426](https://github.com/projectnessie/nessie/issues/12426)) | PR 오픈, 리뷰 대기 | 2026-05-28 | dimas-b 5/27 green light → `IcebergConfigurer.icebergConfigPerTable()`의 `startsWith` 비교 양쪽에 `S3Utils.normalizeS3Scheme` 적용. `writeable`/`readOnly` set은 원본 scheme 유지, signer wire format 불변. 기존 `TestIcebergConfigurer` 파라미터화 테스트에 `s3a://`/`s3n://` row 추가. storage-time variant는 별도 PR 후보로 PR body에 명시 |
 | iceberg-python | [#3247](https://github.com/apache/iceberg-python/issues/3247) LoadTable per-table config 머지 누락 | 의도 코멘트 게시, maintainer 답 대기 | 2026-05-27 | 첫 iceberg-python 진입, 멘션 없이 게시 ([comment](https://github.com/apache/iceberg-python/issues/3247#issuecomment-4551881977)). 답 받으면 ICLA 확인 → fork → PR |
 
 ## 정찰 완료 — 진입 가능 후보
