@@ -24,13 +24,16 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 ## 정찰 완료 — 진입 가능 후보
 
-다음 PR로 검토 중인 fresh 이슈들. 2026-05-27 엄격한 룰로 재정찰:
+다음 PR로 검토 중인 fresh 이슈들. 2026-05-28 엄격한 룰로 재정찰:
 - 60일 이내 fresh, 코멘트 0건, linked PR 0건, assignee 0명 모두 만족하는 것만 유지.
 
 | 우선 | 프로젝트 | 이슈 | 작업 종류 | 무엇 | 왜 필요 | 본인 강점 | 위험 | 상태 |
 |---|---|---|---|---|---|---|---|---|
-| 🟢 1 | Nessie | [#12429](https://github.com/projectnessie/nessie/issues/12429) [Feature]: add nessie GC to the helm chart | 인프라 (Helm) | 현재 Nessie Helm chart에 Nessie GC 컴포넌트가 빠져있음. Helm chart values + templates 추가 | Helm으로 Nessie 배포한 사용자가 GC 별도로 설정해야 하는 불편 | TwinX 운영 + ArgoCD/Helm 경험 직결 ([[project_trident_components]] Trident ArgoCD 작업 다수) | feature 추가라 maintainer가 디자인 의견 강하게 가질 수 있음, dev ML 토론 필요 가능성 | 6일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 |
-| 🟢 2 | Iceberg | [#16530](https://github.com/apache/iceberg/issues/16530) Flaky tests in iceberg-azure integrationTest | 테스트 안정화 | `iceberg-azure:integrationTest`의 `TestADLSFileIO` / `TestADLSInputStream`이 testcontainer 환경에서 간헐 실패. CI 로그상 `ContainerFetchException`. testcontainer 셋업 + Azure mock 컨테이너 안정화 | flaky test는 CI 신뢰도/머지 속도 저하 | Trident에서 Docker/testcontainer/K8s 운영 경험 | flaky 디버깅은 재현성이 까다로워 PR 임팩트 입증이 핵심. 첫 Iceberg PR로는 부담 — Polaris #4451 후속이라는 의미로 #3247이 우선 | 4일 fresh / 코멘트 0건 / linked PR 0건 |
+| 🟢 1 | iceberg-python | [#3410](https://github.com/apache/iceberg-python/issues/3410) refactor sigv4 out of rest catalog | 리팩토링 | REST 카탈로그에서 sigv4 인증 로직 분리. `pyiceberg/catalog/rest.py` 내부 정리 | sigv4 코드가 REST catalog 본체에 강하게 결합 → 다른 auth scheme 확장/테스트 어려움 | 본인 in-progress [#3247](https://github.com/apache/iceberg-python/issues/3247)과 동일 파일(`rest.py`) 도메인 — 컨텍스트 재사용. Polaris #4451에서 auth/identity 흐름 학습 | 리팩토링이라 maintainer가 디자인 방향성(분리 단위, 인터페이스) 토론 가능성 | 4일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 (2026-05-28) |
+| 🟢 2 | Nessie | [#12429](https://github.com/projectnessie/nessie/issues/12429) [Feature]: add nessie GC to the helm chart | 인프라 (Helm) | 현재 Nessie Helm chart에 Nessie GC 컴포넌트가 빠져있음. Helm chart values + templates 추가 | Helm으로 Nessie 배포한 사용자가 GC 별도로 설정해야 하는 불편 | TwinX 운영 + ArgoCD/Helm 경험 직결 ([[project_trident_components]] Trident ArgoCD 작업 다수) | feature 추가라 maintainer가 디자인 의견 강하게 가질 수 있음, dev ML 토론 필요 가능성 | 6일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 |
+| 🟡 3 | iceberg-python | [#3388](https://github.com/apache/iceberg-python/issues/3388) fix(streaming-write): rolling ParquetWriter + OutputStream.tell() for spec-correct file sizes and bounded memory | 버그픽스 | 스트리밍 쓰기 시 파일 사이즈가 spec 위반 + 메모리 무경계. rolling ParquetWriter + `OutputStream.tell()` 도입 | 스트리밍 쓰기 안정성 + Iceberg spec 준수 | Trident ingest 영역 인접 ([[project_trident_ingest_todo]]) | 스트리밍 쓰기 경로 변경은 회귀 위험 — 테스트 커버리지 확보 필요 | 8일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 (2026-05-28) |
+| 🟡 4 | Iceberg | [#16581](https://github.com/apache/iceberg/issues/16581) SchemaUpdate cannot move a column by its new name after renameColumn in the same update | 버그 (question 라벨) | 한 SchemaUpdate 안에서 renameColumn 후 새 이름으로 moveColumn 호출 시 실패 | API 일관성 — 단일 update 내 연쇄 작업 지원 | Iceberg Java core 첫 진입 후보 | question 라벨이라 maintainer가 의도된 동작인지 토론 필요. 첫 Iceberg Java PR로 부담 | 1일 fresh / 코멘트 0건 / linked PR 0건 / assignee 0명 (2026-05-28) |
+| 🟡 5 | Iceberg | [#16530](https://github.com/apache/iceberg/issues/16530) Flaky tests in iceberg-azure integrationTest | 테스트 안정화 | `iceberg-azure:integrationTest`의 `TestADLSFileIO` / `TestADLSInputStream`이 testcontainer 환경에서 간헐 실패. CI 로그상 `ContainerFetchException`. testcontainer 셋업 + Azure mock 컨테이너 안정화 | flaky test는 CI 신뢰도/머지 속도 저하 | Trident에서 Docker/testcontainer/K8s 운영 경험 | flaky 디버깅은 재현성이 까다로워 PR 임팩트 입증이 핵심. 첫 Iceberg PR로는 부담 | 5일 fresh / 코멘트 0건 / linked PR 0건 |
 
 ## Merged
 
