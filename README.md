@@ -19,8 +19,7 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Nessie | [PR #12432](https://github.com/projectnessie/nessie/pull/12432) Normalize S3 scheme in IcebergConfigurer writeable derivation (issue [#12426](https://github.com/projectnessie/nessie/issues/12426)) | APPROVED, 머지 대기 | 2026-05-28 | dimas-b 5/27 green light → PR 제출. 5/29 dimas-b APPROVED 후 `normalizeS3Scheme(tableMetadata.location())` 반복 호출 제거 nit 제시. 5/30 `e117b1a` force-push로 normalized table location local variable화, inline 답변 완료. 로컬 검증: `:nessie-catalog-service-rest:spotlessCheck`, `:nessie-catalog-service-rest:test --tests org.projectnessie.catalog.service.rest.TestIcebergConfigurer` 성공. 6/01 dimas-b 최종 APPROVED. CI 전 체크 SUCCESS, CLA SUCCESS. 6/07 기준 7일째 머지 대기 — maintainer 바쁨으로 추정 |
-| iceberg-python | [#3247](https://github.com/apache/iceberg-python/issues/3247) LoadTable per-table config 머지 누락 | 의도 코멘트 게시, maintainer 답 대기 | 2026-05-27 | 첫 iceberg-python 진입, 멘션 없이 게시 ([comment](https://github.com/apache/iceberg-python/issues/3247#issuecomment-4551881977)). 5/27 게시 후 11일 무응답. ICLA 확인 후 fork → PR 진행 고려 중 |
+| Nessie | [PR #12432](https://github.com/projectnessie/nessie/pull/12432) Normalize S3 scheme in IcebergConfigurer writeable derivation (issue [#12426](https://github.com/projectnessie/nessie/issues/12426)) | APPROVED, 머지 대기 | 2026-05-28 | dimas-b 5/27 green light → PR 제출. 5/29 dimas-b APPROVED 후 `normalizeS3Scheme(tableMetadata.location())` 반복 호출 제거 nit 제시. 5/30 `e117b1a` force-push로 normalized table location local variable화, inline 답변 완료. 로컬 검증: `:nessie-catalog-service-rest:spotlessCheck`, `:nessie-catalog-service-rest:test --tests org.projectnessie.catalog.service.rest.TestIcebergConfigurer` 성공. 6/01 dimas-b 최종 APPROVED. CI 전 체크 SUCCESS, CLA SUCCESS. 6/15 기준 14일째 머지 대기. mergeable MERGEABLE / mergeStateStatus BLOCKED (충돌·CI 아님, maintainer 머지 액션만 남음). 6/15 머지 가능 여부 ping 게시 ([comment](https://github.com/projectnessie/nessie/pull/12432#issuecomment-4704566082)) |
 
 ## 정찰 완료 — 진입 가능 후보
 
@@ -52,6 +51,7 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 |---------|---------|------|
 | Kubeflow | [spark-operator#2924](https://github.com/kubeflow/spark-operator/issues/2924) EmptyDir medium not forwarded | **CLOSED** (2026-05-18). 본인 의도 코멘트만 남기고 종결됨, 후속 추적 종료 |
 | Milvus | [pymilvus#2724](https://github.com/milvus-io/pymilvus/issues/2724) pkg_resources deprecated | **CLOSED** (다른 사용자에 의해). 본인 데이터 포인트(setuptools 82.x hard failure) 코멘트로 milvus-io organization 진입 흔적 남김 |
+| iceberg-python | [#3247](https://github.com/apache/iceberg-python/issues/3247) LoadTable per-table config 머지 누락 | **추적 종료** (2026-06-15). 5/27 의도 코멘트 후 19일 무응답 — maintainer 관심 낮다고 판단, PR effort 미투입 |
 
 ## 정찰 완료, 회피한 후보
 
