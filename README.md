@@ -27,17 +27,17 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 활성 후보표는 지금 들어가도 충돌 가능성이 낮은 이슈만 둔다. 기본 기준은 linked PR 없음, assignee 없음, 명확한 작업자 없음이다. 설계 논의가 크거나 이미 해결·중복으로 보이는 이슈는 제외하고, 남길 만한 주의점은 다음 액션에 짧게 적는다.
 
-| 우선 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
-|---|---|---|---|---|
-| 🟢 1 | Nessie | [#12504](https://github.com/projectnessie/nessie/issues/12504) Iceberg REST `GET view` representation 누락 | 버그픽스 | import view 재현 환경을 먼저 만들고, metadata 변환 경로만 좁게 수정 |
-| 🟢 2 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 | 테스트/회귀 | 기존 JDBC/H2 테스트 구조 파악 후 NoSQL overlap 케이스를 일부 이식 |
-| 🟢 3 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | Quarkus/Micrometer 설정 방식 확인 필요. 설정 옵션/문서까지 같이 봐야 함 |
-| 🟡 4 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라/Release | release workflow 변경이라 maintainer 방향 확인 필요 |
-| 🟡 5 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | UPDATE retry만 좁히면 가능. CREATE race까지 포함하면 커짐 |
-| 🟡 6 | Iceberg | [#16767](https://github.com/apache/iceberg/issues/16767) unpartitioned table hash distribution columns | Spark 기능 | 기능 범위가 커서 design review 필요. 원작성자 기여 의향도 확인됨 |
-| 🟡 7 | Iceberg | [#16661](https://github.com/apache/iceberg/issues/16661) failed scan/commit metrics reporting | 관측성 | public report type/API 설계 확인 필요 |
-| ⚪ 8 | Iceberg | [#16741](https://github.com/apache/iceberg/issues/16741) REST staged create-or-replace transaction | REST Catalog | REST spec/API 설계라 첫 Iceberg 본체 PR로는 큼 |
-| ⚪ 9 | Iceberg | [#16675](https://github.com/apache/iceberg/issues/16675) Parquet footer aggregate metrics event | 관측성/Proposal | Spark write path + event framework 설계 필요 |
+| 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
+|---|---|---|---|---|---|
+| 🟢 1 | 2026-06-03 | Nessie | [#12504](https://github.com/projectnessie/nessie/issues/12504) Iceberg REST `GET view` representation 누락 | 버그픽스 | import view 재현 환경을 먼저 만들고, metadata 변환 경로만 좁게 수정 |
+| 🟢 2 | 2026-06-02 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 | 테스트/회귀 | 기존 JDBC/H2 테스트 구조 파악 후 NoSQL overlap 케이스를 일부 이식 |
+| 🟢 3 | 2026-06-17 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | Quarkus/Micrometer 설정 방식 확인 필요. 설정 옵션/문서까지 같이 봐야 함 |
+| 🟡 4 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라/Release | release workflow 변경이라 maintainer 방향 확인 필요 |
+| 🟡 5 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | UPDATE retry만 좁히면 가능. CREATE race까지 포함하면 커짐 |
+| 🟡 6 | 2026-06-11 | Iceberg | [#16767](https://github.com/apache/iceberg/issues/16767) unpartitioned table hash distribution columns | Spark 기능 | 기능 범위가 커서 design review 필요. 원작성자 기여 의향도 확인됨 |
+| 🟡 7 | 2026-06-02 | Iceberg | [#16661](https://github.com/apache/iceberg/issues/16661) failed scan/commit metrics reporting | 관측성 | public report type/API 설계 확인 필요 |
+| ⚪ 8 | 2026-06-09 | Iceberg | [#16741](https://github.com/apache/iceberg/issues/16741) REST staged create-or-replace transaction | REST Catalog | REST spec/API 설계라 첫 Iceberg 본체 PR로는 큼 |
+| ⚪ 9 | 2026-06-03 | Iceberg | [#16675](https://github.com/apache/iceberg/issues/16675) Parquet footer aggregate metrics event | 관측성/Proposal | Spark write path + event framework 설계 필요 |
 
 ## Merged
 
