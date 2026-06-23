@@ -13,7 +13,7 @@
 | Apache Polaris | #4451 머지, #4594 의도 댓글 게시 | #4594 진행 후 #4600/#4802 중 작은 것 검토 |
 | Project Nessie | #12424/#12425/#12431/#12432 머지, #12602 open | #12602 CI/리뷰 대응 후 #12503 검토 |
 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | linked PR 없는 작고 명확한 이슈만 재정찰 |
-| Kubernetes SIGs | 진입 탐색 중 | 운영 경험과 맞는 docs/test/작은 bug 후보만 선별 |
+| Kubernetes SIGs | 후보 4건 선별 | `kindnet` #113 또는 `mcp-lifecycle-operator` #135부터 검토 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
@@ -25,18 +25,20 @@
 
 ## 정찰 완료 — 진입 가능 후보
 
-활성 후보표는 지금 들어가도 충돌 가능성이 낮은 이슈만 둔다. 기본 기준은 linked PR 없음, assignee 없음, 명확한 작업자 없음이다. 설계 논의가 크거나 이미 해결·중복으로 보이는 이슈는 제외하고, 남길 만한 주의점은 다음 액션에 짧게 적는다.
+활성 후보표는 지금 들어가도 충돌 가능성이 낮은 이슈만 최대 10개로 유지한다. 기본 기준은 linked PR 없음, assignee 없음, 명확한 작업자 없음이다. Kubernetes SIGs 후보는 운영 경험과 맞는 항목만 보조 트랙으로 둔다.
 
 | 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
 |---|---|---|---|---|---|
 | 🟢 1 | 2026-06-02 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 | 테스트/회귀 | 기존 JDBC/H2 테스트 구조 파악 후 NoSQL overlap 케이스를 일부 이식 |
 | 🟢 2 | 2026-06-17 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | Quarkus/Micrometer 설정 방식 확인 필요. 설정 옵션/문서까지 같이 봐야 함 |
 | 🟢 3 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라/Release | release workflow 변경이라 maintainer 방향 확인 필요 |
-| 🟡 4 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | UPDATE retry만 좁히면 가능. CREATE race까지 포함하면 커짐 |
-| 🟡 5 | 2026-06-11 | Iceberg | [#16767](https://github.com/apache/iceberg/issues/16767) unpartitioned table hash distribution columns | Spark 기능 | 기능 범위가 커서 design review 필요. 원작성자 기여 의향도 확인됨 |
-| 🟡 6 | 2026-06-02 | Iceberg | [#16661](https://github.com/apache/iceberg/issues/16661) failed scan/commit metrics reporting | 관측성 | public report type/API 설계 확인 필요 |
-| ⚪ 7 | 2026-06-09 | Iceberg | [#16741](https://github.com/apache/iceberg/issues/16741) REST staged create-or-replace transaction | REST Catalog | REST spec/API 설계라 첫 Iceberg 본체 PR로는 큼 |
-| ⚪ 8 | 2026-06-03 | Iceberg | [#16675](https://github.com/apache/iceberg/issues/16675) Parquet footer aggregate metrics event | 관측성/Proposal | Spark write path + event framework 설계 필요 |
+| 🟢 4 | 2026-06-16 | Kubernetes SIGs / kindnet | [#113](https://github.com/kubernetes-sigs/kindnet/issues/113) CRI runtime API upgrade build break | Kubernetes/Go | 닫힌 PR #105의 수정 방향 재확인 후 `remote.NewRemoteRuntimeService` 인자 업데이트 |
+| 🟢 5 | 2026-04-29 | Kubernetes SIGs / mcp-lifecycle-operator | [#135](https://github.com/kubernetes-sigs/mcp-lifecycle-operator/issues/135) Helm installation documentation | 문서/Helm | chart 설치 흐름 확인 후 quickstart, values, 검증 명령 정리 |
+| 🟡 6 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | UPDATE retry만 좁히면 가능. CREATE race까지 포함하면 커짐 |
+| 🟡 7 | 2026-05-14 | Kubernetes SIGs / mcp-lifecycle-operator | [#177](https://github.com/kubernetes-sigs/mcp-lifecycle-operator/issues/177) E2E test coverage instrumentation | 테스트/CI | 현재 e2e runner 확인 후 coverage flag/artifact 범위를 작게 잡아야 함 |
+| 🟡 8 | 2026-05-27 | Kubernetes SIGs / cluster-api-provider-aws | [#6033](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6033) e2e에서 `kindest/node` prebuilt image 대신 kind node image build | E2E/infra | e2e 영향이 커서 로컬 재현과 기존 kind image build path 확인이 먼저 |
+| 🟡 9 | 2026-06-11 | Iceberg | [#16767](https://github.com/apache/iceberg/issues/16767) unpartitioned table hash distribution columns | Spark 기능 | 기능 범위가 커서 design review 필요. 원작성자 기여 의향도 확인됨 |
+| 🟡 10 | 2026-06-02 | Iceberg | [#16661](https://github.com/apache/iceberg/issues/16661) failed scan/commit metrics reporting | 관측성 | public report type/API 설계 확인 필요 |
 
 ## Merged
 
