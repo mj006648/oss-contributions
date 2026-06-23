@@ -27,17 +27,17 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 활성 후보표는 지금 들어가도 충돌 가능성이 낮은 이슈만 둔다. 기본 기준은 linked PR 없음, assignee 없음, 명확한 작업자 없음이다. 설계 논의가 크거나 이미 해결·중복으로 보이는 이슈는 제외하고, 예외는 상태 칸에 짧게 남긴다.
 
-| 우선 | 생성일 | 프로젝트 | 이슈 | 작업 종류 | 무엇 | 왜 필요 | 본인 강점 | 위험 | 상태 |
-|---|---|---|---|---|---|---|---|---|---|
-| 🟢 1 | 2026-06-03 | Nessie | [#12504](https://github.com/projectnessie/nessie/issues/12504) Iceberg REST `GET view`가 import view의 `representations` 누락 | 버그픽스 | metadata-location import된 view(Dremio류)에서 REST `GET view`가 `versions[].representations: []` 반환 — object storage엔 존재 | view 메타데이터 정합성. REST client가 view SQL representation을 읽지 못하는 문제 | Trident에서 Iceberg view/REST 다룸. 최근 Nessie 머지 4건으로 reviewer context 있음 | view metadata import 경로 재현 환경 필요 | 충돌 낮음 |
-| 🟢 2 | 2026-06-02 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 보강 | 테스트/회귀 | NoSQL에는 overlap location coverage가 있는데 JDBC/H2 쪽 추가 시나리오가 부족 | storage location overlap bug 재발 방지 | S3 path normalization/Nessie S3 scheme PR 경험과 연결됨. 테스트 중심이라 진입 안전 | #4580 이후 remaining coverage라 기존 테스트 구조 파악 필요 | 충돌 낮음 |
-| 🟢 3 | 2026-06-17 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP server request duration histogram buckets | 운영/관측성 | Micrometer/Prometheus HTTP timer가 `_bucket` 시계열을 내보내지 않아 `histogram_quantile` 기반 p95/p99 대시보드·알림이 불가 | 운영 환경에서 평균/최대만으로는 latency SLO 판단이 어려움 | TwinX/Prometheus/Grafana 운영 경험. Micrometer 설정 기반이면 scope 비교적 작음 | Quarkus/Micrometer 설정 방식 합의 필요 | 충돌 낮음 |
-| 🟡 4 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라/Release | deprecated index.yaml 대신 OCI artifact로 Helm chart 퍼블리시 요청 | 현대적 Helm 소비 방식 지원 | TwinX Helm/OCI 운영 경험 직결 | release workflow 변경이라 maintainer 디자인 합의 선행 | 충돌 낮음 |
-| 🟡 5 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification CREATE/UPDATE concurrent modification retry | 버그픽스 | external table notification 중 동시 수정이 있으면 CREATE/UPDATE가 retry 없이 실패 | concurrent metadata update 안정성 | Polaris REST/catalog 운영 관심사와 맞음. UPDATE retry만 좁히면 scope 관리 가능 | CREATE→UPDATE race까지 포함하면 커짐. retry utility/pattern 확인 필요 | 충돌 낮음 |
-| 🟡 6 | 2026-06-11 | Iceberg | [#16767](https://github.com/apache/iceberg/issues/16767) unpartitioned table custom hash distribution columns | Spark 기능 | unpartitioned table에서 `write.distribution-mode=hash`가 `NONE`으로 내려가 file count 제어가 어려움 | streaming/unpartitioned write file sizing 제어 | Spark/Iceberg 운영 이슈라 연구 스택과 맞음 | 작성자가 독립 기여 가능 체크. feature scope 크고 design review 필요 | 충돌 낮음 / 원작성자 기여 의향 있음 |
-| 🟡 7 | 2026-06-02 | Iceberg | [#16661](https://github.com/apache/iceberg/issues/16661) failed scans/commits를 `MetricsReporter`에 보고 | Core/관측성 | 현재 `MetricsReporter`는 성공한 scan/commit만 관측, 실패율·conflict·retry exhaustion 관측 불가 | 운영 관측성 및 RESTMetricsReporter 확장 가능성 | 관측성/운영 경험과 맞음 | 새 public report type 여부 등 API 설계 합의 필요. 작성자가 독립 기여 가능 체크 | 설계 확인 필요 |
-| ⚪ 8 | 2026-06-09 | Iceberg | [#16741](https://github.com/apache/iceberg/issues/16741) REST staged create-or-replace transaction primitive | REST Catalog 기능 | non-Java REST client가 Java `createOrReplaceTransaction()`과 동등한 safe primitive를 갖지 못함 | DuckDB/C++ 등 non-Java client의 atomic create-or-replace 지원 | REST catalog/Trident 연구와 잘 맞음 | REST spec/API 설계라 매우 큼. 첫 Iceberg 본체 PR로는 부담 | 대형 설계 |
-| ⚪ 9 | 2026-06-03 | Iceberg | [#16675](https://github.com/apache/iceberg/issues/16675) Spark write-time Parquet footer aggregate metrics event | Proposal/관측성 | wide table의 physical/storage metrics를 manifest에 저장하지 않고 commit-time event로 emit | metadata bloat 없이 observability 확보 | 운영 관측성 관심사와 맞음 | proposal 라벨. Spark write path + event framework 설계가 커서 장기 관망 | proposal 단계 |
+| 우선 | 프로젝트 | 이슈 | 성격 | 왜 볼만한가 | 다음 액션 / 리스크 | 상태 |
+|---|---|---|---|---|---|---|
+| 🟢 1 | Nessie | [#12504](https://github.com/projectnessie/nessie/issues/12504) Iceberg REST `GET view` representation 누락 | 버그픽스 | Trident의 Iceberg REST/view 경로와 직접 연결됨. 최근 Nessie 머지 경험도 활용 가능 | import view 재현 환경을 먼저 만들고, metadata 변환 경로만 좁게 수정 | 충돌 낮음 |
+| 🟢 2 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 | 테스트/회귀 | 기능 추가보다 안전한 테스트 보강. S3 path normalization 경험과도 연결됨 | 기존 JDBC/H2 테스트 구조 파악 후 NoSQL overlap 케이스를 일부 이식 | 충돌 낮음 |
+| 🟢 3 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | Prometheus/Grafana 운영 경험을 살리기 좋음. p95/p99 관측성 문제도 명확함 | Quarkus/Micrometer 설정 방식 확인 필요. 설정 옵션/문서까지 같이 봐야 함 | 충돌 낮음 |
+| 🟡 4 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라/Release | Helm/OCI 운영 경험과 맞음 | release workflow 변경이라 maintainer 방향 확인 필요 | 충돌 낮음 |
+| 🟡 5 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | Polaris REST/catalog 안정성 이슈 | UPDATE retry만 좁히면 가능. CREATE race까지 포함하면 커짐 | 충돌 낮음 |
+| 🟡 6 | Iceberg | [#16767](https://github.com/apache/iceberg/issues/16767) unpartitioned table hash distribution columns | Spark 기능 | Spark/Iceberg write 운영 이슈와 연결됨 | 기능 범위가 커서 design review 필요 | 원작성자 기여 의향 있음 |
+| 🟡 7 | Iceberg | [#16661](https://github.com/apache/iceberg/issues/16661) failed scan/commit metrics reporting | 관측성 | 실패율·conflict 관측은 운영 가치가 큼 | public report type/API 설계 확인 필요 | 설계 확인 필요 |
+| ⚪ 8 | Iceberg | [#16741](https://github.com/apache/iceberg/issues/16741) REST staged create-or-replace transaction | REST Catalog | REST catalog/Trident 연구와 잘 맞음 | REST spec/API 설계라 첫 Iceberg 본체 PR로는 큼 | 대형 설계 |
+| ⚪ 9 | Iceberg | [#16675](https://github.com/apache/iceberg/issues/16675) Parquet footer aggregate metrics event | 관측성/Proposal | metadata bloat 없이 storage metrics 관측 가능 | Spark write path + event framework 설계 필요 | proposal 단계 |
 
 ## Merged
 
@@ -57,7 +57,7 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 |---|---|---|---|
 | 1 | Apache Polaris | #4451 머지, #4594 intent comment 게시 | #4594 구현 후 필요하면 #4600/#4802 검토 |
 | 2 | Project Nessie | #12424/#12425/#12431/#12432 머지 | #12504/#12503 중 작게 끝낼 수 있는 것만 선별 |
-| 3 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | linked PR 없는 작고 명확한 이슈만 재정찰 |
+| 3 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | 작고 명확한 이슈만 재정찰 |
 | 4 | Kubernetes/infra orgs | 적극 정찰 중단 | 실제 운영 중 직접 발견한 버그만 이슈/PR 검토 |
 | 5 | 기타 orgs | 배지 목적 정찰 중단 | thesis/lakehouse와 직접 연결될 때만 진입 |
 
