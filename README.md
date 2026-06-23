@@ -22,6 +22,7 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
 | Polaris | [#4594](https://github.com/apache/polaris/issues/4594) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | intent comment 게시 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시. 다음 단계: wiring 추적 → 불필요한 `MetricsPersistence` setup 제거 → 관련 테스트 업데이트. |
+| Nessie | [#12602](https://github.com/projectnessie/nessie/pull/12602) Iceberg view import 시 SQL representation 보존 ([#12504](https://github.com/projectnessie/nessie/issues/12504)) | PR open | 2026-06-23 | metadata-location import 변환 경로에서 `currentVersion.representations()`를 Nessie snapshot에 보존. 관련 단위 테스트 + `spotlessCheck` 통과. |
 
 ## 정찰 완료 — 진입 가능 후보
 
@@ -29,15 +30,14 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
 |---|---|---|---|---|---|
-| 🟢 1 | 2026-06-03 | Nessie | [#12504](https://github.com/projectnessie/nessie/issues/12504) Iceberg REST `GET view` representation 누락 | 버그픽스 | import view 재현 환경을 먼저 만들고, metadata 변환 경로만 좁게 수정 |
-| 🟢 2 | 2026-06-02 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 | 테스트/회귀 | 기존 JDBC/H2 테스트 구조 파악 후 NoSQL overlap 케이스를 일부 이식 |
-| 🟢 3 | 2026-06-17 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | Quarkus/Micrometer 설정 방식 확인 필요. 설정 옵션/문서까지 같이 봐야 함 |
-| 🟡 4 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라/Release | release workflow 변경이라 maintainer 방향 확인 필요 |
-| 🟡 5 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | UPDATE retry만 좁히면 가능. CREATE race까지 포함하면 커짐 |
-| 🟡 6 | 2026-06-11 | Iceberg | [#16767](https://github.com/apache/iceberg/issues/16767) unpartitioned table hash distribution columns | Spark 기능 | 기능 범위가 커서 design review 필요. 원작성자 기여 의향도 확인됨 |
-| 🟡 7 | 2026-06-02 | Iceberg | [#16661](https://github.com/apache/iceberg/issues/16661) failed scan/commit metrics reporting | 관측성 | public report type/API 설계 확인 필요 |
-| ⚪ 8 | 2026-06-09 | Iceberg | [#16741](https://github.com/apache/iceberg/issues/16741) REST staged create-or-replace transaction | REST Catalog | REST spec/API 설계라 첫 Iceberg 본체 PR로는 큼 |
-| ⚪ 9 | 2026-06-03 | Iceberg | [#16675](https://github.com/apache/iceberg/issues/16675) Parquet footer aggregate metrics event | 관측성/Proposal | Spark write path + event framework 설계 필요 |
+| 🟢 1 | 2026-06-02 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 | 테스트/회귀 | 기존 JDBC/H2 테스트 구조 파악 후 NoSQL overlap 케이스를 일부 이식 |
+| 🟢 2 | 2026-06-17 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | Quarkus/Micrometer 설정 방식 확인 필요. 설정 옵션/문서까지 같이 봐야 함 |
+| 🟢 3 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라/Release | release workflow 변경이라 maintainer 방향 확인 필요 |
+| 🟡 4 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | UPDATE retry만 좁히면 가능. CREATE race까지 포함하면 커짐 |
+| 🟡 5 | 2026-06-11 | Iceberg | [#16767](https://github.com/apache/iceberg/issues/16767) unpartitioned table hash distribution columns | Spark 기능 | 기능 범위가 커서 design review 필요. 원작성자 기여 의향도 확인됨 |
+| 🟡 6 | 2026-06-02 | Iceberg | [#16661](https://github.com/apache/iceberg/issues/16661) failed scan/commit metrics reporting | 관측성 | public report type/API 설계 확인 필요 |
+| ⚪ 7 | 2026-06-09 | Iceberg | [#16741](https://github.com/apache/iceberg/issues/16741) REST staged create-or-replace transaction | REST Catalog | REST spec/API 설계라 첫 Iceberg 본체 PR로는 큼 |
+| ⚪ 8 | 2026-06-03 | Iceberg | [#16675](https://github.com/apache/iceberg/issues/16675) Parquet footer aggregate metrics event | 관측성/Proposal | Spark write path + event framework 설계 필요 |
 
 ## Merged
 
@@ -56,7 +56,7 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 | 우선 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|---|
 | 1 | Apache Polaris | #4451 머지, #4594 intent comment 게시 | #4594 구현 후 필요하면 #4600/#4802 검토 |
-| 2 | Project Nessie | #12424/#12425/#12431/#12432 머지 | #12504/#12503 중 작게 끝낼 수 있는 것만 선별 |
+| 2 | Project Nessie | #12424/#12425/#12431/#12432 머지, #12602 open | #12602 리뷰 대응 후 #12503 검토 |
 | 3 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | 작고 명확한 이슈만 재정찰 |
 | 4 | Kubernetes/infra orgs | 적극 정찰 중단 | 실제 운영 중 직접 발견한 버그만 이슈/PR 검토 |
 | 5 | 기타 orgs | 배지 목적 정찰 중단 | thesis/lakehouse와 직접 연결될 때만 진입 |
