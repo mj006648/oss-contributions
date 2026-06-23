@@ -1,5 +1,7 @@
 # OSS Contributions Tracker
 
+> Last updated: 2026-06-23
+
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
 ## 기여 집중 전략
@@ -19,31 +21,38 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Nessie | [PR #12432](https://github.com/projectnessie/nessie/pull/12432) Normalize S3 scheme in IcebergConfigurer writeable derivation (issue [#12426](https://github.com/projectnessie/nessie/issues/12426)) | APPROVED, 머지 대기 | 2026-05-28 | dimas-b 5/27 green light → PR 제출. 5/29 dimas-b APPROVED 후 `normalizeS3Scheme(tableMetadata.location())` 반복 호출 제거 nit 제시. 5/30 `e117b1a` force-push로 normalized table location local variable화, inline 답변 완료. 로컬 검증: `:nessie-catalog-service-rest:spotlessCheck`, `:nessie-catalog-service-rest:test --tests org.projectnessie.catalog.service.rest.TestIcebergConfigurer` 성공. 6/01 dimas-b 최종 APPROVED. CI 전 체크 SUCCESS, CLA SUCCESS. 6/15 기준 14일째 머지 대기. mergeable MERGEABLE / mergeStateStatus BLOCKED (충돌·CI 아님, maintainer 머지 액션만 남음). 6/15 머지 가능 여부 ping 게시 ([comment](https://github.com/projectnessie/nessie/pull/12432#issuecomment-4704566082)) |
+| - | - | 없음 | - | 2026-06-23 기준 열린 본인 PR 없음. 다음 진입은 PyIceberg 코드 PR 또는 Iceberg 본체 PR 우선. |
 
 ## 정찰 완료 — 진입 가능 후보
 
-다음 PR로 검토 중인 이슈들. 룰: linked PR 0건 (`closedByPullRequestsReferences` + `CROSS_REFERENCED_EVENT` GraphQL 엄격 검증), assignee 0명, 사람 코멘트 0건 (stale bot 만 허용).
+다음 PR로 검토 중인 이슈들. 룰: linked PR 0건 (`closedByPullRequestsReferences` + `CROSS_REFERENCED_EVENT` GraphQL 엄격 검증), assignee 0명, 사람 코멘트 0건 (stale bot 만 허용). 예외는 표의 상태 칸에 명시한다.
 
-2026-06-15 재정찰 — 전 후보 GraphQL 엄격 재검증 + 신규 후보 추가. Nessie/Polaris는 이미 머지 실적 있어, 미진입 영역(iceberg-python 코드 PR, Iceberg 본체) 가중. #12429는 maintainer가 원작자에게 기여 의향 물음 → 회피로 이동.
+2026-06-23 재정찰 — 기존 후보 전부 GraphQL 재검증. Nessie [PR #12432](https://github.com/projectnessie/nessie/pull/12432)는 2026-06-19 머지되어 `Merged`로 이동. Polaris #4744, PyIceberg #3522/#3508/#3506, Polaris #4804/#4801/#4771/#4769, Iceberg #16905/#16932 등은 이미 open PR이 생겨 회피로 이동. 신규 CLEAN 후보로 Polaris #4802만 추가.
 
 | 우선 | 프로젝트 | 이슈 | 작업 종류 | 무엇 | 왜 필요 | 본인 강점 | 위험 | 상태 |
 |---|---|---|---|---|---|---|---|---|
-| 🟢 1 | iceberg-python | [#3084](https://github.com/apache/iceberg-python/issues/3084) v3 `write_default=None` vs 미설정 구분 불가 | 버그픽스 | `add_column(default_value=None)`과 default 미지정이 동일하게 `write_default=None`으로 저장됨 — v3 spec에서 이 둘은 의미가 다름 | None explicit 설정과 unset 구분이 안 되면 schema evolution 시 기본값 손실 위험 | Trident에서 PyIceberg v3 default 관련 작업 경험. 이슈 작성자가 "독립 기여 가능" 체크 → 디자인 방향 명확. **iceberg-python 첫 코드 PR (미진입 영역)** | v3 spec 이해 필요. schema update 경로 변경이라 테스트 꼼꼼히 필요 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-02-23 생성 / 2026-06-15 재검증 |
-| 🟢 2 | iceberg-python | [#3108](https://github.com/apache/iceberg-python/issues/3108) `data_file_statistics_from_parquet_metadata()` 인자 불일치 | 버그픽스 | `pyarrow.py` 한 곳에서만 `parquet_metadata` 인자를 `read_metadata()` 결과가 아닌 raw 방식으로 전달 → 암호화 PyArrow 환경에서 `Cannot decrypt ColumnMetadata` 에러 | API 일관성 + 암호화 PyArrow 사용자 호환성 | `pyarrow.py` 단일 파일, 인자 전달 방식 통일로 scope 명확. 작고 집중된 첫 PyIceberg 코드 PR | 라벨 없음, 3개월 무응답 → maintainer 관심도 낮을 수 있음. 암호화 PyArrow 없이 재현 어려움 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-02-27 생성 / 2026-06-15 재검증 |
-| 🟢 3 | Nessie | [#12130](https://github.com/projectnessie/nessie/issues/12130) `/history/merge` boolean `dryRun` 역직렬화 버그 | 버그픽스 | API의 boolean `dryRun` 필드가 `isDryRun`으로 잘못 매핑 (Jackson getter 네이밍 충돌 추정). 재현 curl 제공됨 | API 동작 정확성 | scope 작고 재현 명확. Nessie 코드 PR 첫 진입에 가장 안전 (dimas-b 관계) | 낮음. JSON 직렬화 어노테이션 수정 수준일 가능성 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-02-24 생성 / 2026-06-15 검증 |
-| 🟡 4 | Nessie | [#12504](https://github.com/projectnessie/nessie/issues/12504) Iceberg REST `GET view`가 import view의 `representations` 누락 | 버그픽스 | metadata-location import된 view(Dremio류)에서 REST `GET view`가 `versions[].representations: []` 반환 — object storage엔 존재 | view 메타데이터 정합성 | Trident에서 Iceberg view/REST 다룸 | view 메타데이터 로딩 경로 이해 필요. import 경로 재현 환경 필요 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-06-03 생성 / 2026-06-15 검증 |
-| 🟡 5 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라 (Helm/Release) | deprecated index.yaml 대신 OCI artifact로 Helm chart 퍼블리시 요청 | 현대적 Helm 소비 방식 지원 | TwinX Helm/OCI 운영 경험 직결 | release 워크플로(CI) 변경이라 maintainer 디자인 합의 선행 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-06-03 생성 / 2026-06-15 검증 |
-| 🟡 6 | Nessie | [#12398](https://github.com/projectnessie/nessie/issues/12398) [Bug]: Metrics Endpoint Missing Since v0.107.5 | 버그픽스 (회귀) | v0.107.5부터 `/q/metrics` 404. `micrometer simpleclient` 제거 PR #12336이 유력 원인 | 모니터링 엔드포인트 회귀 — 운영 임팩트 | dimas-b 리뷰 관계 | PR #12336이 의도된 변경이면 docs/마이그레이션 가이드 PR로 전환 필요 | CLEAN / 2026-05-04 생성 / 2026-06-15 재검증 |
-| 🟡 7 | iceberg-python | [#2785](https://github.com/apache/iceberg-python/issues/2785) `S3FileSystem.close_session` event loop 충돌 | 버그픽스 | `threading.local()`에 aiobotocore S3FileSystem 저장 → GC 시점 다른 loop에 Future 붙어 `RuntimeError`. concurrent 쿼리 환경에서 재현. PR #2495 revert 또는 session lifecycle 재설계 필요 | concurrent S3 접근 시 프로그램 종료 오류 → 운영 안정성 | async/S3 관련 Trident ingest 경험 | async/aiobotocore/aiohttp 내부 동작 이해 필요. concurrent 환경 재현 어려움 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 stale bot만) / 2025-11-26 생성 / 2026-06-15 재검증 |
-| 🟡 8 | Nessie | [#11767](https://github.com/projectnessie/nessie/issues/11767) commit log를 Iceberg snapshotId(CEL)로 필터링 | 기능 | V2 API commit log 필터가 top-level 필드만 지원 → Content의 snapshotId 필터 불가. 테이블 생성 이벤트(`snapshotId:-1`) 식별 use case | commit log 필터링 표현력 | CEL/commit log 이해 | feature 추가 → 디자인 토론 가능. 첫 PR로는 부담 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2025-12-19 생성 / 2026-06-15 검증 |
-| ⚪ 9 | Polaris | [#4744](https://github.com/apache/polaris/issues/4744) static map 초기화를 `Map.ofEntries()`로 리팩터 | 리팩터 | 고정 map의 `HashMap`+`put()` 패턴을 `Map.ofEntries()`로 단순화 | 코드 간결성 | 매우 쉬움. 단 이미 Polaris 머지 실적 있어 우선도 낮음 | 리팩터 이슈는 경쟁 빠름 (분 단위 PR). good-first 노림수일 뿐 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-06-13 생성 / 2026-06-15 검증 |
-| 🔴 10 | Nessie | [#12363](https://github.com/projectnessie/nessie/issues/12363) Sweep phase deletes live files when multiple content IDs share base location | 버그픽스 (Critical, 보류) | GC sweep이 공유 base location에서 live snapshot 파일을 삭제. 데이터 손실 버그. 재현·원인 분석 완벽 | 데이터 손실 — 이론적 임팩트 최대 | Iceberg/Nessie commit 모델 이해 | GC 알고리즘 (bloom filter 격리 → cross-content-id aggregation) 변경은 senior reviewer 요구. dimas-b/snazy가 직접 처리할 가능성 | 메모만 — CLEAN / 2026-04-22 생성 / 2026-06-15 재검증 |
+| 🟢 1 | iceberg-python | [#3084](https://github.com/apache/iceberg-python/issues/3084) v3 `write_default=None` vs 미설정 구분 불가 | 버그픽스 | `add_column(default_value=None)`과 default 미지정이 동일하게 `write_default=None`으로 저장됨 — v3 spec에서 이 둘은 의미가 다름 | None explicit 설정과 unset 구분이 안 되면 schema evolution 시 기본값 손실 위험 | Trident에서 PyIceberg v3 default 관련 작업 경험. **iceberg-python 첫 코드 PR (미진입 영역)** | v3 spec 이해 필요. schema update 경로 변경이라 테스트 꼼꼼히 필요. 이슈 작성자가 독립 기여 가능 체크했으므로 intent comment 후 충돌 확인 필요 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-02-23 생성 / 2026-06-23 재검증 |
+| 🟢 2 | iceberg-python | [#3108](https://github.com/apache/iceberg-python/issues/3108) `data_file_statistics_from_parquet_metadata()` 인자 불일치 | 버그픽스 | `pyarrow.py` 한 곳에서만 `parquet_metadata` 인자를 `read_metadata()` 결과가 아닌 raw 방식으로 전달 → 암호화 PyArrow 환경에서 `Cannot decrypt ColumnMetadata` 에러 | API 일관성 + 암호화 PyArrow 사용자 호환성 | `pyarrow.py` 단일 파일, 인자 전달 방식 통일로 scope 명확. 작고 집중된 첫 PyIceberg 코드 PR | 라벨 없음, 장기간 무응답 → maintainer 관심도 낮을 수 있음. 암호화 PyArrow 없이 재현 어려움 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-02-27 생성 / 2026-06-23 재검증 |
+| 🟢 3 | Nessie | [#12130](https://github.com/projectnessie/nessie/issues/12130) `/history/merge` boolean `dryRun` 역직렬화 버그 | 버그픽스 | API의 boolean `dryRun` 필드가 `isDryRun`으로 잘못 매핑 (Jackson getter 네이밍 충돌 추정). 재현 curl 제공됨 | API 동작 정확성 | scope 작고 재현 명확. Nessie 리뷰어 관계 이미 형성 | 낮음. JSON 직렬화 어노테이션 수정 수준일 가능성 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-02-24 생성 / 2026-06-23 재검증 |
+| 🟡 4 | Nessie | [#12504](https://github.com/projectnessie/nessie/issues/12504) Iceberg REST `GET view`가 import view의 `representations` 누락 | 버그픽스 | metadata-location import된 view(Dremio류)에서 REST `GET view`가 `versions[].representations: []` 반환 — object storage엔 존재 | view 메타데이터 정합성 | Trident에서 Iceberg view/REST 다룸 | view 메타데이터 로딩 경로 이해 필요. import 경로 재현 환경 필요 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-06-03 생성 / 2026-06-23 재검증 |
+| 🟡 5 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | 인프라 (Helm/Release) | deprecated index.yaml 대신 OCI artifact로 Helm chart 퍼블리시 요청 | 현대적 Helm 소비 방식 지원 | TwinX Helm/OCI 운영 경험 직결 | release 워크플로(CI) 변경이라 maintainer 디자인 합의 선행 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-06-03 생성 / 2026-06-23 재검증 |
+| 🟡 6 | iceberg-python | [#2785](https://github.com/apache/iceberg-python/issues/2785) `S3FileSystem.close_session` event loop 충돌 | 버그픽스 | `threading.local()`에 aiobotocore S3FileSystem 저장 → GC 시점 다른 loop에 Future 붙어 `RuntimeError`. concurrent 쿼리 환경에서 재현. PR #2495 revert 또는 session lifecycle 재설계 필요 | concurrent S3 접근 시 프로그램 종료 오류 → 운영 안정성 | async/S3 관련 Trident ingest 경험 | async/aiobotocore/aiohttp 내부 동작 이해 필요. concurrent 환경 재현 어려움 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 stale bot만) / 2025-11-26 생성 / 2026-06-23 재검증 |
+| 🟡 7 | Nessie | [#11767](https://github.com/projectnessie/nessie/issues/11767) commit log를 Iceberg snapshotId(CEL)로 필터링 | 기능 | V2 API commit log 필터가 top-level 필드만 지원 → Content의 snapshotId 필터 불가. 테이블 생성 이벤트(`snapshotId:-1`) 식별 use case | commit log 필터링 표현력 | CEL/commit log 이해 | feature 추가 → 디자인 토론 가능. 첫 PR로는 부담 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2025-12-19 생성 / 2026-06-23 재검증 |
+| ⚪ 8 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP server request duration histogram buckets | 운영/관측성 | Micrometer/Prometheus HTTP timer가 `_bucket` 시계열을 내보내지 않아 `histogram_quantile` 기반 p95/p99 대시보드·알림이 불가 | 운영 환경에서 평균/최대만으로는 latency SLO 판단이 어려움 | TwinX/Prometheus/Grafana 운영 경험. Micrometer 설정 기반이면 scope 비교적 작음 | Polaris는 이미 머지 실적 있음. Quarkus/Micrometer 설정 방식 합의 필요 | CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-06-17 생성 / 2026-06-23 신규 검증 |
+| 🔴 9 | Nessie | [#12363](https://github.com/projectnessie/nessie/issues/12363) Sweep phase deletes live files when multiple content IDs share base location | 버그픽스 (Critical, 보류) | GC sweep이 공유 base location에서 live snapshot 파일을 삭제. 데이터 손실 버그. 재현·원인 분석 완벽 | 데이터 손실 — 이론적 임팩트 최대 | Iceberg/Nessie commit 모델 이해 | GC 알고리즘 (bloom filter 격리 → cross-content-id aggregation) 변경은 senior reviewer 요구. dimas-b/snazy가 직접 처리할 가능성 | 메모만 — CLEAN (linked PR 0, assignee 0, 사람 코멘트 0) / 2026-04-22 생성 / 2026-06-23 재검증 |
+
+### 관망 / 조건부 후보
+
+| 프로젝트 | 이슈 | 판단 | 다음 액션 |
+|---------|------|------|----------|
+| Nessie | [#12398](https://github.com/projectnessie/nessie/issues/12398) Metrics Endpoint Missing Since v0.107.5 | 회귀 버그라 임팩트 높지만 2026-06-17 dimas-b가 원 작성자/확인자에게 PR 가능 여부를 먼저 물음 | 3~7일 더 대기. 답 없으면 "If nobody is on this..." intent comment 후 진행 |
+| iceberg-python | [#3543](https://github.com/apache/iceberg-python/issues/3543) constant BooleanExpression truthiness | linked PR 0이지만 rambleraptor가 설계 우려 코멘트. 단순 구현보다 API semantics 합의가 먼저 | `AlwaysFalse` missing-expression 처리 audit만 좁혀서 제안 가능. 지금 바로 PR은 보류 |
 
 ## Merged
 
 | 프로젝트 | PR | 머지일 | 비고 |
 |---------|----|--------|------|
+| Nessie | [#12432](https://github.com/projectnessie/nessie/pull/12432) Normalize S3 scheme in IcebergConfigurer writeable derivation (issue #12426) | 2026-06-19 | dimas-b 6/16 @snazy 의견 요청 → snazy 6/19 LGTM APPROVED 직후 머지. `s3a://`/`s3n://` table metadata location을 `s3://` warehouse prefix와 비교할 때 normalize해서 S3 signer `writeable[]` 누락을 수정. 로컬 검증: `:nessie-catalog-service-rest:spotlessCheck`, `:nessie-catalog-service-rest:test --tests org.projectnessie.catalog.service.rest.TestIcebergConfigurer`. **4번째 Nessie 머지, 5번째 lakehouse upstream 머지 기여** |
 | Polaris | [#4451](https://github.com/apache/polaris/pull/4451) docs: add production configuration pages for AWS S3 and Azure Blob storage (issue #1325) | 2026-05-27 | dimas-b + flyrain 2-round 리뷰 반영 후 머지. AWS S3 + Azure Blob 두 production config 페이지 신규 추가. flyrain의 "3개 IAM identity 다뤄달라" 요청 반영해 IAM identities overview + Polaris service identity 섹션 추가. **첫 Polaris 머지, 4번째 Apache 머지 기여** |
 | Nessie | [#12431](https://github.com/projectnessie/nessie/pull/12431) CLI `--stdout`/`-S` for stream-backed terminal (issue #10865) | 2026-05-26 | dimas-b APPROVED + merge. `system(false).streams(...).type("dumb")` 로 redirected stdout/pipe 시 PTY 우회. 5/25 1차 APPROVED with 2 nits → 5/26 description 다듬어 `e38ddd30` push → dimas-b 재APPROVED → 17분 뒤 머지. 3번째 머지 기여 |
 | Nessie | [#12425](https://github.com/projectnessie/nessie/pull/12425) CLI `--plain`/`-P` alias (issue #10865) | 2026-05-20 | dimas-b APPROVED + merge. **후속 작업 필요**: `--stdout`/`-S` + `PosixSysTerminal` 강제 — 이슈 #10865는 OPEN 유지 |
@@ -62,6 +71,17 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 프로젝트 | 이슈 | 회피 이유 |
 |---------|------|----------|
+| Polaris | [#4744](https://github.com/apache/polaris/issues/4744) static map 초기화를 `Map.ofEntries()`로 리팩터 | 2026-06-23 GraphQL 재검증 결과 [PR #4745](https://github.com/apache/polaris/pull/4745) OPEN. 기존 후보에서 회피로 이동 |
+| iceberg-python | [#3522](https://github.com/apache/iceberg-python/issues/3522) `bytes_required` negative boundary bug | [PR #3523](https://github.com/apache/iceberg-python/pull/3523) OPEN. linked PR 존재 → 회피 |
+| iceberg-python | [#3508](https://github.com/apache/iceberg-python/issues/3508) large multi-column upsert segfault | [PR #3509](https://github.com/apache/iceberg-python/pull/3509) OPEN. linked PR 존재 → 회피 |
+| iceberg-python | [#3506](https://github.com/apache/iceberg-python/issues/3506) Automatic Vended Credential Refresh | [PR #3507](https://github.com/apache/iceberg-python/pull/3507) OPEN. 후속 PR도 원작자 계획에 포함 → 가로채기 회피 |
+| Polaris | [#4804](https://github.com/apache/polaris/issues/4804) duplicated S3 access interfaces refactor | [PR #4805](https://github.com/apache/polaris/pull/4805) OPEN. linked PR 존재 → 회피 |
+| Polaris | [#4801](https://github.com/apache/polaris/issues/4801) `purgeRealms` stale `entityCacheMap` | [PR #4803](https://github.com/apache/polaris/pull/4803) OPEN. linked PR 존재 → 회피 |
+| Polaris | [#4771](https://github.com/apache/polaris/issues/4771) Python CLI debug logging sensitive data | [PR #4772](https://github.com/apache/polaris/pull/4772) OPEN. linked PR 존재 → 회피 |
+| Polaris | [#4769](https://github.com/apache/polaris/issues/4769) CLI profile commands expose client secrets | [PR #4770](https://github.com/apache/polaris/pull/4770) OPEN. linked PR 존재 → 회피 |
+| Iceberg | [#16905](https://github.com/apache/iceberg/issues/16905) `rewrite_table_path` stale `manifest_length` | [PR #16910](https://github.com/apache/iceberg/pull/16910) OPEN. linked PR 존재 → 회피 |
+| Iceberg | [#16932](https://github.com/apache/iceberg/issues/16932) RemoveOrphanFiles prefix listing serial driver bottleneck | [PR #16933](https://github.com/apache/iceberg/pull/16933) OPEN. 원 작성자가 구현 보유 명시 → 회피 |
+| Iceberg | [#16856](https://github.com/apache/iceberg/issues/16856) Spark runtime jar fails without Flink classes | wombatu-kun이 duplicate of #16720로 판단했고 [PR #16611](https://github.com/apache/iceberg/pull/16611)이 이미 커버한다고 코멘트 → 회피 |
 | Nessie | [#12429](https://github.com/projectnessie/nessie/issues/12429) add nessie GC to the helm chart | adutra가 6/08 원작자(certara-gschaffer)에게 "직접 기여 가능하냐" 코멘트 → 원작자에게 넘어갈 가능성. 가로채기 회피 (2026-06-15 재검증) |
 | iceberg-python | [#3410](https://github.com/apache/iceberg-python/issues/3410) refactor sigv4 out of rest catalog | 코멘트 1건 발생 (2026-06-02 확인) — 조건 위반 |
 | Polaris | [#4594](https://github.com/apache/polaris/issues/4594) Do not instantiate MetricsPersistence for InMemoryBufferEventListener | PR #4397이 timeline에 cross-referenced — 이슈가 그 PR 리뷰에서 파생됨. PR #4397 머지 후 자연스럽게 닫힐 가능성 (2026-06-02 GraphQL 재검증) |
@@ -123,15 +143,16 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 
 | 순위 | Organization | 상태 | 진입 후보 / 메모 |
 |------|------------|------|----------------|
-| 1 | `@apache` | 진행 중 | Polaris #1325 maintainer 응답, Iceberg/Spark/Trino docs 다수 |
-| 2 | `@kubeflow` | 진행 중 | spark-operator #2924 EmptyDir medium bug, #2891 ports |
-| 3 | `@milvus-io` | 코멘트 추가 | pymilvus #2724 본인 production 데이터 포인트 |
-| 4 | `@kubernetes-sigs` | 정찰 완료, 진입 어려움 | kueue/gateway-api/kustomize/descheduler 모두 작업자 있음. 본인 발견 버그로 진입 가능 |
-| 4 | `@NVIDIA` | 정찰 완료, 어려움 | good first issue 라벨 정책 없음. 본인 l40s/MIG 운영 발견 버그로 진입 가능 |
-| 5 | `@supabase` | 정찰 완료 | docs 영역 일부 가능 (#42997 작업자 있음). 본인 PostgreSQL+Keycloak 직결 |
-| 6 | `@vercel` | 정찰 완료, 어려움 | good first issue 거의 미사용. Next.js examples/ 추가 PR로 진입 가능 |
-| 7 | `@python` | 정찰 완료 | devguide docs 다수, 작업자 적은 영역 (#1791 Homebrew, #1786 GH Actions 등) |
-| 8 | `@fastapi` | 정찰 완료, 어려움 | good first issue 0건. sub-project 본인 발견 docs gap으로 진입 |
+| 1 | `@apache` | 진행 중 | Polaris #4451 머지 완료, PyIceberg #3084/#3108로 첫 code PR 진입 노림, Iceberg 본체는 linked PR 없는 버그만 선별 |
+| 2 | `@projectnessie` | 머지 4건 | #12424/#12425/#12431/#12432 머지. 다음은 #12130 또는 #12504처럼 작고 재현 명확한 버그 우선 |
+| 3 | `@kubeflow` | 종결/관망 | spark-operator #2924는 closed. 클러스터 운영 중 본인 발견 버그가 생길 때만 재진입 |
+| 4 | `@milvus-io` | 코멘트 추가 | pymilvus #2724 본인 production 데이터 포인트 |
+| 5 | `@kubernetes-sigs` | 정찰 완료, 진입 어려움 | kueue/gateway-api/kustomize/descheduler 모두 작업자 있음. 본인 발견 버그로 진입 가능 |
+| 6 | `@NVIDIA` | 정찰 완료, 어려움 | good first issue 라벨 정책 없음. 본인 l40s/MIG 운영 발견 버그로 진입 가능 |
+| 7 | `@supabase` | 정찰 완료 | docs 영역 일부 가능 (#42997 작업자 있음). 본인 PostgreSQL+Keycloak 직결 |
+| 8 | `@vercel` | 정찰 완료, 어려움 | good first issue 거의 미사용. Next.js examples/ 추가 PR로 진입 가능 |
+| 9 | `@python` | 정찰 완료 | devguide docs 다수, 작업자 적은 영역 (#1791 Homebrew, #1786 GH Actions 등) |
+| 10 | `@fastapi` | 정찰 완료, 어려움 | good first issue 0건. sub-project 본인 발견 docs gap으로 진입 |
 
 진입 패턴 (Nessie 첫 PR에서 검증된 워크플로우):
 1. 각 프로젝트 `good first issue` 또는 `help wanted` 라벨 정찰
