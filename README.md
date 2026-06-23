@@ -6,16 +6,15 @@
 
 ## 기여 집중 전략
 
-PR effort는 lakehouse 핵심 스택에 집중한다:
+GitHub 배지 수집보다 **lakehouse 핵심 스택에서 작고 확실한 PR을 꾸준히 머지하는 것**을 우선한다. Kubernetes SIGs는 클러스터 운영 경험을 살릴 수 있는 보조 진입 트랙으로 둔다.
 
-- **Apache Iceberg** — 테이블 포맷 (apache/iceberg)
-- **PyIceberg** — Iceberg Python 구현체 (apache/iceberg-python)
-- **Project Nessie** — Git-style 카탈로그 (projectnessie/nessie)
-- **Apache Polaris** — REST 카탈로그 (apache/polaris)
-
-위 프로젝트들은 reviewer 풀이 겹치고, 본 연구의 데이터 평면을 그대로 구성한다. 중기 목표는 lakehouse 핵심 스택에서 꾸준히 머지 경험을 쌓고, Apache org 활동은 Polaris/Iceberg/PyIceberg 중심으로 확장하는 것이다.
-
-클러스터 운영(rook-ceph, cilium, kyverno, argocd 등) 중 발견한 이슈는 upstream에 등록만 하고 PR effort는 투입하지 않는다.
+| 영역 | 현재 상태 | 다음 액션 |
+|---|---|---|
+| Apache Polaris | #4451 머지, #4594 intent comment 게시 | #4594 진행 후 #4600/#4802 중 작은 것 검토 |
+| Project Nessie | #12424/#12425/#12431/#12432 머지, #12602 open | #12602 CI/리뷰 대응 후 #12503 검토 |
+| Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | linked PR 없는 작고 명확한 이슈만 재정찰 |
+| Kubernetes SIGs | 진입 탐색 중 | 운영 경험과 맞는 docs/test/작은 bug 후보만 선별 |
+| Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
 
@@ -49,19 +48,7 @@ PR effort는 lakehouse 핵심 스택에 집중한다:
 | Nessie | [#12425](https://github.com/projectnessie/nessie/pull/12425) CLI `--plain`/`-P` alias (issue #10865) | 2026-05-20 | dimas-b APPROVED + merge. **후속 작업 필요**: `--stdout`/`-S` + `PosixSysTerminal` 강제 — 이슈 #10865는 OPEN 유지 |
 | Nessie | [#12424](https://github.com/projectnessie/nessie/pull/12424) Cloud Object Storage 일관성 문서 (issue #5349) | 2026-05-20 | dimas-b + @snazy APPROVED. **첫 머지 기여** |
 
-## Roadmap — 진입 우선순위
-
-활성 목표는 GitHub 배지 수집보다 **lakehouse 핵심 스택에서 작고 확실한 PR을 꾸준히 머지하는 것**이다.
-
-| 우선 | 영역 | 현재 상태 | 다음 액션 |
-|---|---|---|---|
-| 1 | Apache Polaris | #4451 머지, #4594 intent comment 게시 | #4594 구현 후 필요하면 #4600/#4802 검토 |
-| 2 | Project Nessie | #12424/#12425/#12431/#12432 머지, #12602 open | #12602 리뷰 대응 후 #12503 검토 |
-| 3 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | 작고 명확한 이슈만 재정찰 |
-| 4 | Kubernetes/infra orgs | 적극 정찰 중단 | 실제 운영 중 직접 발견한 버그만 이슈/PR 검토 |
-| 5 | 기타 orgs | 배지 목적 정찰 중단 | thesis/lakehouse와 직접 연결될 때만 진입 |
-
-### 진입 워크플로우
+## 진입 워크플로우
 
 1. 후보 이슈의 assignee, 댓글, linked PR을 GraphQL/`gh`로 재검증한다.
 2. 아무도 작업 중이 아니면 intent comment를 짧게 남긴다.
