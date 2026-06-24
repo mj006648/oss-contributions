@@ -12,7 +12,7 @@
 |---|---|---|
 | Apache Polaris | #4451 머지, #4594/#4877 ready-for-review, 전체 CI 통과 | #4877 리뷰 대응. 이후 #4600/#4802 중 작은 것 검토 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602 머지 | #12398 metrics regression 재현 우선, #12503은 방향 확인 |
-| Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | linked PR 없는 작고 명확한 이슈만 재정찰 |
+| Apache Iceberg | 아직 코드 PR 미진입 | Java/Python 구현을 한 트랙으로 묶어 linked PR 없는 작고 명확한 이슈만 재정찰 |
 | Kubernetes SIGs | LWS #895/#896 PR 오픈, CLA/ok-to-test 완료, Prow CI 통과 | 리뷰/approve 대응. 추가 신규 진입은 보류 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
