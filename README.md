@@ -10,18 +10,19 @@
 
 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|
-| Apache Polaris | #4451 머지, #4594 의도 댓글 게시 | #4594 진행 후 #4600/#4802 중 작은 것 검토 |
+| Apache Polaris | #4451 머지, #4594/#4877 PR 오픈, #4879 Zizmor unblock PR 오픈 | #4879 CI/리뷰 확인 → 머지 시 #4877 base update/CI rerun. 이후 #4600/#4802 중 작은 것 검토 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602 머지 | #12503 검토 |
 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | linked PR 없는 작고 명확한 이슈만 재정찰 |
-| Kubernetes SIGs | LWS #895/#896 진행 중, CLA 통과 | `/ok-to-test` 후 CI/리뷰 대응. 추가 신규 진입은 보류 |
+| Kubernetes SIGs | LWS #895/#896 PR 오픈, CLA/ok-to-test 완료, Prow CI 통과 | 리뷰/approve 대응. 추가 신규 진입은 보류 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Polaris | [#4594](https://github.com/apache/polaris/issues/4594) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | 의도 댓글 게시 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시. 다음 단계: wiring 추적 → 불필요한 `MetricsPersistence` setup 제거 → 관련 테스트 업데이트. |
-| Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | PR 오픈 · CLA 통과 · ok-to-test 대기 | 2026-06-24 | [comment](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4785313441) 게시, PR #896 오픈. 다음 단계: `/ok-to-test` 후 CI/리뷰 대응. |
+| Polaris | [#4594](https://github.com/apache/polaris/issues/4594) / [#4877](https://github.com/apache/polaris/pull/4877) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | PR 오픈 · 기능 CI 통과 · Zizmor unblock 대기 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시 후 PR #4877 오픈. targeted test, `format`, `compileAll`, fork CI, upstream 기능 CI 통과. 남은 Zizmor 실패는 기존 workflow pin comment mismatch로 #4879에서 분리 대응. |
+| Polaris | [#4879](https://github.com/apache/polaris/pull/4879) `setup-python` pin comment 정합성 수정 | PR 오픈 · Zizmor 통과 · 전체 CI 진행 중 | 2026-06-24 | pinned SHA는 `v6.2.0`인데 comment가 `v6`라 Zizmor `ref-version-mismatch` 발생. workflow 4줄 comment만 수정. 머지되면 #4877 base update/CI rerun 대상. |
+| Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | PR 오픈 · CLA/ok-to-test 완료 · Prow CI 통과 · 리뷰 대기 | 2026-06-24 | [comment](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4785313441) 게시, PR #896 오픈. EasyCLA/ok-to-test 완료, unit/integration/e2e/verify Prow checks 통과. 다음 단계: reviewer LGTM/approve 대응. |
 
 ## 정찰 완료 — 진입 가능 후보
 
