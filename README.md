@@ -13,7 +13,7 @@
 | Apache Polaris | #4451 머지, #4594 의도 댓글 게시 | #4594 진행 후 #4600/#4802 중 작은 것 검토 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602 머지 | #12503 검토 |
 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | linked PR 없는 작고 명확한 이슈만 재정찰 |
-| Kubernetes SIGs | 후보 4건 선별 | `kindnet` #113 또는 `mcp-lifecycle-operator` #135부터 검토 |
+| Kubernetes SIGs | LWS #895/#896 진행 중, CLA 통과 | `/ok-to-test` 후 CI/리뷰 대응. 추가 신규 진입은 보류 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
@@ -21,6 +21,7 @@
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
 | Polaris | [#4594](https://github.com/apache/polaris/issues/4594) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | 의도 댓글 게시 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시. 다음 단계: wiring 추적 → 불필요한 `MetricsPersistence` setup 제거 → 관련 테스트 업데이트. |
+| Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | PR 오픈 · CLA 통과 · ok-to-test 대기 | 2026-06-24 | [comment](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4785313441) 게시, PR #896 오픈. 다음 단계: `/ok-to-test` 후 CI/리뷰 대응. |
 
 ## 정찰 완료 — 진입 가능 후보
 
@@ -32,12 +33,11 @@
 | 🟢 2 | 2026-06-17 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | linked PR 없음. Quarkus/Micrometer 설정 방식 확인 후 opt-in histogram + 문서까지 좁게 검토 |
 | 🟢 3 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | Helm/Release | linked PR 없음. release workflow 영향이 있어 PR 전 방향 확인 댓글 먼저 |
 | 🟢 4 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | linked PR 없음. UPDATE retry만 좁히고 CREATE race는 follow-up으로 분리하는 방향 검토 |
-| 🟢 5 | 2026-06-23 | Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | Kubernetes/Controller | assignee/PR 없음. JobSet #737 선례 확인 후 leader/worker StatefulSet metadata merge + 테스트 |
-| 🟡 6 | 2026-05-14 | Kubernetes SIGs / mcp-lifecycle-operator | [#177](https://github.com/kubernetes-sigs/mcp-lifecycle-operator/issues/177) E2E test coverage instrumentation | 테스트/CI | help wanted, PR 없음. optional/long-term이라 weekly/on-demand 최소 범위부터 maintainer 방향 확인 |
-| 🟡 7 | 2026-06-23 | Kubernetes SIGs / cluster-api-provider-aws | [#6062](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6062) ROSARoleConfig OIDC cleanup idempotency | Kubernetes/AWS | assignee/PR 없음. not-found/NoSuchEntity 무시 패턴 확인 후 작은 idempotency fix 가능 |
-| 🟡 8 | 2026-05-27 | Kubernetes SIGs / cluster-api-provider-aws | [#6033](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6033) e2e에서 `kindest/node` prebuilt image 대신 kind node image build | E2E/infra | help wanted/triage accepted. 영향 범위가 커서 기존 kind image build path와 CI 비용 확인 먼저 |
-| 🟡 9 | 2026-06-12 | Polaris | [#4711](https://github.com/apache/polaris/issues/4711) EKS/IRSA에서 WebIdentity credential provider 재생성 의심 | AWS/운영 | assignee/PR 없음, 논의 있음. provider lifecycle 재현/추적 후 cache 재사용 가능성 확인 |
-| 🟡 10 | 2026-06-23 | Polaris | [#4874](https://github.com/apache/polaris/issues/4874) NoSQL backend의 InMemoryEntityCache 미지원 | 아키텍처/성능 | maintainer가 NoSQL 별도 cache 접근을 언급. dev thread 읽고 바로 PR보다 설계 방향 확인 필요 |
+| 🟡 5 | 2026-05-14 | Kubernetes SIGs / mcp-lifecycle-operator | [#177](https://github.com/kubernetes-sigs/mcp-lifecycle-operator/issues/177) E2E test coverage instrumentation | 테스트/CI | help wanted, PR 없음. optional/long-term이라 weekly/on-demand 최소 범위부터 maintainer 방향 확인 |
+| 🟡 6 | 2026-06-23 | Kubernetes SIGs / cluster-api-provider-aws | [#6062](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6062) ROSARoleConfig OIDC cleanup idempotency | Kubernetes/AWS | assignee/PR 없음. not-found/NoSuchEntity 무시 패턴 확인 후 작은 idempotency fix 가능 |
+| 🟡 7 | 2026-05-27 | Kubernetes SIGs / cluster-api-provider-aws | [#6033](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6033) e2e에서 `kindest/node` prebuilt image 대신 kind node image build | E2E/infra | help wanted/triage accepted. 영향 범위가 커서 기존 kind image build path와 CI 비용 확인 먼저 |
+| 🟡 8 | 2026-06-12 | Polaris | [#4711](https://github.com/apache/polaris/issues/4711) EKS/IRSA에서 WebIdentity credential provider 재생성 의심 | AWS/운영 | assignee/PR 없음, 논의 있음. provider lifecycle 재현/추적 후 cache 재사용 가능성 확인 |
+| 🟡 9 | 2026-06-23 | Polaris | [#4874](https://github.com/apache/polaris/issues/4874) NoSQL backend의 InMemoryEntityCache 미지원 | 아키텍처/성능 | maintainer가 NoSQL 별도 cache 접근을 언급. dev thread 읽고 바로 PR보다 설계 방향 확인 필요 |
 
 ## Merged
 
