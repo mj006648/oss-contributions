@@ -10,7 +10,7 @@
 
 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|
-| Apache Polaris | #4451 머지, #4594/#4877 PR 오픈, #4877 전체 CI 통과, #4879 closed | #4877 ready-for-review 전환 검토. 이후 #4600/#4802 중 작은 것 검토 |
+| Apache Polaris | #4451 머지, #4594/#4877 ready-for-review, 전체 CI 통과 | #4877 리뷰 대응. 이후 #4600/#4802 중 작은 것 검토 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602 머지 | #12398 metrics regression 재현 우선, #12503은 방향 확인 |
 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | linked PR 없는 작고 명확한 이슈만 재정찰 |
 | Kubernetes SIGs | LWS #895/#896 PR 오픈, CLA/ok-to-test 완료, Prow CI 통과 | 리뷰/approve 대응. 추가 신규 진입은 보류 |
@@ -20,8 +20,7 @@
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Polaris | [#4594](https://github.com/apache/polaris/issues/4594) / [#4877](https://github.com/apache/polaris/pull/4877) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | draft PR · base update 완료 · 전체 CI 통과 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시 후 PR #4877 오픈. targeted test, `format`, `compileAll`, fork CI, upstream 전체 CI 통과. 다음 단계: ready-for-review 전환 후 리뷰 대응. |
-| Polaris | [#4879](https://github.com/apache/polaris/pull/4879) `setup-python` pin comment 정합성 수정 | closed · #4878로 superseded | 2026-06-24 | 같은 workflow 4곳을 Renovate #4878이 digest update 방식으로 먼저 수정해 main에 머지. 중복 PR로 판단해 #4879 closed. |
+| Polaris | [#4594](https://github.com/apache/polaris/issues/4594) / [#4877](https://github.com/apache/polaris/pull/4877) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | ready-for-review · 전체 CI 통과 · 리뷰 대기 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시 후 PR #4877 오픈. targeted test, `format`, `compileAll`, fork CI, upstream 전체 CI 통과. #4879는 #4878 선행 머지로 superseded되어 closed. 다음 단계: 리뷰 대응. |
 | Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | PR 오픈 · CLA/ok-to-test 완료 · Prow CI 통과 · 리뷰 대기 | 2026-06-24 | [comment](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4785313441) 게시, PR #896 오픈. EasyCLA/ok-to-test 완료, unit/integration/e2e/verify Prow checks 통과. 다음 단계: reviewer LGTM/approve 대응. |
 
 ## 정찰 완료 — 진입 가능 후보
