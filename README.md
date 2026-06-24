@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-06-23
+> Last updated: 2026-06-24
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -11,7 +11,7 @@
 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|
 | Apache Polaris | #4451 머지, #4594 의도 댓글 게시 | #4594 진행 후 #4600/#4802 중 작은 것 검토 |
-| Project Nessie | #12424/#12425/#12431/#12432 머지, #12602 open | #12602 CI/리뷰 대응 후 #12503 검토 |
+| Project Nessie | #12424/#12425/#12431/#12432/#12602 머지 | #12503 검토 |
 | Apache Iceberg / PyIceberg | 아직 코드 PR 미진입 | linked PR 없는 작고 명확한 이슈만 재정찰 |
 | Kubernetes SIGs | 후보 4건 선별 | `kindnet` #113 또는 `mcp-lifecycle-operator` #135부터 검토 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
@@ -21,7 +21,6 @@
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
 | Polaris | [#4594](https://github.com/apache/polaris/issues/4594) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | 의도 댓글 게시 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시. 다음 단계: wiring 추적 → 불필요한 `MetricsPersistence` setup 제거 → 관련 테스트 업데이트. |
-| Nessie | [#12602](https://github.com/projectnessie/nessie/pull/12602) Iceberg view import 시 SQL representation 보존 ([#12504](https://github.com/projectnessie/nessie/issues/12504)) | PR open | 2026-06-23 | metadata-location import 변환 경로에서 `currentVersion.representations()`를 Nessie snapshot에 보존. 관련 단위 테스트 + `spotlessCheck` 통과. |
 
 ## 정찰 완료 — 진입 가능 후보
 
@@ -44,6 +43,7 @@
 
 | 프로젝트 | PR | 머지일 | 비고 |
 |---------|----|--------|------|
+| Nessie | [#12602](https://github.com/projectnessie/nessie/pull/12602) Preserve SQL representations when importing Iceberg views (issue #12504) | 2026-06-23 | snazy LGTM APPROVED 후 머지. metadata-location import 변환 경로에서 `currentVersion.representations()`를 Nessie snapshot에 보존해 Iceberg REST `GET view`의 `versions[].representations` 누락을 수정. 로컬 검증: `:nessie-catalog-format-iceberg:test --tests org.projectnessie.catalog.formats.iceberg.nessie.TestNessieModelIceberg.icebergViewSnapshotToNessiePreservesRepresentations`, `:nessie-catalog-format-iceberg:test --tests org.projectnessie.catalog.formats.iceberg.nessie.TestNessieModelIceberg`, `:nessie-catalog-format-iceberg:spotlessCheck`. **5번째 Nessie 머지, 6번째 Lakehouse upstream 머지 기여** |
 | Nessie | [#12432](https://github.com/projectnessie/nessie/pull/12432) Normalize S3 scheme in IcebergConfigurer writeable derivation (issue #12426) | 2026-06-19 | dimas-b 6/16 @snazy 의견 요청 → snazy 6/19 LGTM APPROVED 직후 머지. `s3a://`/`s3n://` table metadata location을 `s3://` warehouse prefix와 비교할 때 normalize해서 S3 signer `writeable[]` 누락을 수정. 로컬 검증: `:nessie-catalog-service-rest:spotlessCheck`, `:nessie-catalog-service-rest:test --tests org.projectnessie.catalog.service.rest.TestIcebergConfigurer`. **4번째 Nessie 머지, 5번째 Lakehouse upstream 머지 기여** |
 | Polaris | [#4451](https://github.com/apache/polaris/pull/4451) docs: add production configuration pages for AWS S3 and Azure Blob storage (issue #1325) | 2026-05-27 | dimas-b + flyrain 2-round 리뷰 반영 후 머지. AWS S3 + Azure Blob 두 production config 페이지 신규 추가. flyrain의 "3개 IAM identity 다뤄달라" 요청 반영해 IAM identities overview + Polaris service identity 섹션 추가. **첫 Polaris 머지, 첫 Apache org 머지 기여** |
 | Nessie | [#12431](https://github.com/projectnessie/nessie/pull/12431) CLI `--stdout`/`-S` for stream-backed terminal (issue #10865) | 2026-05-26 | dimas-b APPROVED + merge. `system(false).streams(...).type("dumb")` 로 redirected stdout/pipe 시 PTY 우회. 5/25 1차 APPROVED with 2 nits → 5/26 description 다듬어 `e38ddd30` push → dimas-b 재APPROVED → 17분 뒤 머지. 3번째 머지 기여 |
