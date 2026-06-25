@@ -25,19 +25,20 @@
 
 ## 정찰 완료 — 진입 가능 후보
 
-활성 후보표는 지금 들어가도 충돌 가능성이 낮은 이슈만 최대 10개로 유지한다. 기본 기준은 linked PR 없음, assignee 없음, 명확한 작업자 없음이다. Kubernetes SIGs 후보는 운영 경험과 맞는 항목만 보조 트랙으로 둔다.
+활성 후보표는 지금 들어가도 충돌 가능성이 낮은 이슈만 최대 10개로 유지한다. 기본 기준은 linked PR 없음, assignee 없음, 명확한 작업자 없음이다. Kubernetes SIGs 후보는 운영 경험을 살릴 수 있는 작고 검증 가능한 항목만 보조 트랙으로 둔다. Apache Iceberg Java 신규 이슈는 이미 linked PR이 붙은 항목이 많아, PR 없는 PyIceberg/작은 Kubernetes 후보를 우선 반영한다.
 
 | 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
 |---|---|---|---|---|---|
 | 🟢 1 | 2026-06-02 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 | 테스트/회귀 | linked PR 없음. 기존 JDBC/H2 테스트 구조 파악 후 NoSQL overlap 케이스를 작게 이식 |
 | 🟢 2 | 2026-06-17 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | linked PR 없음. Quarkus/Micrometer 설정 방식 확인 후 opt-in histogram + 문서까지 좁게 검토 |
-| 🟢 3 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | Helm/Release | linked PR 없음. release workflow 영향이 있어 PR 전 방향 확인 댓글 먼저 |
-| 🟢 4 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | linked PR 없음. UPDATE retry만 좁히고 CREATE race는 follow-up으로 분리하는 방향 검토 |
-| 🟡 5 | 2026-05-14 | Kubernetes SIGs / mcp-lifecycle-operator | [#177](https://github.com/kubernetes-sigs/mcp-lifecycle-operator/issues/177) E2E test coverage instrumentation | 테스트/CI | help wanted, PR 없음. optional/long-term이라 weekly/on-demand 최소 범위부터 maintainer 방향 확인 |
-| 🟡 6 | 2026-06-23 | Kubernetes SIGs / cluster-api-provider-aws | [#6062](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6062) ROSARoleConfig OIDC cleanup idempotency | Kubernetes/AWS | assignee/PR 없음. not-found/NoSuchEntity 무시 패턴 확인 후 작은 idempotency fix 가능 |
-| 🟡 7 | 2026-05-27 | Kubernetes SIGs / cluster-api-provider-aws | [#6033](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6033) e2e에서 `kindest/node` prebuilt image 대신 kind node image build | E2E/infra | help wanted/triage accepted. 영향 범위가 커서 기존 kind image build path와 CI 비용 확인 먼저 |
-| 🟡 8 | 2026-06-12 | Polaris | [#4711](https://github.com/apache/polaris/issues/4711) EKS/IRSA에서 WebIdentity credential provider 재생성 의심 | AWS/운영 | assignee/PR 없음, 논의 있음. provider lifecycle 재현/추적 후 cache 재사용 가능성 확인 |
-| 🟡 9 | 2026-06-23 | Polaris | [#4874](https://github.com/apache/polaris/issues/4874) NoSQL backend의 InMemoryEntityCache 미지원 | 아키텍처/성능 | maintainer가 NoSQL 별도 cache 접근을 언급. dev thread 읽고 바로 PR보다 설계 방향 확인 필요 |
+| 🟢 3 | 2026-06-24 | Kubernetes SIGs / agent-sandbox | [#1029](https://github.com/kubernetes-sigs/agent-sandbox/issues/1029) Python SDK `use_pod_ip` flag 무시 | Python/Kubernetes SDK | assignee/PR 없음. `Sandbox`/`AsyncSandbox` wiring과 단위 테스트만 좁게 확인하면 작은 버그픽스 가능 |
+| 🟢 4 | 2026-06-24 | Kubernetes SIGs / descheduler | [#1887](https://github.com/kubernetes-sigs/descheduler/issues/1887) ClusterRole의 불필요한 `pods/delete` 제거 | RBAC/매니페스트 | assignee/PR 없음. chart/manifests/test golden 업데이트 범위 확인 후 권한 축소 PR 가능 |
+| 🟢 5 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | Helm/Release | linked PR 없음. release workflow 영향이 있어 PR 전 방향 확인 댓글 먼저 |
+| 🟢 6 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | linked PR 없음. UPDATE retry만 좁히고 CREATE race는 follow-up으로 분리하는 방향 검토 |
+| 🟡 7 | 2026-06-24 | Kubernetes SIGs / Kueue | [#12481](https://github.com/kubernetes-sigs/kueue/issues/12481) KueueViz frontend/backend securityContext와 probes | 보안/Helm/Kustomize | assignee/PR 없음. Helm defaults와 kustomize base가 함께 바뀌어야 하므로 기존 chart tests 확인 후 진입 |
+| 🟡 8 | 2026-06-23 | Kubernetes SIGs / cluster-api-provider-aws | [#6062](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6062) ROSARoleConfig OIDC cleanup idempotency | Kubernetes/AWS | assignee/PR 없음. not-found/NoSuchEntity 무시 패턴 확인 후 작은 idempotency fix 가능 |
+| 🟡 9 | 2026-06-21 | PyIceberg | [#3543](https://github.com/apache/iceberg-python/issues/3543) constant `BooleanExpression` truthiness semantics | Python/표현식 | assignee/PR 없음. maintainer가 semantics 우려를 남겨 바로 PR보다 `AlwaysFalse` use case와 optional-expression audit 방향 댓글 먼저 |
+| 🟡 10 | 2026-06-23 | Polaris | [#4874](https://github.com/apache/polaris/issues/4874) NoSQL backend의 InMemoryEntityCache 미지원 | 아키텍처/성능 | maintainer가 NoSQL 별도 cache 접근을 언급. dev thread 읽고 바로 PR보다 설계 방향 확인 필요 |
 
 ## Merged
 
