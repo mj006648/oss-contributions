@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-06-24
+> Last updated: 2026-06-25
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -10,8 +10,8 @@
 
 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|
-| Apache Polaris | #4451 머지, #4594/#4877 ready-for-review, 전체 CI 통과 | #4877 리뷰 대응. 이후 #4600/#4802 중 작은 것 검토 |
-| Project Nessie | #12424/#12425/#12431/#12432/#12602 머지 | #12398 metrics regression 재현 우선, #12503은 방향 확인 |
+| Apache Polaris | #4451 머지, #4594/#4877 APPROVED, 전체 CI 통과 | #4877 merge 대기. 이후 #4600/#4802 중 작은 것 검토 |
+| Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | #12503은 release workflow 영향 확인 후 방향 댓글 |
 | Apache Iceberg | 아직 코드 PR 미진입 | Java/Python 구현을 한 트랙으로 묶어 linked PR 없는 작고 명확한 이슈만 재정찰 |
 | Kubernetes SIGs | LWS #895/#896 PR 오픈, CLA/ok-to-test 완료, Prow CI 통과 | 리뷰/approve 대응. 추가 신규 진입은 보류 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
@@ -20,9 +20,8 @@
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Polaris | [#4594](https://github.com/apache/polaris/issues/4594) / [#4877](https://github.com/apache/polaris/pull/4877) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | ready-for-review · 전체 CI 통과 · 리뷰 대기 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시 후 PR #4877 오픈. targeted test, `format`, `compileAll`, fork CI, upstream 전체 CI 통과. #4879는 #4878 선행 머지로 superseded되어 closed. 다음 단계: 리뷰 대응. |
+| Polaris | [#4594](https://github.com/apache/polaris/issues/4594) / [#4877](https://github.com/apache/polaris/pull/4877) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | APPROVED · 전체 CI 통과 · merge 대기 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시 후 PR #4877 오픈. targeted test, `format`, `compileAll`, fork CI, upstream 전체 CI 통과. dimas-b LGTM APPROVED. #4879는 #4878 선행 머지로 superseded되어 closed. 다음 단계: merge 대기. |
 | Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | PR 오픈 · CLA/ok-to-test 완료 · Prow CI 통과 · 리뷰 대기 | 2026-06-24 | [comment](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4785313441) 게시, PR #896 오픈. EasyCLA/ok-to-test 완료, unit/integration/e2e/verify Prow checks 통과. 다음 단계: reviewer LGTM/approve 대응. |
-| Nessie | [#12398](https://github.com/projectnessie/nessie/issues/12398) / [#12613](https://github.com/projectnessie/nessie/pull/12613) `/q/metrics` 404 regression 복구 | PR 오픈 · license CI 수정 push · workflow approval 대기 | 2026-06-24 | PR #12613 오픈. 공개 이미지 0.107.5/0.107.9/0.108.0/unstable 404 재현, 0.107.4 200 확인. 0.108.0 tag+patch와 main+patch packaged app에서 `/q/metrics` 200 확인. 초기 CI `generateLicenseReport`가 `quarkus-micrometer-registry-prometheus` license entry 누락으로 실패해 `LICENSE-BINARY-DIST` 추가 후 push. 로컬 검증: `:nessie-quarkus:test`, `:nessie-quarkus:quarkusBuild`, `:nessie-quarkus:spotlessKotlinGradleCheck`, `:nessie-quarkus:generateLicenseReport`, `:nessie-quarkus:codeChecks`. 다음 단계: workflow approval 후 CI/리뷰 대응. |
 
 ## 정찰 완료 — 진입 가능 후보
 
@@ -44,6 +43,7 @@
 
 | 프로젝트 | PR | 머지일 | 비고 |
 |---------|----|--------|------|
+| Nessie | [#12613](https://github.com/projectnessie/nessie/pull/12613) Restore Prometheus metrics endpoint (issue #12398) | 2026-06-24 | snazy LGTM APPROVED 후 머지, issue #12398 close. 공개 이미지 0.107.5/0.107.9/0.108.0/unstable 404 재현, 0.107.4 200 확인. runtime Prometheus registry dependency 복구와 `server.port` metric tag 충돌 정리로 `/q/metrics`를 다시 노출. upstream CI `CI Code Checks et al`, `CI Test`, `CI Test Quarkus`, `CI intTest Quarkus Server` 통과. 로컬 검증: `:nessie-quarkus:test --tests org.projectnessie.server.TestMetricsTags --tests org.projectnessie.server.TestMetricsDisabled`, `:nessie-quarkus:quarkusBuild`, `:nessie-quarkus:generateLicenseReport`, `:nessie-quarkus:codeChecks`. **6번째 Nessie 머지, 7번째 Lakehouse upstream 머지 기여** |
 | Nessie | [#12602](https://github.com/projectnessie/nessie/pull/12602) Preserve SQL representations when importing Iceberg views (issue #12504) | 2026-06-23 | snazy LGTM APPROVED 후 머지. metadata-location import 변환 경로에서 `currentVersion.representations()`를 Nessie snapshot에 보존해 Iceberg REST `GET view`의 `versions[].representations` 누락을 수정. 로컬 검증: `:nessie-catalog-format-iceberg:test --tests org.projectnessie.catalog.formats.iceberg.nessie.TestNessieModelIceberg.icebergViewSnapshotToNessiePreservesRepresentations`, `:nessie-catalog-format-iceberg:test --tests org.projectnessie.catalog.formats.iceberg.nessie.TestNessieModelIceberg`, `:nessie-catalog-format-iceberg:spotlessCheck`. **5번째 Nessie 머지, 6번째 Lakehouse upstream 머지 기여** |
 | Nessie | [#12432](https://github.com/projectnessie/nessie/pull/12432) Normalize S3 scheme in IcebergConfigurer writeable derivation (issue #12426) | 2026-06-19 | dimas-b 6/16 @snazy 의견 요청 → snazy 6/19 LGTM APPROVED 직후 머지. `s3a://`/`s3n://` table metadata location을 `s3://` warehouse prefix와 비교할 때 normalize해서 S3 signer `writeable[]` 누락을 수정. 로컬 검증: `:nessie-catalog-service-rest:spotlessCheck`, `:nessie-catalog-service-rest:test --tests org.projectnessie.catalog.service.rest.TestIcebergConfigurer`. **4번째 Nessie 머지, 5번째 Lakehouse upstream 머지 기여** |
 | Polaris | [#4451](https://github.com/apache/polaris/pull/4451) docs: add production configuration pages for AWS S3 and Azure Blob storage (issue #1325) | 2026-05-27 | dimas-b + flyrain 2-round 리뷰 반영 후 머지. AWS S3 + Azure Blob 두 production config 페이지 신규 추가. flyrain의 "3개 IAM identity 다뤄달라" 요청 반영해 IAM identities overview + Polaris service identity 섹션 추가. **첫 Polaris 머지, 첫 Apache org 머지 기여** |
