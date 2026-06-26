@@ -7,7 +7,7 @@ Kubernetes 공식 sub-project organization. cluster-api, kustomize, descheduler,
 
 | repo | 이슈/PR | 상태 | 다음 액션 |
 |---|---|---|---|
-| lws | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LWS metadata propagation | PR 오픈, CLA/ok-to-test 완료, Prow CI 통과, use case 답변 완료 | 중복 PR [#897](https://github.com/kubernetes-sigs/lws/pull/897)도 열린 상태라 maintainer의 방향 판단 대기 |
+| lws | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LWS metadata propagation | PR 오픈, CLA/ok-to-test 완료, Prow CI 통과, use case 답변 완료 | 중복 PR [#897](https://github.com/kubernetes-sigs/lws/pull/897)은 #896 duplicate로 closed. #896 리뷰 판단 대기 |
 | agent-sandbox | [#1029](https://github.com/kubernetes-sigs/agent-sandbox/issues/1029) / [#1033](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) Python SDK `use_pod_ip` handling | PR 오픈, CLA 완료, `needs-ok-to-test`, approver가 field 제거 방향 제안 | SHRUTI6991 답변 대기. 확인되면 `use_pod_ip` 제거 방향으로 docs/tests/code 정리 |
 
 ## 정찰 결과 (2026-05-14)
