@@ -15,7 +15,15 @@
 
 ## 진행 중
 
-- [#1325 — Azure Blob + GCS storage 문서](./issue-1325-storage-docs/)
+| 이슈/PR | 상태 | 메모 |
+|---|---|---|
+| [#4594](https://github.com/apache/polaris/issues/4594) / [#4877](https://github.com/apache/polaris/pull/4877) InMemoryBufferEventListener MetricsPersistence 제거 | 리뷰 피드백 반영 · 전체 CI 재통과 · 재리뷰 대기 | listener-local fallback 제거 후 `PolarisCallContext` convenience constructor 경로로 정리. follow-up comment 게시 완료. |
+
+## 머지됨
+
+| PR | 머지일 | 메모 |
+|---|---|---|
+| [#4451](https://github.com/apache/polaris/pull/4451) AWS S3/Azure Blob production configuration docs | 2026-05-27 | 첫 Polaris/Apache org 머지. 기존 작업 폴더: [issue-1325-storage-docs](./issue-1325-storage-docs/) |
 
 ## 다음 세션 진입 후보 (정찰 완료 2026-05-14)
 
@@ -23,7 +31,7 @@
 |------|------|---------|
 | [#3621](https://github.com/apache/polaris/issues/3621) DEFAULT_LOCATION_OBJECT_STORAGE_PREFIX_ENABLED docs | maintainer @adutra가 ML 논의 우선 + 회의적 | 회피 (방향 미합의) |
 
-본인 #1325 작업 머지 후 추가 후보 정찰 권장.
+현재는 #4877 재리뷰/merge 대기. 이후 #4600/#4802처럼 작고 명확한 후속 후보 재정찰 권장.
 
 ## 참고 링크
 

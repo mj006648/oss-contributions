@@ -4,9 +4,11 @@
 
 ## 본인 연구·운영 중 직접 발견한 이슈
 
-### chart v3.7.1 ~ v3.7.2 cert-manager 통합 incomplete (신규 등록 예정)
+### [#16103](https://github.com/kyverno/kyverno/issues/16103) chart cert-manager delegation TLS Secret ping-pong
 
-`admissionController.certManager.enabled=true` 활성화 시 Certificate 리소스는 생성되나 컨테이너 내부 `certmanager-controller` 모듈이 비활성화되지 않아 cert-manager ↔ 내부 모듈 사이에 무한 핑퐁(14분간 220+회 관찰). chart v3.7.2(현재 최신)에서도 재현됨. values에 `disableCertManager` 같은 끄는 옵션 부재.
+`admissionController.certManager.enabled=true` 활성화 시 Certificate 리소스는 생성되나 컨테이너 내부 `certmanager-controller` 모듈이 비활성화되지 않아 cert-manager ↔ 내부 모듈 사이에 TLS Secret ping-pong이 발생. chart 3.7.1/3.7.2에서 재현해 upstream 이슈로 등록했다.
+
+현재 상태: open, `helm`, `release-high`, `yashrajshuklaaa` assigned. 2026-06-25 `/assign` 반응 확인.
 
 자세한 분석: [issue-new-certmanager-incomplete/](./issue-new-certmanager-incomplete/)
 
