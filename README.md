@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-06-27
+> Last updated: 2026-06-30
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -10,19 +10,19 @@
 
 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|
-| Apache Polaris | #4451 머지, #4594/#4877 리뷰 피드백 반영, rebase 완료, 전체 CI 재통과 | #4877 reviewer 재확인/merge 대기. 이후 #4600/#4802 중 작은 것 검토 |
+| Apache Polaris | #4451 머지, #4594/#4877 APPROVED, rebase 완료, 전체 CI 통과 | #4877 maintainer merge 대기. 이후 #4600/#4802 중 작은 것 검토 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | #12503은 release workflow 영향 확인 후 방향 댓글 |
 | Apache Iceberg | 아직 코드 PR 미진입 | Java/Python 구현을 한 트랙으로 묶어 linked PR 없는 작고 명확한 이슈만 재정찰 |
-| Kubernetes SIGs | LWS #895/#896 CI 통과 후 use case 답변 완료, agent-sandbox #1029/#1033 `use_pod_ip` 제거 방향 반영·CI 통과 | LWS reviewer 판단 대기. agent-sandbox는 CodeRabbit bot 코멘트보다 SHRUTI6991 방향을 기준으로 maintainer 리뷰 대기 |
+| Kubernetes SIGs | LWS #895/#896 Prow CI 통과 후 use case 답변 완료, agent-sandbox #1029/#1033 `use_pod_ip` 제거 방향 반영·rebase 후 Prow 재통과 | LWS reviewer 판단 대기. agent-sandbox는 re-LGTM/approve 대기 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
 
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
-| Polaris | [#4594](https://github.com/apache/polaris/issues/4594) / [#4877](https://github.com/apache/polaris/pull/4877) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | rebase 완료 · 전체 CI 재통과 · 재리뷰/merge 대기 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시 후 PR #4877 오픈. targeted test, `format`, `compileAll`, fork CI, upstream 전체 CI 통과. flyrain/flyingImer 피드백에 따라 listener-local `MetricsPersistence` fallback을 제거하고 `PolarisCallContext` convenience constructor 경로로 정리. 이후 main 충돌 요청에 맞춰 rebase 후 [conflict resolved comment](https://github.com/apache/polaris/pull/4877#issuecomment-4815759475) 게시. upstream 전체 CI 재통과, mergeable. #4879는 #4878 선행 머지로 superseded되어 closed. 다음 단계: reviewer 재확인/merge 대기. |
+| Polaris | [#4594](https://github.com/apache/polaris/issues/4594) / [#4877](https://github.com/apache/polaris/pull/4877) `InMemoryBufferEventListener`에서 불필요한 `MetricsPersistence` 제거 | APPROVED · 전체 CI 통과 · merge 대기 | 2026-06-23 | [comment](https://github.com/apache/polaris/issues/4594#issuecomment-4775931438) 게시 후 PR #4877 오픈. targeted test, `format`, `compileAll`, fork CI, upstream 전체 CI 통과. flyrain 피드백에 따라 listener-local `MetricsPersistence` fallback을 제거하고 `PolarisCallContext` convenience constructor 경로로 정리. 이후 main 충돌 요청에 맞춰 rebase 후 [conflict resolved comment](https://github.com/apache/polaris/pull/4877#issuecomment-4815759475) 게시. nandorKollar/dimas-b approval 완료, mergeable. #4879는 #4878 선행 머지로 superseded되어 closed. 다음 단계: maintainer merge 대기. |
 | Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | PR 오픈 · CLA/ok-to-test 완료 · Prow CI 통과 · use case 답변 완료 · 리뷰 대기 | 2026-06-24 | [comment](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4785313441) 게시, PR #896 오픈. EasyCLA/ok-to-test 완료, unit/integration/e2e/verify Prow checks 통과, mergeable. Edwinhr716의 StatefulSet metadata use case 질문에 [operational metadata visibility 답변](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4806060945) 게시. 후속 중복 PR [#897](https://github.com/kubernetes-sigs/lws/pull/897)은 #896 duplicate로 closed. 다음 단계: reviewer LGTM/approve 또는 설계 방향 피드백 대응. |
-| Kubernetes SIGs / agent-sandbox | [#1029](https://github.com/kubernetes-sigs/agent-sandbox/issues/1029) / [#1033](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) Python SDK `use_pod_ip` flag 정리 | PR 수정 완료 · ok-to-test/CI 통과 · SHRUTI6991 답변 완료 · maintainer 리뷰 대기 | 2026-06-25 | [comment](https://github.com/kubernetes-sigs/agent-sandbox/issues/1029#issuecomment-4795226426) 게시 후 PR #1033 오픈. 초기 방향은 `use_pod_ip` flag를 respect하는 수정이었으나, SHRUTI6991 피드백에 따라 PR을 [`use_pod_ip` 제거](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) 방향으로 전환. sync/async clients, README, unit tests를 pod-IP-first/DNS-fallback 동작에 맞춰 정리하고 PR title/body도 업데이트. local Python unit 전체와 Prow unit/e2e/benchmark/autogen checks 통과. [inline reply](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033#discussion_r3485889525) 게시. CodeRabbit bot은 기존 issue wording 기준의 반대 코멘트를 남겼으나 reviewer 방향과 상충하므로 우선 human review 대기. 다음 단계: SHRUTI6991/maintainer LGTM 또는 추가 피드백 대응. |
+| Kubernetes SIGs / agent-sandbox | [#1029](https://github.com/kubernetes-sigs/agent-sandbox/issues/1029) / [#1033](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) Python SDK `use_pod_ip` flag 정리 | rebase 완료 · Prow presubmits 재통과 · re-LGTM/approve 대기 | 2026-06-25 | [comment](https://github.com/kubernetes-sigs/agent-sandbox/issues/1029#issuecomment-4795226426) 게시 후 PR #1033 오픈. 초기 방향은 `use_pod_ip` flag를 respect하는 수정이었으나, SHRUTI6991 피드백에 따라 PR을 [`use_pod_ip` 제거](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) 방향으로 전환. sync/async clients, README, unit tests를 pod-IP-first/DNS-fallback 동작에 맞춰 정리하고 PR title/body도 업데이트. main 테스트 변경과의 conflict를 rebase로 정리하고 [rebase comment](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033#issuecomment-4839829875) 게시. local Python unit 전체와 Prow unit/e2e/benchmark/autogen checks 재통과. CodeRabbit latest check는 success이나 과거 requested-changes review state가 남아 있음. 다음 단계: re-LGTM 및 approver approval 대기. |
 
 ## Issues
 
