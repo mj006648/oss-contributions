@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-07-01
+> Last updated: 2026-07-10
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -13,7 +13,7 @@
 | Apache Polaris | #4451, #4877 머지 | #4600/#4802 중 작은 것 검토 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | #12503은 release workflow 영향 확인 후 방향 댓글 |
 | Apache Iceberg | 아직 코드 PR 미진입 | Java/Python 구현을 한 트랙으로 묶어 linked PR 없는 작고 명확한 이슈만 재정찰 |
-| Kubernetes SIGs | LWS #895/#896 Prow CI 통과 후 use case 답변 완료, agent-sandbox #1029/#1033 `use_pod_ip` 제거 방향 반영·rebase 후 Prow 재통과 | LWS reviewer 판단 대기. agent-sandbox는 re-LGTM/approve 대기 |
+| Kubernetes SIGs | agent-sandbox #1029/#1033 머지, LWS #895/#896 Prow CI 통과 후 use case 답변 완료 | LWS reviewer 판단 대기 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
@@ -21,7 +21,6 @@
 | 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
 |---------|---------|------|--------|------|
 | Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | PR 오픈 · CLA/ok-to-test 완료 · Prow CI 통과 · use case 답변 완료 · 리뷰 대기 | 2026-06-24 | [comment](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4785313441) 게시, PR #896 오픈. EasyCLA/ok-to-test 완료, unit/integration/e2e/verify Prow checks 통과, mergeable. Edwinhr716의 StatefulSet metadata use case 질문에 [operational metadata visibility 답변](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4806060945) 게시. 후속 중복 PR [#897](https://github.com/kubernetes-sigs/lws/pull/897)은 #896 duplicate로 closed. 다음 단계: reviewer LGTM/approve 또는 설계 방향 피드백 대응. |
-| Kubernetes SIGs / agent-sandbox | [#1029](https://github.com/kubernetes-sigs/agent-sandbox/issues/1029) / [#1033](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) Python SDK `use_pod_ip` flag 정리 | rebase 완료 · Prow presubmits 재통과 · re-LGTM/approve 대기 | 2026-06-25 | [comment](https://github.com/kubernetes-sigs/agent-sandbox/issues/1029#issuecomment-4795226426) 게시 후 PR #1033 오픈. 초기 방향은 `use_pod_ip` flag를 respect하는 수정이었으나, SHRUTI6991 피드백에 따라 PR을 [`use_pod_ip` 제거](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) 방향으로 전환. sync/async clients, README, unit tests를 pod-IP-first/DNS-fallback 동작에 맞춰 정리하고 PR title/body도 업데이트. main 테스트 변경과의 conflict를 rebase로 정리하고 [rebase comment](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033#issuecomment-4839829875) 게시. local Python unit 전체와 Prow unit/e2e/benchmark/autogen checks 재통과. CodeRabbit latest check는 success이나 과거 requested-changes review state가 남아 있음. 다음 단계: re-LGTM 및 approver approval 대기. |
 
 ## Issues
 
@@ -29,12 +28,13 @@
 
 | 프로젝트 | 이슈 | 상태 | 등록일 | 비고 |
 |---------|------|------|--------|------|
-| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) cert-manager delegation 시 TLS Secret ping-pong | open · `helm` · `release-high` · assigned to yashrajshuklaaa | 2026-05-14 | chart 3.7.1/3.7.2에서 `admissionController.certManager.enabled=true` 재현. cert-manager와 in-process certmanager controller가 같은 TLS Secret을 번갈아 갱신하는 문제 보고. 2026-06-25 yashrajshuklaaa가 `/assign`. 다음 단계: upstream fix/PR 발생 시 실제 클러스터에서 검증 지원 가능. |
+| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) cert-manager delegation 시 TLS Secret ping-pong | open · `helm` · `release-high` · assigned to yashrajshuklaaa · milestone 1.19.0 | 2026-05-14 | chart 3.7.1/3.7.2에서 `admissionController.certManager.enabled=true` 재현. cert-manager와 in-process certmanager controller가 같은 TLS Secret을 번갈아 갱신하는 문제 보고. 2026-06-25 yashrajshuklaaa가 `/assign`, 2026-07-08 `Kyverno Release 1.19.0` milestone 지정. 다른 사용자도 동일 증상과 backport 필요성을 댓글로 확인. 다음 단계: upstream fix/PR 발생 시 실제 클러스터에서 검증 지원 가능. |
 
 ## Merged
 
 | 프로젝트 | PR | 머지일 | 비고 |
 |---------|----|--------|------|
+| Kubernetes SIGs / agent-sandbox | [#1033](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) Remove `use_pod_ip` from Python sandbox clients (issue #1029) | 2026-07-10 | SHRUTI6991의 방향 제안에 따라 `use_pod_ip` toggle을 제거하고 현재 pod-IP-first/DNS-fallback 동작에 맞춰 sync/async clients, README, examples, site docs, unit tests 정리. aditya-shantanu follow-up review 반영 후 approve, vicentefb `/lgtm`/approval, Prow unit/e2e/benchmark/autogen checks 및 tide 통과. issue #1029 completed close. **첫 Kubernetes SIGs 머지, 전체 9번째 upstream PR 머지 기여** |
 | Polaris | [#4877](https://github.com/apache/polaris/pull/4877) Avoid metrics persistence setup for in-memory event buffering (issue #4594) | 2026-06-30 | dimas-b/ayushtkn approval 후 머지. #4866으로 main에 반영된 production code path와 충돌을 rebase로 정리하고, `InMemoryBufferEventListener`가 `MetricsPersistence`를 생성하지 않는 regression coverage만 유지. upstream 전체 CI 통과. #4879는 #4878 선행 머지로 superseded되어 closed. **2번째 Polaris 머지, 8번째 Lakehouse upstream 머지 기여** |
 | Nessie | [#12613](https://github.com/projectnessie/nessie/pull/12613) Restore Prometheus metrics endpoint (issue #12398) | 2026-06-24 | snazy LGTM APPROVED 후 머지, issue #12398 close. 공개 이미지 0.107.5/0.107.9/0.108.0/unstable 404 재현, 0.107.4 200 확인. runtime Prometheus registry dependency 복구와 `server.port` metric tag 충돌 정리로 `/q/metrics`를 다시 노출. upstream CI `CI Code Checks et al`, `CI Test`, `CI Test Quarkus`, `CI intTest Quarkus Server` 통과. 로컬 검증: `:nessie-quarkus:test --tests org.projectnessie.server.TestMetricsTags --tests org.projectnessie.server.TestMetricsDisabled`, `:nessie-quarkus:quarkusBuild`, `:nessie-quarkus:generateLicenseReport`, `:nessie-quarkus:codeChecks`. **6번째 Nessie 머지, 7번째 Lakehouse upstream 머지 기여** |
 | Nessie | [#12602](https://github.com/projectnessie/nessie/pull/12602) Preserve SQL representations when importing Iceberg views (issue #12504) | 2026-06-23 | snazy LGTM APPROVED 후 머지. metadata-location import 변환 경로에서 `currentVersion.representations()`를 Nessie snapshot에 보존해 Iceberg REST `GET view`의 `versions[].representations` 누락을 수정. 로컬 검증: `:nessie-catalog-format-iceberg:test --tests org.projectnessie.catalog.formats.iceberg.nessie.TestNessieModelIceberg.icebergViewSnapshotToNessiePreservesRepresentations`, `:nessie-catalog-format-iceberg:test --tests org.projectnessie.catalog.formats.iceberg.nessie.TestNessieModelIceberg`, `:nessie-catalog-format-iceberg:spotlessCheck`. **5번째 Nessie 머지, 6번째 Lakehouse upstream 머지 기여** |
