@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-07-10
+> Last updated: 2026-07-13
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -10,10 +10,10 @@
 
 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|
-| Apache Polaris | #4451, #4877 머지 | #4600/#4802 중 작은 것 검토 |
-| Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | #12503은 release workflow 영향 확인 후 방향 댓글 |
-| Apache Iceberg | 아직 코드 PR 미진입 | Java/Python 구현을 한 트랙으로 묶어 linked PR 없는 작고 명확한 이슈만 재정찰 |
-| Kubernetes SIGs | agent-sandbox #1029/#1033 머지, LWS #895/#896 Prow CI 통과 후 use case 답변 완료 | LWS reviewer 판단 대기 |
+| Apache Polaris | #4451, #4877 머지 | 즉시 진입 후보 없음. #4600/#4658 stale 해제 가치부터 확인하고 신규 이슈를 계속 정찰 |
+| Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | #12130을 current `main`에서 재현하고, #12503은 release workflow 방향 댓글부터 게시 |
+| Apache Iceberg | 아직 코드 PR 미진입 | #17139 문서 수정 우선 검토, #17140은 Flink 테스트 범위 확인 후 진입 판단 |
+| Kubernetes SIGs | agent-sandbox #1029/#1033 머지, LWS #895/#896 Prow CI 통과 후 use case 답변 완료 | LWS #896 reviewer 판단 전까지 새 구현 트랙은 열지 않음 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
@@ -46,19 +46,26 @@
 
 ## 정찰 완료 — 진입 가능 후보
 
-활성 후보표는 지금 들어가도 충돌 가능성이 낮은 이슈만 최대 10개로 유지한다. 기본 기준은 linked PR 없음, assignee 없음, 명확한 작업자 없음이다. Kubernetes SIGs 후보는 운영 경험을 살릴 수 있는 작고 검증 가능한 항목만 보조 트랙으로 둔다. Apache Iceberg Java 신규 이슈는 이미 linked PR이 붙은 항목이 많아, PR 없는 PyIceberg/작은 Kubernetes 후보를 우선 반영한다.
+> 재검증: 2026-07-13
+
+활성 후보표는 **open, assignee 없음, linked/open PR 없음, 명확한 작업 의도 댓글 없음**을 모두 다시 확인한 항목만 유지한다. 최근 maintainer가 구현 방향을 확인한 작은 변경을 우선하고, stale·설계 논쟁·release workflow 변경은 코드 PR이 아니라 확인 댓글 단계로 낮춘다. Kubernetes SIGs는 LWS #896 리뷰가 끝날 때까지 새 구현을 시작하지 않는다.
 
 | 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
 |---|---|---|---|---|---|
-| 🟢 1 | 2026-06-02 | Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 회귀 테스트 | 테스트/회귀 | linked PR 없음. 기존 JDBC/H2 테스트 구조 파악 후 NoSQL overlap 케이스를 작게 이식 |
-| 🟢 2 | 2026-06-17 | Polaris | [#4802](https://github.com/apache/polaris/issues/4802) HTTP request duration histogram buckets | 운영/관측성 | linked PR 없음. Quarkus/Micrometer 설정 방식 확인 후 opt-in histogram + 문서까지 좁게 검토 |
-| 🟢 3 | 2026-06-24 | Kubernetes SIGs / descheduler | [#1887](https://github.com/kubernetes-sigs/descheduler/issues/1887) ClusterRole의 불필요한 `pods/delete` 제거 | RBAC/매니페스트 | assignee/PR 없음. chart/manifests/test golden 업데이트 범위 확인 후 권한 축소 PR 가능 |
-| 🟢 4 | 2026-06-03 | Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | Helm/Release | linked PR 없음. release workflow 영향이 있어 PR 전 방향 확인 댓글 먼저 |
-| 🟢 5 | 2026-06-08 | Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | linked PR 없음. UPDATE retry만 좁히고 CREATE race는 follow-up으로 분리하는 방향 검토 |
-| 🟡 6 | 2026-06-24 | Kubernetes SIGs / Kueue | [#12481](https://github.com/kubernetes-sigs/kueue/issues/12481) KueueViz frontend/backend securityContext와 probes | 보안/Helm/Kustomize | assignee/PR 없음. Helm defaults와 kustomize base가 함께 바뀌어야 하므로 기존 chart tests 확인 후 진입 |
-| 🟡 7 | 2026-06-23 | Kubernetes SIGs / cluster-api-provider-aws | [#6062](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6062) ROSARoleConfig OIDC cleanup idempotency | Kubernetes/AWS | assignee/PR 없음. not-found/NoSuchEntity 무시 패턴 확인 후 작은 idempotency fix 가능 |
-| 🟡 8 | 2026-06-21 | PyIceberg | [#3543](https://github.com/apache/iceberg-python/issues/3543) constant `BooleanExpression` truthiness semantics | Python/표현식 | assignee/PR 없음. maintainer가 semantics 우려를 남겨 바로 PR보다 `AlwaysFalse` use case와 optional-expression audit 방향 댓글 먼저 |
-| 🟡 9 | 2026-06-23 | Polaris | [#4874](https://github.com/apache/polaris/issues/4874) NoSQL backend의 InMemoryEntityCache 미지원 | 아키텍처/성능 | maintainer가 NoSQL 별도 cache 접근을 언급. dev thread 읽고 바로 PR보다 설계 방향 확인 필요 |
+| 🟢 1 | 2026-07-08 | Apache Iceberg | [#17139](https://github.com/apache/iceberg/issues/17139) table spec 표의 셀 줄바꿈 개선 | 문서/UI | assignee·댓글·linked PR 없음. CSS/Markdown 렌더링 위치와 docs 검증 명령을 확인해 작은 문서 PR로 진입 |
+| 🟢 2 | 2026-02-24 | Project Nessie | [#12130](https://github.com/projectnessie/nessie/issues/12130) `/history/merge`의 `dryRun` JSON 필드 매핑 | API/회귀 | assignee·댓글·linked PR 없음. current `main`과 OpenAPI 생성 모델에서 먼저 재현하고, 재현되면 직렬화 테스트와 최소 수정으로 제한 |
+| 🟡 3 | 2026-07-09 | Apache Iceberg | [#17140](https://github.com/apache/iceberg/issues/17140) Flink committer의 불필요한 catalog load fan-out | Flink/성능 | assignee·linked PR 없음. maintainer가 subtask 0 외에는 load를 생략하고 메시지 수신 시 실패시키는 방향에 동의. Flink 1.20/2.0 테스트 범위와 빌드 비용 확인 후 진입 |
+| 🟡 4 | 2026-06-03 | Project Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | Helm/Release | assignee·댓글·linked PR 없음. release workflow와 배포 레지스트리 선택이 필요하므로 구현 전 방향 확인 댓글 게시 |
+| 🟠 5 | 2026-06-02 | Apache Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 추가 회귀 테스트 | 테스트/회귀 | linked PR·assignee는 없지만 stale. NoSQL 시나리오 이식 가치가 아직 있는지 maintainer에게 확인하고 stale 해제 전에는 구현하지 않음 |
+| 🟠 6 | 2026-06-08 | Apache Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | linked PR·assignee는 없지만 stale이며 retry 경계가 미합의. UPDATE-only 범위와 기존 retry utility를 확인한 뒤 유지 여부 결정 |
+
+### 이번 재검증에서 제외
+
+- Polaris [#4802](https://github.com/apache/polaris/issues/4802): 구현 PR [#4921](https://github.com/apache/polaris/pull/4921)이 머지되어 종료 대기 상태.
+- Kubernetes SIGs / descheduler [#1887](https://github.com/kubernetes-sigs/descheduler/issues/1887), Kueue [#12481](https://github.com/kubernetes-sigs/kueue/issues/12481): 이미 completed로 닫힘.
+- Kubernetes SIGs / cluster-api-provider-aws [#6062](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6062): triage accepted 이후 기존 참여자가 작은 PR 제출 의사를 명시.
+- PyIceberg [#3543](https://github.com/apache/iceberg-python/issues/3543): maintainer가 truthiness 설계 자체에 우려를 제기해 구현 후보에서 제외.
+- Polaris [#4874](https://github.com/apache/polaris/issues/4874): maintainer가 NoSQL의 별도 cache backend를 지적해 기존 문제 정의로는 진입하지 않음.
 
 ## 운영 메모
 
