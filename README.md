@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-07-13
+> Last updated: 2026-07-19
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -13,14 +13,12 @@
 | Apache Polaris | #4451, #4877 머지 | 즉시 진입 후보 없음. #4600/#4658 stale 해제 가치부터 확인하고 신규 이슈를 계속 정찰 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | #12130을 current `main`에서 재현하고, #12503은 release workflow 방향 댓글부터 게시 |
 | Apache Iceberg | 아직 코드 PR 미진입 | #17139 문서 수정 우선 검토, #17140은 Flink 테스트 범위 확인 후 진입 판단 |
-| Kubernetes SIGs | agent-sandbox #1029/#1033 머지, LWS #895/#896 Prow CI 통과 후 use case 답변 완료 | LWS #896 reviewer 판단 전까지 새 구현 트랙은 열지 않음 |
+| Kubernetes SIGs | agent-sandbox #1029/#1033, LWS #895/#896 머지 | 새 구현 후보는 Lakehouse 우선순위와 충돌하지 않는 범위에서 재정찰 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
 
-| 프로젝트 | 이슈/PR | 상태 | 시작일 | 비고 |
-|---------|---------|------|--------|------|
-| Kubernetes SIGs / LWS | [#895](https://github.com/kubernetes-sigs/lws/issues/895) / [#896](https://github.com/kubernetes-sigs/lws/pull/896) LeaderWorkerSet labels/annotations를 child StatefulSet에 전파 | PR 오픈 · CLA/ok-to-test 완료 · Prow CI 통과 · use case 답변 완료 · 리뷰 대기 | 2026-06-24 | [comment](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4785313441) 게시, PR #896 오픈. EasyCLA/ok-to-test 완료, unit/integration/e2e/verify Prow checks 통과, mergeable. Edwinhr716의 StatefulSet metadata use case 질문에 [operational metadata visibility 답변](https://github.com/kubernetes-sigs/lws/issues/895#issuecomment-4806060945) 게시. 후속 중복 PR [#897](https://github.com/kubernetes-sigs/lws/pull/897)은 #896 duplicate로 closed. 다음 단계: reviewer LGTM/approve 또는 설계 방향 피드백 대응. |
+현재 진행 중인 PR 없음.
 
 ## Issues
 
@@ -34,6 +32,7 @@
 
 | 프로젝트 | PR | 머지일 | 비고 |
 |---------|----|--------|------|
+| Kubernetes SIGs / LWS | [#896](https://github.com/kubernetes-sigs/lws/pull/896) Propagate LWS metadata to StatefulSets (issue #895) | 2026-07-16 | LeaderWorkerSet의 사용자 labels/annotations를 생성되는 leader·worker StatefulSet에 전파하되 controller-managed metadata가 우선하도록 구현하고 회귀 테스트 추가. operational metadata visibility use case 설명 후 ahg-g `/approve`/`/lgtm`, 최신 main rebase, GitHub Actions와 Prow unit/integration/e2e/verify checks 및 Tide 통과로 머지. issue #895 자동 close. **2번째 Kubernetes SIGs 머지, 전체 10번째 upstream PR 머지 기여** |
 | Kubernetes SIGs / agent-sandbox | [#1033](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) Remove `use_pod_ip` from Python sandbox clients (issue #1029) | 2026-07-10 | SHRUTI6991의 방향 제안에 따라 `use_pod_ip` toggle을 제거하고 현재 pod-IP-first/DNS-fallback 동작에 맞춰 sync/async clients, README, examples, site docs, unit tests 정리. aditya-shantanu follow-up review 반영 후 approve, vicentefb `/lgtm`/approval, Prow unit/e2e/benchmark/autogen checks 및 tide 통과. issue #1029 completed close. **첫 Kubernetes SIGs 머지, 전체 9번째 upstream PR 머지 기여** |
 | Polaris | [#4877](https://github.com/apache/polaris/pull/4877) Avoid metrics persistence setup for in-memory event buffering (issue #4594) | 2026-06-30 | dimas-b/ayushtkn approval 후 머지. #4866으로 main에 반영된 production code path와 충돌을 rebase로 정리하고, `InMemoryBufferEventListener`가 `MetricsPersistence`를 생성하지 않는 regression coverage만 유지. upstream 전체 CI 통과. #4879는 #4878 선행 머지로 superseded되어 closed. **2번째 Polaris 머지, 8번째 Lakehouse upstream 머지 기여** |
 | Nessie | [#12613](https://github.com/projectnessie/nessie/pull/12613) Restore Prometheus metrics endpoint (issue #12398) | 2026-06-24 | snazy LGTM APPROVED 후 머지, issue #12398 close. 공개 이미지 0.107.5/0.107.9/0.108.0/unstable 404 재현, 0.107.4 200 확인. runtime Prometheus registry dependency 복구와 `server.port` metric tag 충돌 정리로 `/q/metrics`를 다시 노출. upstream CI `CI Code Checks et al`, `CI Test`, `CI Test Quarkus`, `CI intTest Quarkus Server` 통과. 로컬 검증: `:nessie-quarkus:test --tests org.projectnessie.server.TestMetricsTags --tests org.projectnessie.server.TestMetricsDisabled`, `:nessie-quarkus:quarkusBuild`, `:nessie-quarkus:generateLicenseReport`, `:nessie-quarkus:codeChecks`. **6번째 Nessie 머지, 7번째 Lakehouse upstream 머지 기여** |
@@ -48,7 +47,7 @@
 
 > 재검증: 2026-07-13
 
-활성 후보표는 **open, assignee 없음, linked/open PR 없음, 명확한 작업 의도 댓글 없음**을 모두 다시 확인한 항목만 유지한다. 최근 maintainer가 구현 방향을 확인한 작은 변경을 우선하고, stale·설계 논쟁·release workflow 변경은 코드 PR이 아니라 확인 댓글 단계로 낮춘다. Kubernetes SIGs는 LWS #896 리뷰가 끝날 때까지 새 구현을 시작하지 않는다.
+활성 후보표는 **open, assignee 없음, linked/open PR 없음, 명확한 작업 의도 댓글 없음**을 모두 다시 확인한 항목만 유지한다. 최근 maintainer가 구현 방향을 확인한 작은 변경을 우선하고, stale·설계 논쟁·release workflow 변경은 코드 PR이 아니라 확인 댓글 단계로 낮춘다.
 
 | 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
 |---|---|---|---|---|---|
