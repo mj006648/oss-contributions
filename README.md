@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-07-19
+> Last updated: 2026-08-03
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -10,9 +10,9 @@
 
 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|
-| Apache Polaris | #4451, #4877 머지 | 즉시 진입 후보 없음. #4600/#4658 stale 해제 가치부터 확인하고 신규 이슈를 계속 정찰 |
+| Apache Polaris | #4451, #4877 머지 | #4600/#4658은 다른 기여자의 구현 PR이 진행 중. 무충돌 신규 후보를 계속 정찰 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | #12130을 current `main`에서 재현하고, #12503은 release workflow 방향 댓글부터 게시 |
-| Apache Iceberg | 아직 코드 PR 미진입 | #17139 문서 수정 우선 검토, #17140은 Flink 테스트 범위 확인 후 진입 판단 |
+| Apache Iceberg | 아직 코드 PR 미진입 | #17139 문서 수정 우선 검토, PyIceberg #3713은 작은 truthiness 오류부터 범위를 제한해 조사 |
 | Kubernetes SIGs | agent-sandbox #1029/#1033, LWS #895/#896 머지 | 새 구현 후보는 Lakehouse 우선순위와 충돌하지 않는 범위에서 재정찰 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
@@ -26,7 +26,7 @@
 
 | 프로젝트 | 이슈 | 상태 | 등록일 | 비고 |
 |---------|------|------|--------|------|
-| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) cert-manager delegation 시 TLS Secret ping-pong | open · `helm` · `release-high` · assigned to yashrajshuklaaa · milestone 1.19.0 | 2026-05-14 | chart 3.7.1/3.7.2에서 `admissionController.certManager.enabled=true` 재현. cert-manager와 in-process certmanager controller가 같은 TLS Secret을 번갈아 갱신하는 문제 보고. 2026-06-25 yashrajshuklaaa가 `/assign`, 2026-07-08 `Kyverno Release 1.19.0` milestone 지정. 다른 사용자도 동일 증상과 backport 필요성을 댓글로 확인. 다음 단계: upstream fix/PR 발생 시 실제 클러스터에서 검증 지원 가능. |
+| Kyverno | [#16103](https://github.com/kyverno/kyverno/issues/16103) cert-manager delegation 시 TLS Secret ping-pong | closed · fixed by [#16804](https://github.com/kyverno/kyverno/pull/16804) · milestone 1.19.0 | 2026-05-14 | chart 3.7.1/3.7.2에서 재현해 보고한 문제. admission/cleanup controller에 `--disableCertManagerController`를 전달하는 수정이 2026-07-28 머지되어 이슈 종료. 1.19.0 릴리스 후 실제 클러스터에서 최종 검증. |
 
 ## Merged
 
@@ -45,7 +45,7 @@
 
 ## 정찰 완료 — 진입 가능 후보
 
-> 재검증: 2026-07-13
+> 재검증: 2026-08-03
 
 활성 후보표는 **open, assignee 없음, linked/open PR 없음, 명확한 작업 의도 댓글 없음**을 모두 다시 확인한 항목만 유지한다. 최근 maintainer가 구현 방향을 확인한 작은 변경을 우선하고, stale·설계 논쟁·release workflow 변경은 코드 PR이 아니라 확인 댓글 단계로 낮춘다.
 
@@ -53,13 +53,16 @@
 |---|---|---|---|---|---|
 | 🟢 1 | 2026-07-08 | Apache Iceberg | [#17139](https://github.com/apache/iceberg/issues/17139) table spec 표의 셀 줄바꿈 개선 | 문서/UI | assignee·댓글·linked PR 없음. CSS/Markdown 렌더링 위치와 docs 검증 명령을 확인해 작은 문서 PR로 진입 |
 | 🟢 2 | 2026-02-24 | Project Nessie | [#12130](https://github.com/projectnessie/nessie/issues/12130) `/history/merge`의 `dryRun` JSON 필드 매핑 | API/회귀 | assignee·댓글·linked PR 없음. current `main`과 OpenAPI 생성 모델에서 먼저 재현하고, 재현되면 직렬화 테스트와 최소 수정으로 제한 |
-| 🟡 3 | 2026-07-09 | Apache Iceberg | [#17140](https://github.com/apache/iceberg/issues/17140) Flink committer의 불필요한 catalog load fan-out | Flink/성능 | assignee·linked PR 없음. maintainer가 subtask 0 외에는 load를 생략하고 메시지 수신 시 실패시키는 방향에 동의. Flink 1.20/2.0 테스트 범위와 빌드 비용 확인 후 진입 |
-| 🟡 4 | 2026-06-03 | Project Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | Helm/Release | assignee·댓글·linked PR 없음. release workflow와 배포 레지스트리 선택이 필요하므로 구현 전 방향 확인 댓글 게시 |
-| 🟠 5 | 2026-06-02 | Apache Polaris | [#4600](https://github.com/apache/polaris/issues/4600) JDBC `hasOverlappingSiblings` 추가 회귀 테스트 | 테스트/회귀 | linked PR·assignee는 없지만 stale. NoSQL 시나리오 이식 가치가 아직 있는지 maintainer에게 확인하고 stale 해제 전에는 구현하지 않음 |
-| 🟠 6 | 2026-06-08 | Apache Polaris | [#4658](https://github.com/apache/polaris/issues/4658) table notification concurrent modification retry | 버그픽스 | linked PR·assignee는 없지만 stale이며 retry 경계가 미합의. UPDATE-only 범위와 기존 retry utility를 확인한 뒤 유지 여부 결정 |
+| 🟡 3 | 2026-07-26 | PyIceberg | [#3713](https://github.com/apache/iceberg-python/issues/3713) codebase의 Python truthiness 오류 점검 | 버그 예방 | maintainer가 연 최근 이슈이며 assignee·댓글·linked PR 없음. 전체 정리보다 잘못된 `0` 처리 한 건을 테스트로 확인해 작은 수정으로 제한 |
+| 🟡 4 | 2026-07-15 | Apache Iceberg | [#17216](https://github.com/apache/iceberg/issues/17216) technical blog guideline 추가 | 문서/정책 | assignee·댓글·linked PR 없음. community guideline과 contributor 문서 중 반영 위치를 먼저 확인한 뒤 최소 문서 PR로 진입 |
+| 🟡 5 | 2026-06-03 | Project Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | Helm/Release | assignee·댓글·linked PR 없음. release workflow와 배포 레지스트리 선택이 필요하므로 구현 전 방향 확인 댓글 게시 |
 
 ### 이번 재검증에서 제외
 
+- Iceberg [#17140](https://github.com/apache/iceberg/issues/17140): 구현 PR [#17251](https://github.com/apache/iceberg/pull/17251)이 머지되어 완료.
+- Polaris [#4600](https://github.com/apache/polaris/issues/4600), [#4658](https://github.com/apache/polaris/issues/4658): 다른 기여자가 구현 PR [#5221](https://github.com/apache/polaris/pull/5221), [#5222](https://github.com/apache/polaris/pull/5222)를 진행 중.
+- 최근 Iceberg [#17462](https://github.com/apache/iceberg/issues/17462), [#17406](https://github.com/apache/iceberg/issues/17406) 및 PyIceberg [#3720](https://github.com/apache/iceberg-python/issues/3720), [#3714](https://github.com/apache/iceberg-python/issues/3714): 이미 연결된 구현 PR이 열려 있음.
+- 최근 Iceberg [#17489](https://github.com/apache/iceberg/issues/17489), [#17485](https://github.com/apache/iceberg/issues/17485): 제보자가 직접 구현 의사 또는 준비된 패치를 밝혀 충돌 방지를 위해 제외.
 - Polaris [#4802](https://github.com/apache/polaris/issues/4802): 구현 PR [#4921](https://github.com/apache/polaris/pull/4921)이 머지되어 종료 대기 상태.
 - Kubernetes SIGs / descheduler [#1887](https://github.com/kubernetes-sigs/descheduler/issues/1887), Kueue [#12481](https://github.com/kubernetes-sigs/kueue/issues/12481): 이미 completed로 닫힘.
 - Kubernetes SIGs / cluster-api-provider-aws [#6062](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6062): triage accepted 이후 기존 참여자가 작은 PR 제출 의사를 명시.
