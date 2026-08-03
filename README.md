@@ -10,8 +10,8 @@
 
 | 영역 | 현재 상태 | 다음 액션 |
 |---|---|---|
-| Apache Polaris | #4451, #4877 머지 | #4600/#4658은 다른 기여자의 구현 PR이 진행 중. 무충돌 신규 후보를 계속 정찰 |
-| Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | #12130을 current `main`에서 재현하고, #12503은 release workflow 방향 댓글부터 게시 |
+| Apache Polaris | #4451, #4877 머지 | 7~8월 생성 이슈 중 즉시 진입 가능한 무충돌 후보 없음. 신규 이슈를 계속 정찰 |
+| Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | 7~8월 생성 이슈 중 신규 무충돌 후보 없음. 새 이슈 발생 여부를 계속 정찰 |
 | Apache Iceberg | 아직 코드 PR 미진입 | #17139 문서 수정 우선 검토, PyIceberg #3713은 작은 truthiness 오류부터 범위를 제한해 조사 |
 | Kubernetes SIGs | agent-sandbox #1029/#1033, LWS #895/#896 머지 | 새 구현 후보는 Lakehouse 우선순위와 충돌하지 않는 범위에서 재정찰 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
@@ -47,18 +47,19 @@
 
 > 재검증: 2026-08-03
 
-활성 후보표는 **open, assignee 없음, linked/open PR 없음, 명확한 작업 의도 댓글 없음**을 모두 다시 확인한 항목만 유지한다. 최근 maintainer가 구현 방향을 확인한 작은 변경을 우선하고, stale·설계 논쟁·release workflow 변경은 코드 PR이 아니라 확인 댓글 단계로 낮춘다.
+활성 후보표는 **2026-07-01 이후 생성**, **open, assignee 없음, linked/open PR 없음, 명확한 작업 의도 댓글 없음**을 모두 다시 확인한 항목만 유지한다. 최근 maintainer가 구현 방향을 확인한 작은 변경을 우선하고, 설계·release 범위가 큰 항목은 코드 PR이 아니라 확인 단계로 낮춘다.
 
 | 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
 |---|---|---|---|---|---|
 | 🟢 1 | 2026-07-08 | Apache Iceberg | [#17139](https://github.com/apache/iceberg/issues/17139) table spec 표의 셀 줄바꿈 개선 | 문서/UI | assignee·댓글·linked PR 없음. CSS/Markdown 렌더링 위치와 docs 검증 명령을 확인해 작은 문서 PR로 진입 |
-| 🟢 2 | 2026-02-24 | Project Nessie | [#12130](https://github.com/projectnessie/nessie/issues/12130) `/history/merge`의 `dryRun` JSON 필드 매핑 | API/회귀 | assignee·댓글·linked PR 없음. current `main`과 OpenAPI 생성 모델에서 먼저 재현하고, 재현되면 직렬화 테스트와 최소 수정으로 제한 |
-| 🟡 3 | 2026-07-26 | PyIceberg | [#3713](https://github.com/apache/iceberg-python/issues/3713) codebase의 Python truthiness 오류 점검 | 버그 예방 | maintainer가 연 최근 이슈이며 assignee·댓글·linked PR 없음. 전체 정리보다 잘못된 `0` 처리 한 건을 테스트로 확인해 작은 수정으로 제한 |
-| 🟡 4 | 2026-07-15 | Apache Iceberg | [#17216](https://github.com/apache/iceberg/issues/17216) technical blog guideline 추가 | 문서/정책 | assignee·댓글·linked PR 없음. community guideline과 contributor 문서 중 반영 위치를 먼저 확인한 뒤 최소 문서 PR로 진입 |
-| 🟡 5 | 2026-06-03 | Project Nessie | [#12503](https://github.com/projectnessie/nessie/issues/12503) Helm chart OCI artifact 퍼블리시 | Helm/Release | assignee·댓글·linked PR 없음. release workflow와 배포 레지스트리 선택이 필요하므로 구현 전 방향 확인 댓글 게시 |
+| 🟡 2 | 2026-07-26 | PyIceberg | [#3713](https://github.com/apache/iceberg-python/issues/3713) codebase의 Python truthiness 오류 점검 | 버그 예방 | maintainer가 연 최근 이슈이며 assignee·댓글·linked PR 없음. 전체 정리보다 잘못된 `0` 처리 한 건을 테스트로 확인해 작은 수정으로 제한 |
+| 🟡 3 | 2026-07-15 | Apache Iceberg | [#17216](https://github.com/apache/iceberg/issues/17216) technical blog guideline 추가 | 문서/정책 | assignee·댓글·linked PR 없음. community guideline과 contributor 문서 중 반영 위치를 먼저 확인한 뒤 최소 문서 PR로 진입 |
+| 🟠 4 | 2026-07-15 | Apache Iceberg | [#17217](https://github.com/apache/iceberg/issues/17217) release 공통 검증 목록 정리 | 문서/릴리스 | assignee·linked PR·작업 선언 없음. ASF 정책과 기존 RC 체크를 문서화하는 범위부터 maintainer에게 확인 |
+| 🟠 5 | 2026-08-01 | Apache Iceberg | [#17465](https://github.com/apache/iceberg/issues/17465) 1.12.0 제거 예정 deprecation 재검토 | API/릴리스 | assignee·댓글·linked PR 없음. 전체 제거 작업은 범위가 크므로 대상 목록과 유지·제거 기준을 정리한 뒤 방향 확인 |
 
 ### 이번 재검증에서 제외
 
+- Nessie [#12130](https://github.com/projectnessie/nessie/issues/12130), [#12503](https://github.com/projectnessie/nessie/issues/12503): 여전히 열려 있지만 7~8월 최신 후보 기준 밖이라 활성 후보표에서 제외.
 - Iceberg [#17140](https://github.com/apache/iceberg/issues/17140): 구현 PR [#17251](https://github.com/apache/iceberg/pull/17251)이 머지되어 완료.
 - Polaris [#4600](https://github.com/apache/polaris/issues/4600), [#4658](https://github.com/apache/polaris/issues/4658): 다른 기여자가 구현 PR [#5221](https://github.com/apache/polaris/pull/5221), [#5222](https://github.com/apache/polaris/pull/5222)를 진행 중.
 - 최근 Iceberg [#17462](https://github.com/apache/iceberg/issues/17462), [#17406](https://github.com/apache/iceberg/issues/17406) 및 PyIceberg [#3720](https://github.com/apache/iceberg-python/issues/3720), [#3714](https://github.com/apache/iceberg-python/issues/3714): 이미 연결된 구현 PR이 열려 있음.
