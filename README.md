@@ -12,13 +12,15 @@
 |---|---|---|
 | Apache Polaris | #4451, #4877 머지 | 7~8월 생성 이슈 중 즉시 진입 가능한 무충돌 후보 없음. 신규 이슈를 계속 정찰 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | 7~8월 생성 이슈 중 신규 무충돌 후보 없음. 새 이슈 발생 여부를 계속 정찰 |
-| Apache Iceberg | 아직 코드 PR 미진입 | #17139 문서 수정 우선 검토, PyIceberg #3713은 작은 truthiness 오류부터 범위를 제한해 조사 |
+| Apache Iceberg | PyIceberg #3745 리뷰 중 | #3713 CLI empty property fix는 CI 전체 통과·2 approvals 후 최종 리뷰/머지 대기. #17139 문서 수정은 후속 후보로 유지 |
 | Kubernetes SIGs | agent-sandbox #1029/#1033, LWS #895/#896 머지 | 새 구현 후보는 Lakehouse 우선순위와 충돌하지 않는 범위에서 재정찰 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
 
-현재 진행 중인 PR 없음.
+| 프로젝트 | PR | 상태 | 시작일 | 비고 |
+|---------|----|------|--------|------|
+| PyIceberg | [#3745](https://github.com/apache/iceberg-python/pull/3745) Preserve empty property values in CLI (issue #3713) | CI 전체 통과 · APPROVED 2건 · 최종 리뷰/머지 대기 | 2026-08-03 | `properties get table`과 `properties get namespace`가 저장된 빈 문자열을 누락으로 판단하던 truthiness 오류 수정. table·namespace CLI 회귀 테스트 추가. |
 
 ## Issues
 
@@ -52,10 +54,9 @@
 | 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
 |---|---|---|---|---|---|
 | 🟢 1 | 2026-07-08 | Apache Iceberg | [#17139](https://github.com/apache/iceberg/issues/17139) table spec 표의 셀 줄바꿈 개선 | 문서/UI | assignee·댓글·linked PR 없음. CSS/Markdown 렌더링 위치와 docs 검증 명령을 확인해 작은 문서 PR로 진입 |
-| 🟡 2 | 2026-07-26 | PyIceberg | [#3713](https://github.com/apache/iceberg-python/issues/3713) codebase의 Python truthiness 오류 점검 | 버그 예방 | maintainer가 연 최근 이슈이며 assignee·댓글·linked PR 없음. 전체 정리보다 잘못된 `0` 처리 한 건을 테스트로 확인해 작은 수정으로 제한 |
-| 🟡 3 | 2026-07-15 | Apache Iceberg | [#17216](https://github.com/apache/iceberg/issues/17216) technical blog guideline 추가 | 문서/정책 | assignee·댓글·linked PR 없음. community guideline과 contributor 문서 중 반영 위치를 먼저 확인한 뒤 최소 문서 PR로 진입 |
-| 🟠 4 | 2026-07-15 | Apache Iceberg | [#17217](https://github.com/apache/iceberg/issues/17217) release 공통 검증 목록 정리 | 문서/릴리스 | assignee·linked PR·작업 선언 없음. ASF 정책과 기존 RC 체크를 문서화하는 범위부터 maintainer에게 확인 |
-| 🟠 5 | 2026-08-01 | Apache Iceberg | [#17465](https://github.com/apache/iceberg/issues/17465) 1.12.0 제거 예정 deprecation 재검토 | API/릴리스 | assignee·댓글·linked PR 없음. 전체 제거 작업은 범위가 크므로 대상 목록과 유지·제거 기준을 정리한 뒤 방향 확인 |
+| 🟡 2 | 2026-07-15 | Apache Iceberg | [#17216](https://github.com/apache/iceberg/issues/17216) technical blog guideline 추가 | 문서/정책 | assignee·댓글·linked PR 없음. community guideline과 contributor 문서 중 반영 위치를 먼저 확인한 뒤 최소 문서 PR로 진입 |
+| 🟠 3 | 2026-07-15 | Apache Iceberg | [#17217](https://github.com/apache/iceberg/issues/17217) release 공통 검증 목록 정리 | 문서/릴리스 | assignee·linked PR·작업 선언 없음. ASF 정책과 기존 RC 체크를 문서화하는 범위부터 maintainer에게 확인 |
+| 🟠 4 | 2026-08-01 | Apache Iceberg | [#17465](https://github.com/apache/iceberg/issues/17465) 1.12.0 제거 예정 deprecation 재검토 | API/릴리스 | assignee·댓글·linked PR 없음. 전체 제거 작업은 범위가 크므로 대상 목록과 유지·제거 기준을 정리한 뒤 방향 확인 |
 
 ### 이번 재검증에서 제외
 
