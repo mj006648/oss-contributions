@@ -22,6 +22,7 @@ TRACKED=(
   "kubeflow/spark-operator 2924 spark-operator-emptydir"
   "milvus-io/pymilvus 2724 pymilvus-pkg-resources"
   "apache/polaris 4451 polaris-pr-1325"
+  "apache/iceberg-python 3713 pyiceberg-truthiness"
 )
 
 # Helper: add a new issue to the TRACKED array in this script.
