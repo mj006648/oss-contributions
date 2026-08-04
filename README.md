@@ -12,13 +12,15 @@
 |---|---|---|
 | Apache Polaris | #4451, #4877 머지 | 7~8월 생성 이슈 중 즉시 진입 가능한 무충돌 후보 없음. 신규 이슈를 계속 정찰 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | 7~8월 생성 이슈 중 신규 무충돌 후보 없음. 새 이슈 발생 여부를 계속 정찰 |
-| Apache Iceberg | PyIceberg #3745 머지 | #3713은 walrus와 `.get()` 조합 전체 점검을 위한 후속 audit 진행. #17139 문서 수정은 다음 후보로 유지 |
+| Apache Iceberg | PyIceberg #3745 머지 · #3750 리뷰 중 | #3750 maintainer 제안 early-return 리팩터링은 CI·리뷰 대기. #3713은 walrus와 `.get()` 조합 후속 audit 진행 |
 | Kubernetes SIGs | agent-sandbox #1029/#1033, LWS #895/#896 머지 | 새 구현 후보는 Lakehouse 우선순위와 충돌하지 않는 범위에서 재정찰 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
 
-현재 진행 중인 PR 없음.
+| 프로젝트 | PR | 상태 | 시작일 | 비고 |
+|---------|----|------|--------|------|
+| PyIceberg | [#3750](https://github.com/apache/iceberg-python/pull/3750) Simplify CLI property lookup (follow-up #3745) | CI 진행 중 · 리뷰 대기 | 2026-08-04 | maintainer가 제안한 early-return 구조를 namespace·table 조회 경로에 동일하게 적용하고 누락된 namespace property-not-found 회귀 테스트 추가. |
 
 ## Issues
 
