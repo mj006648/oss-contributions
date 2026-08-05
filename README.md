@@ -1,20 +1,13 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-08-03
+> Last updated: 2026-08-05
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
 ## 기여 집중 전략
 
-**Lakehouse 핵심 스택에서 작고 확실한 PR을 꾸준히 머지하는 것**을 우선한다. Kubernetes SIGs는 클러스터 운영 경험을 살릴 수 있는 보조 진입 트랙으로 둔다.
-
-| 영역 | 현재 상태 | 다음 액션 |
-|---|---|---|
-| Apache Polaris | #4451, #4877 머지 | 7~8월 생성 이슈 중 즉시 진입 가능한 무충돌 후보 없음. 신규 이슈를 계속 정찰 |
-| Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | 7~8월 생성 이슈 중 신규 무충돌 후보 없음. 새 이슈 발생 여부를 계속 정찰 |
-| Apache Iceberg | PyIceberg #3745/#3750 머지 | #3713의 walrus와 `.get()` 조합 전체 점검을 계속 진행하고, #17139 문서 수정은 다음 후보로 유지 |
-| Kubernetes SIGs | agent-sandbox #1029/#1033, LWS #895/#896 머지 | 새 구현 후보는 Lakehouse 우선순위와 충돌하지 않는 범위에서 재정찰 |
-| Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
+Lakehouse 핵심 스택에서 작고 확실한 PR을 꾸준히 머지하는 것을 우선한다.
+Kubernetes SIGs는 클러스터 운영 경험을 살릴 수 있는 보조 진입 트랙으로 둔다.
 
 ## In Progress
 
@@ -57,19 +50,6 @@
 | 🟡 2 | 2026-07-15 | Apache Iceberg | [#17216](https://github.com/apache/iceberg/issues/17216) technical blog guideline 추가 | 문서/정책 | assignee·댓글·linked PR 없음. community guideline과 contributor 문서 중 반영 위치를 먼저 확인한 뒤 최소 문서 PR로 진입 |
 | 🟠 3 | 2026-07-15 | Apache Iceberg | [#17217](https://github.com/apache/iceberg/issues/17217) release 공통 검증 목록 정리 | 문서/릴리스 | assignee·linked PR·작업 선언 없음. ASF 정책과 기존 RC 체크를 문서화하는 범위부터 maintainer에게 확인 |
 | 🟠 4 | 2026-08-01 | Apache Iceberg | [#17465](https://github.com/apache/iceberg/issues/17465) 1.12.0 제거 예정 deprecation 재검토 | API/릴리스 | assignee·댓글·linked PR 없음. 전체 제거 작업은 범위가 크므로 대상 목록과 유지·제거 기준을 정리한 뒤 방향 확인 |
-
-### 이번 재검증에서 제외
-
-- Nessie [#12130](https://github.com/projectnessie/nessie/issues/12130), [#12503](https://github.com/projectnessie/nessie/issues/12503): 여전히 열려 있지만 7~8월 최신 후보 기준 밖이라 활성 후보표에서 제외.
-- Iceberg [#17140](https://github.com/apache/iceberg/issues/17140): 구현 PR [#17251](https://github.com/apache/iceberg/pull/17251)이 머지되어 완료.
-- Polaris [#4600](https://github.com/apache/polaris/issues/4600), [#4658](https://github.com/apache/polaris/issues/4658): 다른 기여자가 구현 PR [#5221](https://github.com/apache/polaris/pull/5221), [#5222](https://github.com/apache/polaris/pull/5222)를 진행 중.
-- 최근 Iceberg [#17462](https://github.com/apache/iceberg/issues/17462), [#17406](https://github.com/apache/iceberg/issues/17406) 및 PyIceberg [#3720](https://github.com/apache/iceberg-python/issues/3720), [#3714](https://github.com/apache/iceberg-python/issues/3714): 이미 연결된 구현 PR이 열려 있음.
-- 최근 Iceberg [#17489](https://github.com/apache/iceberg/issues/17489), [#17485](https://github.com/apache/iceberg/issues/17485): 제보자가 직접 구현 의사 또는 준비된 패치를 밝혀 충돌 방지를 위해 제외.
-- Polaris [#4802](https://github.com/apache/polaris/issues/4802): 구현 PR [#4921](https://github.com/apache/polaris/pull/4921)이 머지되어 종료 대기 상태.
-- Kubernetes SIGs / descheduler [#1887](https://github.com/kubernetes-sigs/descheduler/issues/1887), Kueue [#12481](https://github.com/kubernetes-sigs/kueue/issues/12481): 이미 completed로 닫힘.
-- Kubernetes SIGs / cluster-api-provider-aws [#6062](https://github.com/kubernetes-sigs/cluster-api-provider-aws/issues/6062): triage accepted 이후 기존 참여자가 작은 PR 제출 의사를 명시.
-- PyIceberg [#3543](https://github.com/apache/iceberg-python/issues/3543): maintainer가 truthiness 설계 자체에 우려를 제기해 구현 후보에서 제외.
-- Polaris [#4874](https://github.com/apache/polaris/issues/4874): maintainer가 NoSQL의 별도 cache backend를 지적해 기존 문제 정의로는 진입하지 않음.
 
 ## 운영 메모
 
