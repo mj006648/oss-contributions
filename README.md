@@ -6,7 +6,7 @@
 
 ## 기여 집중 전략
 
-Lakehouse 핵심 스택에서 작고 확실한 PR을 꾸준히 머지하는 것을 우선한다.
+Lakehouse 핵심 스택(Apache Iceberg, Apache Polaris, Project Nessie)에서 작고 확실한 PR을 꾸준히 머지하는 것을 우선한다.
 Kubernetes SIGs는 클러스터 운영 경험을 살릴 수 있는 보조 진입 트랙으로 둔다.
 
 ## In Progress
