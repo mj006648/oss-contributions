@@ -12,15 +12,13 @@
 |---|---|---|
 | Apache Polaris | #4451, #4877 머지 | 7~8월 생성 이슈 중 즉시 진입 가능한 무충돌 후보 없음. 신규 이슈를 계속 정찰 |
 | Project Nessie | #12424/#12425/#12431/#12432/#12602/#12613 머지 | 7~8월 생성 이슈 중 신규 무충돌 후보 없음. 새 이슈 발생 여부를 계속 정찰 |
-| Apache Iceberg | PyIceberg #3745 머지 · #3750 리뷰 중 | #3750 maintainer 제안 early-return 리팩터링은 CI·리뷰 대기. #3713은 walrus와 `.get()` 조합 후속 audit 진행 |
+| Apache Iceberg | PyIceberg #3745/#3750 머지 | #3713의 walrus와 `.get()` 조합 전체 점검을 계속 진행하고, #17139 문서 수정은 다음 후보로 유지 |
 | Kubernetes SIGs | agent-sandbox #1029/#1033, LWS #895/#896 머지 | 새 구현 후보는 Lakehouse 우선순위와 충돌하지 않는 범위에서 재정찰 |
 | Personal research repos | Trident-Lakehouse / Experiments / thesis | upstream 기여와 연결되는 재현·검증 자료 정리 |
 
 ## In Progress
 
-| 프로젝트 | PR | 상태 | 시작일 | 비고 |
-|---------|----|------|--------|------|
-| PyIceberg | [#3750](https://github.com/apache/iceberg-python/pull/3750) Simplify CLI property lookup (follow-up #3745) | CI 진행 중 · 리뷰 대기 | 2026-08-04 | maintainer가 제안한 early-return 구조를 namespace·table 조회 경로에 동일하게 적용하고 누락된 namespace property-not-found 회귀 테스트 추가. |
+현재 진행 중인 PR 없음.
 
 ## Issues
 
@@ -34,6 +32,7 @@
 
 | 프로젝트 | PR | 머지일 | 비고 |
 |---------|----|--------|------|
+| PyIceberg | [#3750](https://github.com/apache/iceberg-python/pull/3750) Simplify CLI property lookup (follow-up #3745) | 2026-08-04 | maintainer가 제안한 early-return 구조를 namespace·table 조회 경로에 동일하게 적용하고 누락된 namespace property-not-found 회귀 테스트 추가. 전체 CI 통과 후 kevinjqliu가 “LGTM! Thanks for the follow up”으로 승인하고 직접 머지. **2번째 PyIceberg 머지, 10번째 Lakehouse upstream 머지, 전체 12번째 upstream PR 머지 기여** |
 | PyIceberg | [#3745](https://github.com/apache/iceberg-python/pull/3745) Preserve empty property values in CLI (issue #3713) | 2026-08-03 | `properties get table`과 `properties get namespace`가 저장된 빈 문자열을 누락으로 판단하던 truthiness 오류를 명시적 `None` 검사로 수정하고 table·namespace CLI 회귀 테스트 추가. 전체 CI 통과, ebyhr·vishnuprakaz 승인에 이어 kevinjqliu가 “LGTM, great catch!”로 승인 후 머지. issue #3713은 walrus와 `.get()` 조합 전체 점검을 위해 OPEN 유지. **첫 PyIceberg 머지, 9번째 Lakehouse upstream 머지, 전체 11번째 upstream PR 머지 기여** |
 | Kubernetes SIGs / LWS | [#896](https://github.com/kubernetes-sigs/lws/pull/896) Propagate LWS metadata to StatefulSets (issue #895) | 2026-07-16 | LeaderWorkerSet의 사용자 labels/annotations를 생성되는 leader·worker StatefulSet에 전파하되 controller-managed metadata가 우선하도록 구현하고 회귀 테스트 추가. operational metadata visibility use case 설명 후 ahg-g `/approve`/`/lgtm`, 최신 main rebase, GitHub Actions와 Prow unit/integration/e2e/verify checks 및 Tide 통과로 머지. issue #895 자동 close. **2번째 Kubernetes SIGs 머지, 전체 10번째 upstream PR 머지 기여** |
 | Kubernetes SIGs / agent-sandbox | [#1033](https://github.com/kubernetes-sigs/agent-sandbox/pull/1033) Remove `use_pod_ip` from Python sandbox clients (issue #1029) | 2026-07-10 | SHRUTI6991의 방향 제안에 따라 `use_pod_ip` toggle을 제거하고 현재 pod-IP-first/DNS-fallback 동작에 맞춰 sync/async clients, README, examples, site docs, unit tests 정리. aditya-shantanu follow-up review 반영 후 approve, vicentefb `/lgtm`/approval, Prow unit/e2e/benchmark/autogen checks 및 tide 통과. issue #1029 completed close. **첫 Kubernetes SIGs 머지, 전체 9번째 upstream PR 머지 기여** |
