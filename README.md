@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-08-05
+> Last updated: 2026-08-09
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -11,9 +11,7 @@ Kubernetes SIGs는 클러스터 운영 경험을 살릴 수 있는 보조 진입
 
 ## In Progress
 
-| 프로젝트 | PR | 상태 | 비고 |
-|---------|----|------|------|
-| Apache Iceberg | [#17525](https://github.com/apache/iceberg/pull/17525) Preserve delete file references for shared Puffin files (issue #17334) | open · CI 진행 중 | 하나의 Puffin 파일에 여러 deletion vector blob이 있을 때 `delete-file-references`가 덮어쓰이는 문제를 수정하고 왕복 직렬화 회귀 테스트 추가. |
+현재 진행 중인 PR 없음.
 
 ## Issues
 
