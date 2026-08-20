@@ -1,6 +1,6 @@
 # OSS Contributions Tracker
 
-> Last updated: 2026-08-09
+> Last updated: 2026-08-20
 
 석사 연구(GIST AI, Apache Iceberg 기반 Cloud-Native Trident Lakehouse) 수행 중 발견한 upstream 개선점을 정리하고, 이슈 등록부터 PR 머지까지의 전 과정을 추적한다.
 
@@ -40,16 +40,16 @@ Kubernetes SIGs는 클러스터 운영 경험을 살릴 수 있는 보조 진입
 
 ## 정찰 완료 — 진입 가능 후보
 
-> 재검증: 2026-08-03
+> 재검증: 2026-08-20
 
-활성 후보표는 **2026-07-01 이후 생성**, **open, assignee 없음, linked/open PR 없음, 명확한 작업 의도 댓글 없음**을 모두 다시 확인한 항목만 유지한다. 최근 maintainer가 구현 방향을 확인한 작은 변경을 우선하고, 설계·release 범위가 큰 항목은 코드 PR이 아니라 확인 단계로 낮춘다.
+활성 후보표는 **2026-07-01 이후 생성**, **open, assignee 없음, linked/open 구현 PR 없음, 명확한 작업 의도 댓글 없음**을 모두 다시 확인한 항목만 유지한다. 이슈 번호뿐 아니라 제목·핵심 클래스·코드 경로가 겹치는 미연결 PR도 검색한다.
 
 | 우선 | 생성일 | 프로젝트 | 이슈 | 성격 | 다음 액션 / 리스크 |
 |---|---|---|---|---|---|
-| 🟢 1 | 2026-07-08 | Apache Iceberg | [#17139](https://github.com/apache/iceberg/issues/17139) table spec 표의 셀 줄바꿈 개선 | 문서/UI | assignee·댓글·linked PR 없음. CSS/Markdown 렌더링 위치와 docs 검증 명령을 확인해 작은 문서 PR로 진입 |
-| 🟡 2 | 2026-07-15 | Apache Iceberg | [#17216](https://github.com/apache/iceberg/issues/17216) technical blog guideline 추가 | 문서/정책 | assignee·댓글·linked PR 없음. community guideline과 contributor 문서 중 반영 위치를 먼저 확인한 뒤 최소 문서 PR로 진입 |
-| 🟠 3 | 2026-07-15 | Apache Iceberg | [#17217](https://github.com/apache/iceberg/issues/17217) release 공통 검증 목록 정리 | 문서/릴리스 | assignee·linked PR·작업 선언 없음. ASF 정책과 기존 RC 체크를 문서화하는 범위부터 maintainer에게 확인 |
-| 🟠 4 | 2026-08-01 | Apache Iceberg | [#17465](https://github.com/apache/iceberg/issues/17465) 1.12.0 제거 예정 deprecation 재검토 | API/릴리스 | assignee·댓글·linked PR 없음. 전체 제거 작업은 범위가 크므로 대상 목록과 유지·제거 기준을 정리한 뒤 방향 확인 |
+| 🟢 1 | 2026-08-19 | Apache Iceberg | [#17718](https://github.com/apache/iceberg/issues/17718) `SparkCatalog.listTables`에서 view 제외 | Spark/버그 | assignee·댓글·구현 PR 없음. #14984 리뷰에서 발견됐지만 해당 PR 범위에서 명시적으로 제외된 기존 버그. Spark 3.5/4.0/4.1에 동일 수정과 Hive `list-all-tables=true` 회귀 테스트 적용 |
+| 🟡 2 | 2026-08-19 | Apache Iceberg | [#17720](https://github.com/apache/iceberg/issues/17720) 이전 Spark 버전에서 nested geospatial 값 지원 | Spark/호환성 | assignee·댓글·구현 PR 없음. #14984는 Spark 4.2 구현 맥락일 뿐 이전 버전 수정은 별도 범위. Spark별 `GeometryVal`/`GeographyVal` 표현과 배열·맵 테스트 확인 필요 |
+| 🟡 3 | 2026-07-15 | Apache Iceberg | [#17216](https://github.com/apache/iceberg/issues/17216) technical blog guideline 추가 | 문서/정책 | assignee·댓글·linked/open PR 없음. community guideline 반영 위치와 최소 문구를 먼저 제안 |
+| 🟠 4 | 2026-07-15 | Apache Iceberg | [#17217](https://github.com/apache/iceberg/issues/17217) release 공통 검증 목록 정리 | 문서/릴리스 | assignee·linked/open PR·작업 선언 없음. ASF 정책과 기존 RC 체크를 조사해야 해 범위가 상대적으로 큼 |
 
 ## 운영 메모
 
