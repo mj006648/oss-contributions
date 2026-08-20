@@ -11,7 +11,9 @@ Kubernetes SIGs는 클러스터 운영 경험을 살릴 수 있는 보조 진입
 
 ## In Progress
 
-현재 진행 중인 PR 없음.
+| 프로젝트 | PR | 상태 | 비고 |
+|---------|----|------|------|
+| Apache Iceberg | [#17739](https://github.com/apache/iceberg/pull/17739) Filter views from SparkCatalog listTables (issue #17718) | open · CI 진행 중 | `HiveCatalog`의 `list-all-tables=true` 환경에서 `SparkCatalog.listTables`가 view까지 반환하는 문제를 Spark 3.5/4.0/4.1에서 수정하고 회귀 테스트 추가. |
 
 ## Issues
 
